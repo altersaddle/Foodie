@@ -55,11 +55,20 @@ text-align: justify
 }
 
 table.recipe {
+    border:none;
+    border-spacing:1px;
     background-color: #aaaaaa;
 }
+.recipe-title {
+    background-color:#dddddd;
+}
+.recipe-image {
+    background-color: #aaaaaa;
+    text-align: center;
+}
 table.recipe tr:nth-child(even) {
-    background-color: #eeeeee;
+    background-color: #dddddd;
 }
 table.recipe tr:nth-child(odd) {
-    background-color: #dddddd;
+    background-color: #eeeeee;
 }

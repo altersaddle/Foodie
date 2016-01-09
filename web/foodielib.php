@@ -832,19 +832,14 @@ function foodie_PrintRecipeData($recipe_data)
 {
 	echo "<p>&nbsp;\n<br>\n<table class=\"recipe\" border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\">";
 
-	echo "<tr><td>" . MSG_RECIPE_NAME . "</strong></td><td><strong>{$recipe_data['name']}</strong></td></tr>\n";
+	echo "<tr><td class=\"recipe-title\">" . MSG_RECIPE_NAME . "</strong></td><td class=\"recipe-title\"><strong>{$recipe_data['name']}</strong></td></tr>\n";
 	if (!empty($recipe_data["image"]))
 	{
-		echo "<tr><td colspan=2 align=\"center\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
+		echo "<tr><td colspan=2 class=\"recipe-image\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
 	} else
 	{
 		$_SESSION['insert'] = "image";
-		echo "<tr><td colspan=2><a href=\"admin_mmedia.php"; 
-		if ($trans_sid == 0)
-		{
-			echo "?" . SID;
-		}
-		echo "\">" . MSG_RECIPE_IMAGE_UNAVAILABLE . "</a></td></tr>\n";
+		echo "<tr><td colspan=2 style=\"text-align:left;\" class=\"recipe-image\"><a href=\"admin_mmedia.php\">" . MSG_RECIPE_IMAGE_UNAVAILABLE . "</a></td></tr>\n";
 	}
 
 	echo "<tr><td>" . MSG_RECIPE_SERVING . "</td><td>{$recipe_data['dish']}</td></tr>\n";
