@@ -188,6 +188,7 @@ define("MSG_CHOOSE_DIFFICULTY", "Select difficulty");
 define("MSG_NOT_SPECIFIED", "Not specified");
 //license.php
 define("MSG_GPL_LICENSE", "GNU/GPL License");
+define("MSG_COPYRIGHT", "Copyright notice");
 //mail.php
 define("MSG_MAIL_TITLE", "Send recipe by e-mail");
 define("MSG_MAIL_ADDRESS_REQUEST", "Insert recipient email address");

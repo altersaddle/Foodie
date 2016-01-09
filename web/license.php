@@ -1,7 +1,8 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
+* Foodie is a web application released under the  GPL, written
+* by Malcolm Walker, Victoria BC.  Based on CrisoftRicette
 * by Lorenzo Pulici, Milano, Italy (Earth)
 * You can read license terms reading COPYING file included in this
 * package.
@@ -11,13 +12,17 @@
 * at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+session_name("foodie");
 session_start();
+require(dirname(__FILE__)."/config/foodie.ini.php");
+
+if (!isset($_SESSION['locale'])) {
+  $_SESSION['locale'] = $setting_locale;  
+}
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-require(dirname(__FILE__)."/crisoftlib.php");
-$trans_sid = cs_IsTransSid();
-cs_DestroyAdmin();
-cs_AddHeader();
+require(dirname(__FILE__)."/foodielib.php");
+
+foodie_AddHeader();
 echo "<h2>" . MSG_GPL_LICENSE . "</h2>\n";
 ?>
 <pre>
@@ -362,15 +367,15 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
-</pre>
-<h3>Copyright notice</h3>
-<pre>
+</pre>><?php
+echo "<h3>" . MSG_COPYRIGHT_NOTICE . "</h3>\n";
+?><pre>
 
 By accepting this notice, you agree to be bound by the following
 agreements:
 
-This software product, CrisoftRicette, is developed by a team of individuals,
-and copyrighted (C) 2001-03 by Lorenzo Pulici - Milano, Italy. 
+This software product, Foodie, is developed by a an individual,
+and copyrighted (C) 2016 by Malcolm Walker - Victoria, BC, Canada.
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License (version 2) as
 published by the Free Software Foundation.  It is distributed in the
@@ -386,15 +391,20 @@ with this program; if not, write to:
 			Suite 330
 			Boston, MA 02111, USA
 
-Or contact snowdog@tiscali.it
+Or contact malcolm@ipatch.ca
+
+CrisoftRicette originally by Lorenzo Pulici, snowdog@tiscali.it
 
 fpdf.php and all content of font/ subdirectory is copyright of
-Olivier PLATHEY
+Olivier PLATHEY http://www.fpdf.org
+
+Unite Gallery by valiano
+http://unitegallery.net/
 
 </pre>
 
 
 <?php
-cs_AddFooter();
+foodie_AddFooter();
 ?>
 
