@@ -2,19 +2,12 @@ FREQUENTLY ASKED QUESTIONS FOR Foodie
 -------------------------------------
 
 1) What is this?
-2) I got "Unexpected application error"! What does it mean?
-3) May I use the 0.x database with the new 1.0? 
-4) May I use ricette.sql for 1.0 version? 
-5) Hey, I think I found a bug! What should I do?
-6) Backup and restore: how can I use this feature?
-7) CrisoftRicette does not "speak" my language. Why?
-8) The webserver I use has a PHP version compiled without
-   --enable-trans-sid feature for session propagation and the
-   application does not work. What can I do?
 
+-------------------------------------
 
 1) What is this?
 
 It's a web site for storing recipes.
 
-It's based on CrisoftRicette by Lorenzo Pulici, snowdog@tiscali.its
+It's based on CrisoftRicette by Lorenzo Pulici, snowdog@tiscali.it
+Please ask any questions.
