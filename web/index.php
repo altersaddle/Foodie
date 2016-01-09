@@ -41,9 +41,9 @@ if (!isset($_SESSION['locale'])) {
 }
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 
-require(dirname(__FILE__)."/crisoftlib.php");
-//Print header page
-cs_AddHeader();
+require(dirname(__FILE__)."/foodielib.php");
+//header markup
+foodie_AddHeader();
 //DB server connection test
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 //Database check. If it doesn't exist, invite to create it
@@ -69,7 +69,7 @@ else {
 	   $imgsrc = "images/".$row->image;
 
 	   if (!$row->image) {
-	     $imgsrc = "http://loremflickr.com/320/240/".implode(",", explode(" ", $row->name));
+	     $imgsrc = "images/placeholder-".strtolower($row->dish).".png";
 	   }
        ?>
          <a href="recipe.php?recipe=<?= $row->id ?>">
@@ -85,5 +85,5 @@ else {
 		</div>
 		<?php
 }
-cs_AddFooter();
+foodie_AddFooter();
 ?>

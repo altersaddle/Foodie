@@ -3,7 +3,7 @@
 /* Set the variables that we'll use to connect to the database */
 
 // locale setting
-$setting_locale = en;
+$setting_locale = 'en';
 // number of recipes per page
 $setting_max_lines_page = 25;
 // administrator email address

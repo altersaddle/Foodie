@@ -54,3 +54,12 @@ font-size: 12px;
 text-align: justify
 }
 
+table.recipe {
+    background-color: #aaaaaa;
+}
+table.recipe tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+table.recipe tr:nth-child(odd) {
+    background-color: #dddddd;
+}

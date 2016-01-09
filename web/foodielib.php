@@ -38,12 +38,12 @@ function cs_IsTransSid()
 	}
 }
 //This function includes the HTML header
-function cs_AddHeader() 
+function foodie_AddHeader() 
 {	global $trans_sid;
 	include(dirname(__FILE__)."/includes/header.inc.php");
 }
 //This function includes the HTML footer
-function cs_AddFooter()
+function foodie_AddFooter()
 {
 	global $trans_sid;
     include(dirname(__FILE__)."/includes/footer.inc.php");
@@ -828,83 +828,45 @@ function cs_PrintBrowseTableDifficulty()
 	echo "</table>\n";
 }
 //Print recipe data
-function cs_PrintRecipeData()
+function foodie_PrintRecipeData($recipe_data)
 {
-	global $exec_recipe;
-	global $trans_sid;
-	echo "<p>&nbsp;\n<br>\n<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	while ($recipe_data = mysql_fetch_array($exec_recipe))
+	echo "<p>&nbsp;\n<br>\n<table class=\"recipe\" border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\">";
+
+	echo "<tr><td>" . MSG_RECIPE_NAME . "</strong></td><td><strong>{$recipe_data['name']}</strong></td></tr>\n";
+	if (!empty($recipe_data["image"]))
 	{
-		$gray = 1;
-		$colors[0] = "#dddddd";
-		$colors[1] = "#eeeeee";
-		$_SESSION['recipe_name'] = $recipe_data['name'];
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_NAME . "</strong></td><td><strong>{$recipe_data['name']}</strong></td></tr>\n";
-		if (!empty($recipe_data["image"]))
+		echo "<tr><td colspan=2 align=\"center\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
+	} else
+	{
+		$_SESSION['insert'] = "image";
+		echo "<tr><td colspan=2><a href=\"admin_mmedia.php"; 
+		if ($trans_sid == 0)
 		{
-			echo "<tr><td colspan=2 align=\"center\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
-		} else
-		{
-			$_SESSION['insert'] = "image";
-			echo "<tr><td colspan=2><a href=\"admin_mmedia.php"; 
-			if ($trans_sid == 0)
-			{
-				echo "?" . SID;
-			}
-			echo "\">" . MSG_RECIPE_IMAGE_UNAVAILABLE . "</a></td></tr>\n";
+			echo "?" . SID;
 		}
-/*		if (!empty($recipe_data["video"]))
-		{
-			echo "<tr><td colspan=2>";
-			echo "<a href=\"video/{$recipe_data['video']}"; 
-			if ($trans_sid == 0)
-			{
-				echo "?" . SID;
-			}
-			echo "\">" . MSG_RECIPE_VIDEO_FILE . "</a></td></tr>\n";
-		} else
-		{
-			echo "<tr><td colspan=2><a href=\"admin_mmedia.php"; 
-			if ($trans_sid == 0)
-			{
-				echo "?" . SID;
-			}
-			echo "\">" . MSG_RECIPE_VIDEO_UNAVAILABLE . "</a></td></tr>\n";
-		}*/
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_SERVING . "</td><td>{$recipe_data['dish']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_MAIN . "</td><td>{$recipe_data['mainingredient']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_PEOPLE . "</td><td>{$recipe_data['people']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_ORIGIN . "</td><td>{$recipe_data['origin']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_SEASON . "</td><td>{$recipe_data['season']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_COOKING . "</td><td>{$recipe_data['kind']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_TIME . "</td><td>{$recipe_data['time']}</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_DIFFICULTY . "</td><td>\n";
-		for ($i = 1; $i <= $recipe_data["difficulty"]; $i++) 
-		{
-			echo "*";
-		}
-		echo "</td></tr>\n";
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_WINES . "</td><td>{$recipe_data['wines']}</td></tr>\n";
-		$recipe_ingredients = nl2br($recipe_data['ingredients']);
-		$gray = !$gray;
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_INGREDIENTS . "</td><td>$recipe_ingredients</td></tr>\n";
-		$gray = !$gray;
-		$recipe_description = nl2br($recipe_data['description']);
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_DESCRIPTION . "</td><td>$recipe_description</td></tr>\n";
-		$gray = !$gray;
-		$recipe_notes = nl2br($recipe_data['notes']);
-		echo "<tr bgcolor=\"$colors[$gray]\"><td>" . MSG_RECIPE_NOTES . "</td><td>$recipe_notes</td></tr>\n";
+		echo "\">" . MSG_RECIPE_IMAGE_UNAVAILABLE . "</a></td></tr>\n";
 	}
+
+	echo "<tr><td>" . MSG_RECIPE_SERVING . "</td><td>{$recipe_data['dish']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_MAIN . "</td><td>{$recipe_data['mainingredient']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_PEOPLE . "</td><td>{$recipe_data['people']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_ORIGIN . "</td><td>{$recipe_data['origin']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_SEASON . "</td><td>{$recipe_data['season']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_COOKING . "</td><td>{$recipe_data['kind']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_TIME . "</td><td>{$recipe_data['time']}</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_DIFFICULTY . "</td><td>\n";
+	for ($i = 1; $i <= $recipe_data["difficulty"]; $i++) 
+	{
+		echo "*";
+	}
+	echo "</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_WINES . "</td><td>{$recipe_data['wines']}</td></tr>\n";
+	$recipe_ingredients = nl2br($recipe_data['ingredients']);
+	echo "<tr><td>" . MSG_RECIPE_INGREDIENTS . "</td><td>$recipe_ingredients</td></tr>\n";
+	$recipe_description = nl2br($recipe_data['description']);
+	echo "<tr><td>" . MSG_RECIPE_DESCRIPTION . "</td><td>$recipe_description</td></tr>\n";
+	$recipe_notes = nl2br($recipe_data['notes']);
+	echo "<tr><td>" . MSG_RECIPE_NOTES . "</td><td>$recipe_notes</td></tr>\n";
 	echo "</table>\n";
 }
 //Print browse table used to modify recipes

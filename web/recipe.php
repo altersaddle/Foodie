@@ -11,38 +11,18 @@
 * at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+session_name("foodie");
 session_start();
-if (isset($_SESSION['locale'])) {
-  require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-  require(dirname(__FILE__)."/crisoftlib.php");
+require(dirname(__FILE__)."/config/foodie.ini.php");
+
+if (!isset($_SESSION['locale'])) {
+  $_SESSION['locale'] = $setting_locale;  
 }
-else {
-$ini_directives = parse_ini_file(dirname(__FILE__)."/config/crisoftricette.ini.php");
-extract ($ini_directives, EXTR_OVERWRITE);
-$_SESSION['locale'] = $locale;
-$_SESSION['max_lines_page'] = $max_lines_page;
-$_SESSION['email_address'] = $email_address;
-$_SESSION['page_size'] = $page_size;
-$_SESSION['server'] = $server;
-$_SESSION['port'] = $port;
-$_SESSION['user'] = $user;
-$_SESSION['pass'] = $pass;
-$_SESSION['dbname'] = $dbname;
-$_SESSION['software'] = $software;
-$_SESSION['version'] = $version;
-$_SESSION['author'] = $author;
-$_SESSION['website'] = $website;
-$_SESSION['contact'] = $contact;
-//read version.php and compare version number to $_SESSION variable
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-//destroy admin session variables if exist
-require(dirname(__FILE__)."/crisoftlib.php");
-cs_DestroyAdmin();
-}
-$trans_sid = cs_IsTransSid();
-cs_DestroyAdmin();
-require(dirname(__FILE__)."/includes/db_connection.inc.php");
+
+require(dirname(__FILE__)."/foodielib.php");
+require(dirname(__FILE__)."/includes/dbconnect.inc.php");
+
 if (isset($_POST['action']))
 {
 	if ($_POST['action'] == "rec_pdf")
@@ -278,81 +258,83 @@ if (isset($_POST['action']))
 		exit();
 	}
 }
-cs_AddHeader();
+foodie_AddHeader();
 $sql_recipe = "SELECT * FROM main WHERE id = '{$_GET['recipe']}'";
-$_SESSION['recipe_id'] = $_GET['recipe'];
-if (!$exec_recipe = mysql_query($sql_recipe)) {
+
+if (!$recipequery = $dbconnect->query($sql_recipe)) {
 	echo "<p>" . ERROR_RECIPE_RETRIEVE ."<br>\n";
 	echo mysql_error();
-	cs_AddFooter();
+	foodie_AddFooter();
 	exit();
 }
-cs_PrintRecipeData();
-//Counts votes into database and displays number of votes 
-$sql_count_votes = "SELECT vote FROM rating WHERE id = '{$_SESSION['recipe_id']}'";
-if (!$exec_count_votes = mysql_query($sql_count_votes))
+$reciperow = $recipequery->fetch_assoc();
+$recipename = $reciperow['name'];
+foodie_PrintRecipeData($reciperow);
+$recipequery->close();
+//Counts votes into database and displays number of votes '{$_SESSION['recipe_id']}'
+$sql_count_votes = "SELECT vote FROM rating WHERE id = '{$_GET['recipe']}'";
+if (!$votes_result = $dbconnect->query($sql_count_votes))
 {
-	echo "<p class=\"error\">" . ERROR_COUNT_VOTES . " {$_SESSION['recipe_name']}<br>" . mysql_error();
-	unset($_SESSION['recipe_id']);
-	unset($_SESSION['recipe_name']);
-	cs_AddFooter();
+	echo "<p class=\"error\">" . ERROR_COUNT_VOTES . " {$recipename}<br>" . mysql_error();
+	foodie_AddFooter();
 	exit();
 }
-$num_votes = mysql_num_rows($exec_count_votes);
+$num_votes = $votes_result->num_rows;
 //Calculate average vote
 if ($num_votes >= 1)
 {
 $sum_votes = 0;
-while ($rate_data = mysql_fetch_object($exec_count_votes))
+while ($rate_data = $votes_result->fetch_object())
 {
 	$sum_votes = $sum_votes + $rate_data->vote;
 }
 $avg_vote = $sum_votes / $num_votes;
 echo "<table><tr><td><p>" . MSG_RECIPE_VOTES_TOT . " $num_votes " . MSG_RECIPE_VOTES_AVG . ": $avg_vote\n</td><td>\n";
-echo "<form method=\"post\" action=\"rate.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+echo "<form method=\"post\" action=\"rate.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
 } 
 else
 {
 	echo "<table><tr><td><p>" . MSG_RECIPE_NEVER_RATED . "\n -</td><td>\n";
-	echo "<form method=\"post\" action=\"rate.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+	echo "<form method=\"post\" action=\"rate.php\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
 }
 //Link to mail this recipe page
 echo "<table><tr><td>";
-echo "<form method=\"post\" action=\"mail.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+echo "<form method=\"post\" action=\"mail.php\">\n";
 echo "<input type=\"submit\" value=\"" . BTN_EMAIL ."\"></form></td>\n";
 //Print link to add selected recipe to personal cookbook only if it does
 //not exist and referer is not cookbook.php
 if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 {
-	$sql_query_cookbook = "SELECT id FROM personal_book WHERE id = '{$_SESSION['recipe_id']}'";
-	if (!$exec_query_cookbook = mysql_query($sql_query_cookbook))
+	$sql_query_cookbook = "SELECT id FROM personal_book WHERE id = '{$_GET['recipe']}'";
+	if (!$cookbook_result = $dbconnect->query($sql_query_cookbook))
 	{
 		echo "<td><p class=\"error\">" . ERROR_CHECK_COOKBOOK . "</td></tr></table><br>\n" . mysql_error();
 		exit();
 	}
-	$num_cookbook = mysql_num_rows($exec_query_cookbook);
+	$num_cookbook = $cookbook_result->num_rows;
 	if (0 == $num_cookbook)
 	{
-		echo "<td><form method=\"post\" action=\"cookbook.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+		echo "<td><form method=\"post\" action=\"cookbook.php\">\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
 	}
-	if (1 == $num_cookbook)
+	else
 	{
 		echo "<td><p>" . MSG_ALREADY_COOKBOOK . "</td>\n";
 	}
+    $cookbook_result->close();
 }
 //Print link to pdf version of the recipe 
-echo "<td><form method=\"post\" action=\"recipe.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+echo "<td><form method=\"post\" action=\"recipe.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"rec_pdf\">\n<input type=\"submit\" value=\"" . BTN_PDF . "\"></form></td>\n";
-echo "<td><form method=\"post\" action=\"recipe.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\" target=\"_blank\">\n";
+echo "<td><form method=\"post\" action=\"recipe.php\" target=\"_blank\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\">\n<input type=\"submit\" value=\"" . BTN_PRINT . "\"></form></td>\n";
-echo "<td><form method=\"post\" action=\"shoppinglist.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
 //Export single recipe
 echo "<p>" . MSG_EXPORT_ASK .":\n";
-echo "<form method=\"post\" action=\"export.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+echo "<form method=\"post\" action=\"export.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"export_ok\">\n
 <input type=\"hidden\" name=\"mode\" value=\"single\">\n
 <select name=\"export_type\">\n";
@@ -370,7 +352,7 @@ while (($plugin_item = readdir($plugins_dir)) !== false)
 closedir($plugins_dir);
 echo "</select>\n<input type=\"submit\" value=\"" . MSG_EXPORT . "\"></form></td>\n";
 //Go back
-echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">" . MSG_BACK . "</a>\n";
+echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}\">" . MSG_BACK . "</a>\n";
 //}
-cs_AddFooter();
+foodie_AddFooter();
 ?>
