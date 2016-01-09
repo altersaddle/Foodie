@@ -1,0 +1,8 @@
+This is the TODO file (things left to do before a new release) 
+
+Please email any feedback to malcolm@ipatch.ca.
+
+**********************************************************************
+- Responsive design for mobile devices
+- Migrate to an extensible library for translation
+- Convert any SQL with external data into prepared statements (to limit SQL injection)

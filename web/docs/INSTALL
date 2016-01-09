@@ -1,0 +1,31 @@
+INSTALL file for CrisoftRicette 1.0pre releases
+
+*** COPYING FILES TO YOUR HARD DISK
+
+Ungzip/unbzip and untar (or unzip for .zip version)
+CrisoftRicette-1.0preX.tar.gz
+CrisoftRicette-1.0preX.tar.bz2
+CrisoftRicette-1.0preX.zip
+into your web root folder.
+
+*** SOFTWARE REQUIREMENTS
+
+A web server (Apache is recommended)
+MySQL ver. 3.23.XX or later
+PHP 4.2.1 or later
+
+PHP should be set up with
+register_globals = off
+
+*** CONFIGURING YOUR WEBSERVER
+
+Correctly configure your httpd.conf file if needed (see Apache or your
+webserver documentation).
+
+*** CONFIGURING SOFTWARE
+
+Edit config/foodie.inc.php with your database connection info.
+
+If you wish to be able to email recipes, configure the email address too.
+
+

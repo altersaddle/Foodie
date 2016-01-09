@@ -1,7 +1,7 @@
-FREQUENTLY ASKED QUESTIONS FOR CrisoftRicette
----------------------------------------------
+FREQUENTLY ASKED QUESTIONS FOR Foodie
+-------------------------------------
 
-1) What does CrisoftRicette?
+1) What is this?
 2) I got "Unexpected application error"! What does it mean?
 3) May I use the 0.x database with the new 1.0? 
 4) May I use ricette.sql for 1.0 version? 
@@ -13,65 +13,8 @@ FREQUENTLY ASKED QUESTIONS FOR CrisoftRicette
    application does not work. What can I do?
 
 
-1) What does CrisoftRicette?
+1) What is this?
 
-CrisoftRicette is a not-so-small application written in PHP and
-interfacing a MySQL database to store your cooking recipes. It's aimed
-to personal use, by the way you can also use it on your web site even
-it's not written with this kind of use in mind.
+It's a web site for storing recipes.
 
-2) I got "Unexpected application error"! What does it mean?
-
-This mean one simple thing: you have tried to exploit the application, 
-so I won't give you details (please check the code, if you want to crack
-pay the price! ;-) )
-
-3) May I use the 0.x database with the new 1.0?
-
-Starting from 1.0pre11 there is a migration utility available, so you can move
-existing 0.7.x recipes to 1.0. Please be aware that database name of 0.7.x and 
-1.0 should be different! Version 1.0 can't use a 0.7.x database!
-
-4) May I use ricette.sql for 1.0 version?
-
-No. The database structure is too different. Maybe in the next future I'll 
-release a dbricette.it derivated .sql file with recipe compatible with 1.0 
-branch. By the way it's available the import feature from dbricette.it 
-Bekon idealist natural file format. 
-You can import ricette.sql file into 0.7.2 release, then import 0.7.2 
-database into 1.0preXX through an utility included in starting from
-1.0pre11.
-
-5) Please report the suspected bug to the author Lorenzo Pulici by email at
-snowdog@tiscalinet.it or using web interface at
-http://crisoftricette.sourceforge.net.
-remember that your report really helps!
-
-6) This is very easy: you need only to choose backup option into admin
-menu and file will be written to disk into backup/ subdirectory.
-To restore it you have simply to choose "restore" option into admin
-menu: it will be automatically done.
-Restore procedure drops all existing tables then recreates them adding
-data saved with last backup.
-Please do not change backup filename: application will refuse to
-do  database restore if filename is different from CrisoftRicette.sql.
-The backup file is a simple text file with all needed SQL statement: so
-you can restore database even from command line with mysql providing the
-database name. Example
-mysql recipes < CrisoftRicette.sql
-
-Remember that restore function needs a valid and existing database!
-
-
-7) Because no one has translated message file in your language :-)
-CrisoftRicette support internationalization, but the message file
-obviously needs to be translated for every language. Since I (the
-author) learnt only italian (I'm italian...) and english (really I
-learnt also german and french, but it was long time ago...) I can't
-translate in other language. By the way if you want you can help me to
-add your language support to CrisoftRicette, translating the message
-file and sending it to me. For details please read TRANSLATIONS file in
-this package.
-
-8) Install 1.0pre14 that support even this type of PHP installation.
-
+It's based on CrisoftRicette by Lorenzo Pulici, snowdog@tiscali.its
