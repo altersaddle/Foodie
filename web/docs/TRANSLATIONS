@@ -1,0 +1,73 @@
+TRANSLATIONS file
+
+-----------------
+If you want to help with translation in your country language, please
+contact the author Lorenzo Pulici at snowdog@tiscalinet.it.
+
+Please contact the author BEFORE beginning your translation: someone may
+be already translating into your language.
+
+Actually only italian and english language files are available.
+Other languages will be added to CrisoftRicette immediately upon receipt.
+Please DO NOT to send incomplete translations: they will not be added to
+the package.
+
+Actual translations mantainers are:
+
+italian		Lorenzo Pulici		snowdog@tiscalinet.it
+hungarian       Miklos Bagi Jr. 	joschy@mbjr.dyndns.org
+
+SHORT HELP FOR TRANSLATORS
+--------------------------
+If you want to tranlsate message file of CrisoftRicette you can look at
+lang/en.php (for english language file) or lang/it.php file (if you know
+italian).
+Open the file in your favorite editor (even if I suggest you ViM,
+http://www.vim.org, that features a very useful syntax highlighting for
+PHP) then start to translate replacing messages with the ones in your
+language.
+
+Before your really begin to translate please:
+rename en.php (or it.php) file into XX.php, where XX is your iso country
+code (de for Germany, fr for France and so on). If you are in doubt
+please ask!
+
+Then edit translator informations (they are immediately below GPL
+License notice)
+
+/*
+ *	CrisoftRicette language file
+ *	Language: italiano
+ *	Translated by: Lorenzo Pulici snowdog@tiscalinet.it
+ *	File: lang/it.php
+ */
+
+should be edited (for german version) as:
+
+/*
+ *	CrisoftRicette language file
+ *	Language: deutsch
+ *	Translated by: Hans Weiss email@adresse.de
+ *	File: lang/de.php
+ */
+
+Then you can begin the translation.
+This is very easy to do, just translate the text in the second field
+with double quotes for every define().
+Please DO NOT TRANSLATE the all uppercase text! Otherwise Crisoftricette
+will stop to work generating lots of errors.
+
+For example, in the german translation
+
+define("MSG_NOT_SPECIFIED", "Not specified");
+
+will become
+
+define("MSG_NOT_SPECIFIED", "Nicht spezifiziert");
+
+Very easy, isn't it?
+Again, if you are in doubt, do not hesitate to ask me!
+
+
+Lorenzo Pulici <snowdog@tiscalinet.it>
+
