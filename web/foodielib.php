@@ -63,22 +63,6 @@ if (!in_array("{$_SESSION['page_size']}", $page_check))
 	}
 }
 
-//This function checks for already logged in user into admin area. If
-//not, it prints out an error message.
-function cs_CheckLoginAdmin()
-{
-	global $trans_sid;
-//Check if both username and password are not set
-//This should work even if only one of the two session variable is set
-	if (!isset($_SESSION['admin_user']) || !isset($_SESSION['admin_pass'])) {
-	echo "<h2>" . MSG_WARNING . "</h2>\n";
-	echo "<p class=centerwarn>" . MSG_PAGE_RESTRICTED .".\n";
-	echo "<p class=centerwarn>" . MSG_NOT_LOGGED . ".\n";
-	echo "<p class=centerwarn>" . MSG_LOGIN_REQUEST . "\n";
-	cs_AddFooter();
-	exit();
-	}
-}
 function cs_CheckDangerousInput($danger_field)
 {
 	global $trans_sid;
@@ -874,22 +858,7 @@ function cs_PrintDishTable($action)
 	}
 	echo "</table>\n";
 }
-function cs_DestroyAdmin()
-{
-	if (isset($_SESSION['admin_user']) AND isset($_SESSION['admin_pass']))
-	{
-		unset($_SESSION['admin_user']);
-		unset($_SESSION['admin_pass']);
-	}
-}
-function cs_CheckAdminArea()
-{
-	if (!isset($_SESSION['admin_user']) AND !isset($_SESSION['admin_pass']))
-	{
-		header("Location: login.php");
-	}
 
-}
 //Function to check for default values for admin credentials
 function cs_CheckAdminDefault($variable)
 {
