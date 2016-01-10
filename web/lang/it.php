@@ -358,9 +358,6 @@ define("BTN_ADMIN_EXPORT", "Esporta");
 define("MSG_ADMIN_IMPORT_ASKTYPE", "Seleziona il tipo di file dal quale importare le ricette nel database");
 define("MSG_ADMIN_IMPORT_FILE", "Seleziona il file o scrivi il percorso completo");
 define("BTN_ADMIN_IMPORT", "Importa");
-//admin_optimize.php
-define("MSG_ADMIN_OPTIMIZE", "Il database è stato compattato con successo");
-define("ERROR_ADMIN_OPTIMIZE", "Impossibile compattare il database");
 //admin_modify.php
 define("MSG_ADMIN_MODIFY_MISSING_NAME", "Manca il nome della ricetta");
 define("MSG_ADMIN_MODIFY_MISSING_MAIN", "Manca l'ingrediente principale della ricetta");

@@ -70,7 +70,7 @@ if (isset($_POST['action']))
             $search_terms = array($_POST['search_text']);
         }
 
-        // Get search term
+        // Get search field, bail out if it's not from the form
         $search_field = $_POST['search_field'];
         $search_field_check = array ('name', 'mainingredient', 'ingredients', 'description', 'notes', 'wines', 'all'); 
         if (!in_array($search_field, $search_field_check)) {	

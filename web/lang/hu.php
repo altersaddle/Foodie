@@ -359,9 +359,6 @@ define("BTN_ADMIN_EXPORT", "Export");
 define("MSG_ADMIN_IMPORT_ASKTYPE", "Select filetype with recipes to be imported");
 define("MSG_ADMIN_IMPORT_FILE", "Select filename or type full path");
 define("BTN_ADMIN_IMPORT", "Importa");
-//admin_optimize.php
-define("MSG_ADMIN_OPTIMIZE", "Database optimized");
-define("ERROR_ADMIN_OPTIMIZE", "Unable to optimize database");
 //admin_modify.php
 define("MSG_ADMIN_MODIFY_MISSING_NAME", "Recipe name is missing");
 define("MSG_ADMIN_MODIFY_MISSING_MAIN", "Recipe main ingredient is missing");

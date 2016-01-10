@@ -86,8 +86,7 @@ else {
       <td valign=top>
         <p><a href="admin_export.php"><?= MSG_ADMIN_MENU_UTIL_EXPMAIN ?></a><br>
         <a href="admin_07import.php"><?= MSG_ADMIN_MENU_UTIL_IMP07 ?></a><br>
-        <a href="admin_import.php"><?= MSG_ADMIN_MENU_UTIL_IMPFILES ?></a><br>
-        <a href="admin_optimize.php"><?= MSG_ADMIN_MENU_UTIL_OPT ?></a><br></p>
+        <a href="admin_import.php"><?= MSG_ADMIN_MENU_UTIL_IMPFILES ?></a><br></p>
       </td>
     </tr>
     <tr bgcolor="#ffffff">
