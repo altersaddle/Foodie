@@ -1,9 +1,9 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftLib is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth) and is copyrighted by the
-* author, 2002.
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
@@ -16,8 +16,6 @@
 * License terms can be read in COPYING file included in this package.
 * If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
 //This function includes the HTML header
@@ -524,6 +522,7 @@ function cs_CheckEmptyValueInstall($field)
 	exit();
 	}
 }
+
 function foodie_AlphaLinks($prefix)
 {
 	$alphabet = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
@@ -548,122 +547,7 @@ function foodie_PrintBrowseTable($query, $parameter = 'id')
 	}
 	echo "</table>\n";
 }
-//Print browse table ordered by dish
-function cs_PrintBrowseTableDish()
-{
-	global $exec_db_browse;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
-	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$list_data[$arr_element][3] = $recipe_browse_list->dish;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\"><strong>$list_var[3]</strong> - \n";
-		echo "<a href=\"recipe.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a></td></tr>\n";
-	}
-	echo "</table>\n";
-}
-//Print browse table ordered by parameter passed as argument
-function cs_PrintBrowseTableParameter($parameter)
-{
-	global $exec_db_browse;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
-	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$list_data[$arr_element][3] = $recipe_browse_list->$parameter;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\"><strong>$list_var[3]</strong></td><td bgcolor=\"$row_color\">\n";
-		echo "<a href=\"recipe.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a></td></tr>\n";
-	}
-	echo "</table>\n";
-}
-//Print browse table ordered by difficulty
-function cs_PrintBrowseTableDifficulty()
-{
-	global $exec_db_browse;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
-	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$list_data[$arr_element][3] = $recipe_browse_list->difficulty;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\"><strong>\n";
-		for ($i = 1; $i <= $list_var[3]; $i++) 
-		{
-			echo "*";
-		}
-		echo "</strong></td><td bgcolor=\"$row_color\">\n";
-		echo "<a href=\"recipe.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a></td></tr>\n";
-	}
-	echo "</table>\n";
-}
+
 //Print recipe data
 function foodie_PrintRecipeData($recipe_data)
 {
