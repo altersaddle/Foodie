@@ -65,8 +65,7 @@ if (strstr($filename, "admin"))
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN . "</strong><br>
 	<a href=\"admin_index.php\">" . MSG_ADMIN_HEADER_INDEX . "</a><br>
 	<a href=\"admin_logout.php\">" . MSG_ADMIN_HEADER_LOGOUT . "</a></td>
-	<td valign=\"top\"><p class=\"menu_admin\">
-	<a href=\"logout.php\"><strong>" . MSG_ADMIN_HEADER_CLOSE . "</strong></a></td></tr>
+	</tr>
 	</table>";
 }
 /*
@@ -103,8 +102,7 @@ else
 	        <a href="shoppinglist.php"><?= MSG_SHOPPING ?></a>
 	     </td>
          <td align="right" class="menu">
-            <a href="login.php"><?= MSG_ADMIN ?></a> - 
-	        <a href="logout.php"><?= MSG_CLOSE ?></a>
+            <a href="login.php"><?= MSG_ADMIN ?></a> 
          </td>
        </tr>
      </table>

@@ -32,7 +32,7 @@ require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 foodie_AddHeader();
 echo "<h2>" . MSG_BROWSE . "</h2>\n";
 
-//Count recipes into database
+//Count recipes in database
 $dbquery = $dbconnect->query("SELECT COUNT(*) FROM main");
 $result = $dbquery->fetch_row();
 $num_recipes = $result[0];
@@ -144,8 +144,8 @@ if($_GET['browse'] == 'br_letter') {
 	}
 }
 foodie_PrintBrowseTable($browse_query, $browse_parameter);
-
 $browse_query->close();
+
 //Print available pages
 echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
 if ($_GET['offset']>=1) 

@@ -53,7 +53,7 @@ define("MSG_SEARCH", "Search");
 define("MSG_INSERT", "Add");
 define("MSG_COOKBOOK", "Personal cookbook");
 define("MSG_SHOPPING", "Shopping list");
-define("MSG_ADMIN", "Admin area");
+define("MSG_ADMIN", "Administration");
 define("MSG_CLOSE", "Close application");
 //includes/footer.inc.php
 define("MSG_WRITTEN", "written by");
