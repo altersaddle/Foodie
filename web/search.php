@@ -84,12 +84,10 @@ if (isset($_POST['action']))
 			echo "<p>" . MSG_SEARCH_STRING . " <strong>{$_POST['search_text']}</strong> " . MSG_SEARCH_FOUND . ":<br>\n";
 			foreach ($search_terms as $single_term)
 			{
-				$stmt = "SELECT * FROM main WHERE name LIKE ? OR mainingredient LIKE ? OR ingredients LIKE ? OR description LIKE ? OR notes LIKE ? OR wines LIKE ? ORDER BY name DESC";
-                $parametercount = 0;
-                while ($parametercount < $stmt->param_count) {
-                    $stmt->bind_param('s', "%{$single_term}%");
-                    $parametercount++;
-                }
+				$stmt = $dbconnect->prepare("SELECT * FROM main WHERE name LIKE ? OR mainingredient LIKE ? OR ingredients LIKE ? OR description LIKE ? OR notes LIKE ? OR wines LIKE ? ORDER BY name DESC");
+                $p = "%".$single_term."%";
+                $stmt->bind_param('ssssss', $p, $p, $p, $p, $p, $p);
+                
                 $stmt->execute();
 				if (!$search_result = $stmt->get_result())
 				{
@@ -123,14 +121,14 @@ if (isset($_POST['action']))
 			{
 				//Search on single fields		
 				echo "<p>" . MSG_SEARCH_STRING . " <strong>$single_term</strong> " . MSG_SEARCH_FIELD . ":<br>\n";
-				//Insert here code
-				$sql_multi_search = "SELECT * FROM main WHERE {$search_field} LIKE '%$single_term%' ORDER BY name DESC";
-                $stmt = "SELECT * FROM main WHERE {$search_field} LIKE ? ORDER BY name DESC";
-                $stmt->bind_param('s', "%{$single_term}%");
+				$sql_multi_search = "SELECT * FROM main WHERE {$search_field} LIKE ? ORDER BY name DESC";
+                $stmt = $dbconnect->prepare($sql_multi_search);
+                $single_term_wildcard = "%".$single_term."%";
+                $stmt->bind_param('s', $single_term_wildcard);
                 $stmt->execute();
 				if (!$search_result = $stmt->get_result())
 				{
-					echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error()();
+					echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
 					foodie_AddFooter();
 					exit();
 				}
