@@ -42,6 +42,8 @@ $dbquery->close();
 $lines_per_page = $setting_max_lines_page;
 $browse_parameter = 'id';
 $letterarg = '';
+$letter = '';
+$offset = 0;
 
 //If GET browse variable is not set print links to choose kind of
 //browsing
@@ -67,57 +69,58 @@ if (!isset($_GET['browse']))
 	exit();
 }
 
-if (!isset($_GET['offset'])) 
-{
-	$_GET['offset'] = 0;
+if (isset($_GET['offset']) && isnumeric($_GET['offset'])) {
+	$offset = $_GET['offset'];
+}
+
+if (isset($_GET['letter']) && strlen($_GET['letter']) == 1) {
+    $letter = $_GET['letter'];
 }
 
 $browse_check = array ('br_recipe', 'br_alpha', 'br_dish', 'br_ingredient', 'br_cook', 'br_season', 'br_easy', 'br_difficult', 'br_origin', 'br_letter'); 
-if (!in_array("{$_GET['browse']}", $browse_check))
-{	
-        echo "<p class=\"error\">" . ERROR_ILLEGAL_REQUEST ."!\n";
+if (!in_array("{$_GET['browse']}", $browse_check)) {	
+    echo "<p class=\"error\">" . ERROR_ILLEGAL_REQUEST ."!\n";
 	foodie_AddFooter();
 	exit();
 }
 else {
-    if ($_GET['browse'] == 'br_recipe')
-    {
-        $sql_db_browse = "SELECT id,name FROM main LIMIT {$_GET['offset']},{$lines_per_page}";
+    if ($_GET['browse'] == 'br_recipe') {
+        $sql_db_browse = "SELECT id,name FROM main LIMIT {$offset},{$lines_per_page}";
     }
     else if ($_GET['browse'] == 'br_alpha') {
-        $sql_db_browse = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$offset},{$lines_per_page}";
     }
     else if ($_GET['browse'] == 'br_dish') {
-        $sql_db_browse = "SELECT id,name,dish FROM main ORDER BY dish ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name,dish FROM main ORDER BY dish ASC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'dish';
     }
     else if ($_GET['browse'] == 'br_ingredient') {
-        $sql_db_browse = "SELECT id,name,mainingredient FROM main ORDER BY mainingredient ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name,mainingredient FROM main ORDER BY mainingredient ASC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'mainingredient';
     }
     else if ($_GET['browse'] == 'br_cook') {
-        $sql_db_browse = "SELECT id,name,kind FROM main ORDER BY kind ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name,kind FROM main ORDER BY kind ASC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'kind';
     }
     else if ($_GET['browse'] == 'br_season') {
-        $sql_db_browse = "SELECT id,name,season FROM main ORDER BY season ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name,season FROM main ORDER BY season ASC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'season';
     }
     else if ($_GET['browse'] == 'br_easy') {
-        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty ASC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'diffstars';
     }
     else if ($_GET['browse'] == 'br_difficult') {
-        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty DESC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty DESC, name ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'diffstars';
     }
     else if ($_GET['browse'] == 'br_origin') {
-        $sql_db_browse = "SELECT id,name,origin FROM main ORDER BY origin ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $sql_db_browse = "SELECT id,name,origin FROM main ORDER BY origin ASC LIMIT {$offset},{$lines_per_page}";
         $browse_parameter = 'origin';
     }
     else if ($_GET['browse'] == 'br_letter') {
-        $sql_db_browse = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
-        $letterarg = "&letter={$_GET['letter']}";
+        $sql_db_browse = "SELECT id,name FROM main WHERE name LIKE '{$letter}%' ORDER BY name ASC LIMIT {$offset},{$lines_per_page}";
+        $letterarg = "&letter={$letter}";
     }
 
 }
@@ -138,7 +141,7 @@ if($_GET['browse'] == 'br_letter') {
 	$num_recipes = $browse_query->num_rows;
 	if ($num_recipes == "0")
 	{
-		echo "<p class=\"error\">" . MSG_RECIPES_INITIAL . " {$_GET['letter']}\n";
+		echo "<p class=\"error\">" . MSG_RECIPES_INITIAL . " {$letter}\n";
 		foodie_AddFooter();
 		exit();
 	}
@@ -148,9 +151,9 @@ $browse_query->close();
 
 //Print available pages
 echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) 
+if ($offset>=1) 
 { 
-	$prevoffset=$_GET['offset'] - $lines_per_page;
+	$prevoffset=$offset - $lines_per_page;
 	echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset{$letterarg}\">" . MSG_PREVIOUS ."</a> - \n";
 }
 $pages=intval($num_recipes/$lines_per_page);
@@ -164,10 +167,10 @@ for ($i=1;$i<=$pages;$i++)
 	echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset{$letterarg}\">$i</a> \n";
 }
 // check to see if last page
-if (!(($_GET['offset']/$lines_per_page)==$pages) && $pages!=1) 
+if (!(($offset/$lines_per_page)==$pages) && $pages!=1) 
 {
 	// not last page so give NEXT link
-	$newoffset=$_GET['offset']+$lines_per_page;
+	$newoffset=$offset+$lines_per_page;
 	echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset{$letterarg}\">" . MSG_NEXT ."</a>\n";
 }
 foodie_AddFooter();

@@ -35,7 +35,7 @@ if (isset($_POST['action']))
 	if ($_POST['action'] == "rec_print")
 	{
 		$stmt = $dbconnect->prepare("SELECT * FROM main WHERE id = ?");
-        $stmt->bind_param('s', $_GET['recipe'] );
+        $stmt->bind_param('s', $_POST['recipe'] );
         $stmt->execute();
 		if (!$recipe_result = $stmt->get_result()) 
 		{
@@ -51,7 +51,6 @@ if (isset($_POST['action']))
 			{
 				echo "<div align=center><img src=\"images/$data->image\" alt=\"$data->name\"></div>\n";
 			} 
-			$_SESSION['recipe_name'] = $data->name;
 			echo "<p>" . MSG_RECIPE_SERVING . ": $data->dish\n";
 			echo "<br>" . MSG_RECIPE_MAIN . ": $data->mainingredient\n";
 			echo "<br>" . MSG_RECIPE_PEOPLE . ": $data->people\n";
@@ -64,12 +63,12 @@ if (isset($_POST['action']))
 			{
 				echo "*";
 			}
-			echo "<br>" . MSG_RECIPE_WINES . "Suggested wines: $data->wines\n";
-			echo "<br>" . MSG_RECIPE_INGREDIENTS . "Ingredients: ". nl2br($data->ingredients) ."\n";
-			echo "<br>" . MSG_RECIPE_DESCRIPTION . "Description: ". nl2br($data->description) ."\n";
+			echo "<br>" . MSG_RECIPE_WINES . ": $data->wines\n";
+			echo "<br>" . MSG_RECIPE_INGREDIENTS . ": ". nl2br($data->ingredients) ."\n";
+			echo "<br>" . MSG_RECIPE_DESCRIPTION . ": ". nl2br($data->description) ."\n";
 			echo "<br>" . MSG_RECIPE_NOTES . ": $data->notes\n";
 		}
-		echo "<p class=small>" . MSG_RECIPE_PRINTED . " {$_SESSION['software']} {$_SESSION['version']}\n";
+		echo "<p class=small>" . MSG_RECIPE_PRINTED . " <em>Foodie</em>!</p>\n";
 		exit();
 	}
 	else
@@ -159,7 +158,7 @@ if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 }
 //Button for "Printer friendly" option
 echo "<td><form method=\"post\" action=\"recipe.php\" target=\"_blank\">\n";
-echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\">\n<input type=\"submit\" value=\"" . BTN_PRINT . "\"></form></td>\n";
+echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\"><input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n<input type=\"submit\" value=\"" . BTN_PRINT . "\"></form></td>\n";
 echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
 //Export single recipe

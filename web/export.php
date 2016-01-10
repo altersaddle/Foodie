@@ -1,40 +1,46 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth)
-* You can read license terms reading COPYING file included in this
-* package.
-* In case this file is missing you can obtain license terms through WWW
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* License terms can be read in COPYING file included in this package.
+* If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+session_name("foodie");
 session_start();
+require(dirname(__FILE__)."/config/foodie.ini.php");
+
+if (!isset($_SESSION['locale'])) {
+  $_SESSION['locale'] = $setting_locale;  
+}
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-require(dirname(__FILE__)."/crisoftlib.php");
-require(dirname(__FILE__)."/includes/db_connection.inc.php");
-$trans_sid = cs_IsTransSid();
-cs_AddHeader();
+require(dirname(__FILE__)."/foodielib.php");
+require(dirname(__FILE__)."/includes/dbconnect.inc.php");
+foodie_AddHeader();
 echo "<h3>" . MSG_EXPORT_SINGLE . "</h3>\n";
-if (!isset($_POST['action']))
-{
+if (!isset($_POST['action'])) {
 	echo "<p class=\"error\">" . ERROR_EXPORT_RECIPE_CALL . "\n";
-	cs_AddFooter();
-	exit();
 }
-if (isset($_POST['action']))
-{
-	if ($_POST['action'] != "export_ok")
-	{
+else {
+	if ($_POST['action'] != "export_ok") {
 		echo "<p class=\"error\">" . ERROR_UNEXPECTED . "\n";
-		cs_AddFooter();
-		exit();
 	}
-	$export_type = $_POST['export_type'];
-	require(dirname(__FILE__)."/plugins/$export_type/export.php");
+    else {
+	    $export_type = $_POST['export_type'];
+	    require(dirname(__FILE__)."/plugins/$export_type/export.php");
+    }
 }
-cs_AddFooter();
+foodie_AddFooter();
 ?>
