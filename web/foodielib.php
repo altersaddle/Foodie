@@ -550,65 +550,7 @@ function foodie_AlphaLinks($prefix)
 	}
 }
 
-function cs_CountCookbook()
-{
-	global $exec_cookbook_recipes;
-	$num_cookbook = mysql_num_rows($exec_cookbook_recipes);
-	return $num_cookbook;
-}
-function cs_CountRecipes()
-{
-	global $exec_count_recipes;
-	$num_recipes = mysql_num_rows($exec_count_recipes);
-	return $num_recipes;
-}
-//Print cookbook
-function cs_PrintCookbook()
-{
-	global $exec_cookbook_recipes;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($cookbook_data = mysql_fetch_object($exec_cookbook_recipes)) 
-	{
-		$list_data[$arr_element][0] = $cookbook_data->id;
-		$list_data[$arr_element][1] = $cookbook_data->recipe_name;
-		$list_data[$arr_element][2] = $line_number;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\">\n";
-		echo "<a href=\"recipe.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a>\n";
-		echo "</td><td valign=\"middle\" align=\"center\" bgcolor=\$row_color\">\n";
-		echo "<form method=\"post\" action=\"cookbook.php";
-		if ($trans_sid == 0)
-		{
-			echo "?" . SID;
-		}
-		echo "\">\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"cook_remove\">\n<input type=\"hidden\" name=\"recipe_remove\" value=\"$list_var[0]\">\n<input type=\"hidden\" name=\"recipe_name\" value=\"$list_var[1]\">\n<input type=\"submit\" value=\"" . MSG_COOKBOOK_DELETE . "\"></form></td></tr>\n";
-	}
-	echo "</table>\n";
-}
-//Print browse table 
-//
-// parameters: $query - SQL query to use
+// parameters: $query - SQL query to use, $parameter - optional, which parameter to print
 function foodie_PrintBrowseTable($query, $parameter = 'id')
 {
 	echo "<table class=\"browse\">";
