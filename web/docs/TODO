@@ -7,3 +7,4 @@ Please email any feedback to malcolm@ipatch.ca.
 - Migrate to an extensible library for translation
 - Convert any SQL with external data into prepared statements (to limit SQL injection)
 - Allow user to sign in (for personal cookbook)
+- Convert personal cookbook and shopping list to starred / favorited list
