@@ -29,8 +29,7 @@ require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
-if (!isset($_SESSION['admin_user']))
-{
+if (!isset($_SESSION['admin_user'])) {
     header("Location: login.php");
 }
 else {
