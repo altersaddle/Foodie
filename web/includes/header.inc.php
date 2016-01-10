@@ -80,13 +80,6 @@ else if (strstr($filename, "language"))
 	echo "<h2>Language Selection</h2>";
 }
 /*
- *	Header for logout.php script
- */
-else if (strstr($filename, "logout"))
-{
-	echo "<p class=\"menu\"><a href=\"index.php\">" . MSG_APP_RESTART . "</a>";
-}
-/*
  *	Header for all other scripts
  */
 else
