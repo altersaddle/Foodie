@@ -34,15 +34,17 @@ if (isset($_POST['action']))
 	//Printer friendly version
 	if ($_POST['action'] == "rec_print")
 	{
-		$sql_recipe = "SELECT * FROM main WHERE id = '{$_SESSION['recipe_id']}'";
-		if (!$exec_recipe = mysql_query($sql_recipe)) 
+		$stmt = $dbconnect->prepare("SELECT * FROM main WHERE id = ?");
+        $stmt->bind_param('s', $_GET['recipe'] );
+        $stmt->execute();
+		if (!$recipe_result = $stmt->get_result()) 
 		{
-			cs_AddHeader();
-			echo "<p>" . MSG_RECIPE_NO_RETRIEVE ."<br>\n" . mysql_error();
-			cs_AddFooter();
+			foodie_AddHeader();
+			echo "<p>" . MSG_RECIPE_NO_RETRIEVE ."<br>\n" . $recipe_result->error();
+			foodie_AddFooter();
 			exit();
 		}
-		while ($data = mysql_fetch_object($exec_recipe)) 
+		while ($data = $recipe_result->fetch_object()) 
 		{
 			echo "<h2>$data->name</h2>\n";
 			if (!empty($data->image)) 
@@ -81,23 +83,27 @@ if (isset($_POST['action']))
 	}
 }
 foodie_AddHeader();
-$sql_recipe = "SELECT * FROM main WHERE id = '{$_GET['recipe']}'";
+$stmt = $dbconnect->prepare("SELECT * FROM main WHERE id = ?");
+$stmt->bind_param('s', $_GET['recipe'] );
+$stmt->execute();
 
-if (!$recipequery = $dbconnect->query($sql_recipe)) {
+if (!$recipe_result = $stmt->get_result()) {
 	echo "<p>" . ERROR_RECIPE_RETRIEVE ."<br>\n";
-	echo mysql_error();
+	echo $recipe_result->error();
 	foodie_AddFooter();
 	exit();
 }
-$reciperow = $recipequery->fetch_assoc();
+$reciperow = $recipe_result->fetch_assoc();
 $recipename = $reciperow['name'];
 foodie_PrintRecipeData($reciperow);
-$recipequery->close();
+$recipe_result->close();
 //Counts votes into database and displays number of votes 
-$sql_count_votes = "SELECT vote FROM rating WHERE id = '{$_GET['recipe']}'";
-if (!$votes_result = $dbconnect->query($sql_count_votes))
+$stmt = $dbconnect->prepare("SELECT vote FROM rating WHERE id = ?");
+$stmt->bind_param('s', $_GET['recipe']);
+$stmt->execute();
+if (!$votes_result = $stmt->get_result())
 {
-	echo "<p class=\"error\">" . ERROR_COUNT_VOTES . " {$recipename}<br>" . mysql_error();
+	echo "<p class=\"error\">" . ERROR_COUNT_VOTES . " {$recipename}<br>" . $votes_result->error();
 	foodie_AddFooter();
 	exit();
 }
@@ -111,6 +117,7 @@ while ($rate_data = $votes_result->fetch_object())
 	$sum_votes = $sum_votes + $rate_data->vote;
 }
 $avg_vote = $sum_votes / $num_votes;
+$votes_result->close();
 echo "<table><tr><td><p>" . MSG_RECIPE_VOTES_TOT . " $num_votes " . MSG_RECIPE_VOTES_AVG . ": $avg_vote\n</td><td>\n";
 echo "<form method=\"post\" action=\"rate.php\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
@@ -130,9 +137,12 @@ echo "<input type=\"submit\" value=\"" . BTN_EMAIL ."\"></form></td>\n";
 if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 {
 	$sql_query_cookbook = "SELECT id FROM personal_book WHERE id = '{$_GET['recipe']}'";
-	if (!$cookbook_result = $dbconnect->query($sql_query_cookbook))
+    $stmt = $dbconnect->prepare("SELECT id FROM personal_book WHERE id = ?");
+    $stmt->bind_param('s', $_GET['recipe']);
+    $stmt->execute();
+	if (!$cookbook_result = $stmt->get_result())
 	{
-		echo "<td><p class=\"error\">" . ERROR_CHECK_COOKBOOK . "</td></tr></table><br>\n" . mysql_error();
+		echo "<td><p class=\"error\">" . ERROR_CHECK_COOKBOOK . "</td></tr></table><br>\n" . $cookbook_result->error();
 		exit();
 	}
 	$num_cookbook = $cookbook_result->num_rows;
