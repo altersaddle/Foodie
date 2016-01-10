@@ -1,573 +1,175 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth)
-* You can read license terms reading COPYING file included in this
-* package.
-* In case this file is missing you can obtain license terms through WWW
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* License terms can be read in COPYING file included in this package.
+* If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+session_name("foodie");
 session_start();
+require(dirname(__FILE__)."/config/foodie.ini.php");
+
+if (!isset($_SESSION['locale'])) {
+  $_SESSION['locale'] = $setting_locale;  
+}
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-require(dirname(__FILE__)."/crisoftlib.php");
-$trans_sid = cs_IsTransSid();
-cs_DestroyAdmin();
-cs_AddHeader();
+require(dirname(__FILE__)."/foodielib.php");
+require(dirname(__FILE__)."/includes/dbconnect.inc.php");
+
+foodie_AddHeader();
 echo "<h2>" . MSG_BROWSE . "</h2>\n";
-require(dirname(__FILE__)."/includes/db_connection.inc.php");
-//check for session variables 'recipe_id and recipe_name and unset them if they exist
-//in order to clear them if someone calls this page from rated.php
-if (isset($_SESSION['recipe_id']))
-{
-	unset($_SESSION['recipe_id']);
-}
-if (isset($_SESSION['recipe_name']))
-{
-	unset($_SESSION['recipe_name']);
-}
+
+//Count recipes into database
+$dbquery = $dbconnect->query("SELECT COUNT(*) FROM main");
+$result = $dbquery->fetch_row();
+$num_recipes = $result[0];
+$dbquery->close();
+
+// TODO: get this from the session?
+$lines_per_page = $setting_max_lines_page;
+$browse_parameter = 'id';
+$letterarg = '';
+
 //If GET browse variable is not set print links to choose kind of
 //browsing
 if (!isset($_GET['browse']))
 {
-	//Count recipes into main table: if result = 0 exit with message, else print search form
-	$sql_recipes = "SELECT id FROM main";
-	if (!$exec_count_recipes = mysql_query($sql_recipes))
-	{
-		echo "<p class=\"error\">" . ERROR_COUNT_RECIPES . "<br>\n" . mysql_error();
-		cs_AddFooter();
-		exit();
-	}
-	$num_recipes = cs_CountRecipes();
 	if ($num_recipes == 0)
 	{
 		echo "<p class=\"error\">" . MSG_NO_RECIPES . "<br>\n" . MSG_BROWSE_EMPTY . "?\n";
-		cs_AddFooter();
+		foodie_AddFooter();
 		exit();
 	}
 	echo "<p>" . MSG_SELECT_BROWSE . "\n";
-	echo "<p><a href=\"{$_SERVER['PHP_SELF']}?browse=br_recipe";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ID . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_alpha";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ALPHA . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_dish";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_SERVING . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_ingredient";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_MAIN . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_cook";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_KIND . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_origin";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ORIGIN . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_season";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_SEASON . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_easy";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_EASY . "</a><br>\n";
-	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_difficult";if ($trans_sid == 0){ echo "&" . SID;} echo "\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_HARD . "</a><br>\n";
-	cs_AddFooter();
+	echo "<p><a href=\"{$_SERVER['PHP_SELF']}?browse=br_recipe\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ID . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_alpha\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ALPHA . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_dish\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_SERVING . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_ingredient\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_MAIN . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_cook\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_KIND . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_origin\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_ORIGIN . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_season\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_SEASON . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_easy\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_EASY . "</a><br>\n";
+	echo "<a href=\"{$_SERVER['PHP_SELF']}?browse=br_difficult\"><img border=\"0\" src=\"layout/arrow.gif\" align=\"middle\"> " . MSG_ORDER_HARD . "</a><br>\n";
+	foodie_AddFooter();
 	exit();
 }
-cs_CheckForBrowseType();
-/*
- *
- *	browse by recipe
- *
- */
-if ($_GET['browse'] == 'br_recipe')
+
+if (!isset($_GET['offset'])) 
 {
-	if (!isset($_GET['offset'])) 
+	$_GET['offset'] = 0;
+}
+
+$browse_check = array ('br_recipe', 'br_alpha', 'br_dish', 'br_ingredient', 'br_cook', 'br_season', 'br_easy', 'br_difficult', 'br_origin', 'br_letter'); 
+if (!in_array("{$_GET['browse']}", $browse_check))
+{	
+        echo "<p class=\"error\">" . ERROR_ILLEGAL_REQUEST ."!\n";
+	foodie_AddFooter();
+	exit();
+}
+else {
+    if ($_GET['browse'] == 'br_recipe')
+    {
+        $sql_db_browse = "SELECT id,name FROM main LIMIT {$_GET['offset']},{$lines_per_page}";
+    }
+    else if ($_GET['browse'] == 'br_alpha') {
+        $sql_db_browse = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+    }
+    else if ($_GET['browse'] == 'br_dish') {
+        $sql_db_browse = "SELECT id,name,dish FROM main ORDER BY dish ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'dish';
+    }
+    else if ($_GET['browse'] == 'br_ingredient') {
+        $sql_db_browse = "SELECT id,name,mainingredient FROM main ORDER BY mainingredient ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'mainingredient';
+    }
+    else if ($_GET['browse'] == 'br_cook') {
+        $sql_db_browse = "SELECT id,name,kind FROM main ORDER BY kind ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'kind';
+    }
+    else if ($_GET['browse'] == 'br_season') {
+        $sql_db_browse = "SELECT id,name,season FROM main ORDER BY season ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'season';
+    }
+    else if ($_GET['browse'] == 'br_easy') {
+        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty ASC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'diffstars';
+    }
+    else if ($_GET['browse'] == 'br_difficult') {
+        $sql_db_browse = $sql_db_browse = "SELECT id,name,REPEAT('*',difficulty) AS diffstars FROM main ORDER BY difficulty DESC, name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'diffstars';
+    }
+    else if ($_GET['browse'] == 'br_origin') {
+        $sql_db_browse = "SELECT id,name,origin FROM main ORDER BY origin ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $browse_parameter = 'origin';
+    }
+    else if ($_GET['browse'] == 'br_letter') {
+        $sql_db_browse = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$lines_per_page}";
+        $letterarg = "&letter={$_GET['letter']}";
+    }
+
+}
+
+
+if (!$browse_query = $dbconnect->query($sql_db_browse)) 
+{
+	echo "<p class=\"error\">" . ERROR_BROWSE . "\n<br>";
+	echo $browse_query->error();
+	foodie_AddFooter();
+	exit();
+};
+//Print table of recipes
+if ($_GET['browse'] == 'br_letter' || $_GET['browse'] == 'br_alpha') {
+    foodie_AlphaLinks("browse.php?browse=br_letter&");
+}
+if($_GET['browse'] == 'br_letter') {
+	$num_recipes = $browse_query->num_rows;
+	if ($num_recipes == "0")
 	{
-		$_GET['offset'] = 0;
-	}
-	//Count recipes into database
-	$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-	$recipe_number = mysql_num_rows($sql_db_recipe_number);
-	//Retrieve recipe names and ID's
-	$sql_db_browse = "SELECT id,name FROM main LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-	if (!$exec_db_browse = mysql_query($sql_db_browse)) 
-	{
-		echo "<p class=\"error\">" . ERROR_BROWSE . "\n<br>";
-		echo mysql_error();
-		cs_AddFooter();
+		echo "<p class=\"error\">" . MSG_RECIPES_INITIAL . " {$_GET['letter']}\n";
+		foodie_AddFooter();
 		exit();
-	};
-	//Print on screen recipe table
-	$num_color_rows = cs_CountRowsRecipePage();
-	cs_PrintBrowseTable();
-	//Print available pages
-	echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-	if ($_GET['offset']>=1) 
-	{ 
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
 	}
-	$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-	if ($recipe_number%$_SESSION['max_lines_page']) 
-	{
-	    $pages++;
-	}
-	for ($i=1;$i<=$pages;$i++) 
-	{ 
-    		$newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-	}
-	// check to see if last page
-	if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) 
-	{
-		// not last page so give NEXT link
-		$newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-	}
-cs_AddFooter();
-exit();
 }
-/*
- *
- * End browse by recipe
- *
- */
-/*
- *
- *	browse sorted alphabetically
- *
- */
-if ($_GET['browse'] == 'br_alpha')
-{
-	if (!isset($_GET['offset'])) 
-	{
-		$_GET['offset'] = 0;
-	}
-	$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-	$recipe_number = mysql_num_rows($sql_db_recipe_number);
-	$sql_db_browse = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-	if (!$exec_db_browse = mysql_query($sql_db_browse)) 
-	{
-		echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-		echo mysql_error();
-		cs_AddFooter();
-		exit();
-	};
-	cs_AlphaLinks();
-	$num_color_rows = cs_CountRowsRecipePage();
-	cs_PrintBrowseTable();
-	echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-	if ($_GET['offset']>=1) 
-	{ 
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-	}
-	$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-	if ($recipe_number%$_SESSION['max_lines_page']) 
-	{
-    		$pages++;
-	}
-	for ($i=1;$i<=$pages;$i++) 
-	{
-	    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-	}
-	if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) 
-	{
-		$newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-	}
-	cs_AddFooter();
-	exit();
-}
-/*
- *
- * End browse sorted alphabetically
- *
- */
-/*
- *
- *	browse sorted by dish
- *
- */
-if ($_GET['browse'] == 'br_dish')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,dish FROM main ORDER BY dish ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableParameter("dish");
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) {
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-$newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-	}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by dish
- *
- */
-/*
- *
- *	browse sorted by dish
- *
- */
-if ($_GET['browse'] == 'br_ingredient')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,mainingredient FROM main ORDER BY mainingredient ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableParameter("mainingredient");
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) { 
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-	for ($i=1;$i<=$pages;$i++) 
-	{ 
-		$newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-	}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by main ingredient
- *
- */
-/*
- *
- *	browse sorted by season
- *
- */
-if ($_GET['browse'] == 'br_season')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,season FROM main ORDER BY season ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableParameter("season");
-echo "</table>\n";
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) {
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by season
- *
- */
-/*
- *
- *	browse sorted by cooking type
- *
- */
-if ($_GET['browse'] == 'br_cook')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,kind FROM main ORDER BY kind ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableParameter("kind");
-echo "</table>\n";
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) { 
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-			echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by kind of cooking
- *
- */
-/*
- *
- *	browse sorted by difficult, from easiest to most difficult
- *
- */
-if ($_GET['browse'] == 'br_easy')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,difficulty FROM main ORDER BY difficulty ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableDifficulty();
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) { 
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by difficult, from easiest to most difficult
- *
- */
-/*
- *
- *	browse sorted by difficult, from most difficult to easiest
- *
- */
-if ($_GET['browse'] == 'br_difficult')
-{
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
-}
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,difficulty FROM main ORDER BY difficulty DESC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableDifficulty();
+foodie_PrintBrowseTable($browse_query, $browse_parameter);
+
+$browse_query->close();
+//Print available pages
 echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
 if ($_GET['offset']>=1) 
+{ 
+	$prevoffset=$_GET['offset'] - $lines_per_page;
+	echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset{$letterarg}\">" . MSG_PREVIOUS ."</a> - \n";
+}
+$pages=intval($num_recipes/$lines_per_page);
+if ($num_recipes%$lines_per_page) 
 {
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
+	$pages++;
 }
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
+for ($i=1;$i<=$pages;$i++) 
+{ 
+    	$newoffset=$lines_per_page*($i-1);
+	echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset{$letterarg}\">$i</a> \n";
 }
-for ($i=1;$i<=$pages;$i++) {
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-			echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by difficult, from most difficult to easiest
- *
- */
-/*
- *
- *	browse sorted by origin
- *
- */
-if ($_GET['browse'] == 'br_origin')
+// check to see if last page
+if (!(($_GET['offset']/$lines_per_page)==$pages) && $pages!=1) 
 {
-if (!isset($_GET['offset'])) {
-	$_GET['offset'] = 0;
+	// not last page so give NEXT link
+	$newoffset=$_GET['offset']+$lines_per_page;
+	echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset{$letterarg}\">" . MSG_NEXT ."</a>\n";
 }
-$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-$recipe_number = mysql_num_rows($sql_db_recipe_number);
-$sql_db_browse = "SELECT id,name,origin FROM main ORDER BY origin ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-if (!$exec_db_browse = mysql_query($sql_db_browse)) {
-	echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-	echo mysql_error();
-	cs_AddFooter();
-	exit();
-};
-$num_color_rows = cs_CountRowsRecipePage();
-cs_PrintBrowseTableParameter("origin");
-echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-if ($_GET['offset']>=1) { 
-    $prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-			echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-cs_AddFooter();
-exit();
-}
-/*
- *
- * End browse sorted by origin
- *
- */
-/*
- *
- *	browse sorted by letter
- *
- */
-if ($_GET['browse'] == 'br_letter')
-{
-	if (!isset($_GET['offset'])) {
-		$_GET['offset'] = 0;
-	}
-	$sql_db_recipe_number = mysql_query("SELECT * FROM main");
-	$recipe_number = mysql_num_rows($sql_db_recipe_number);
-	$sql_db_browse_letter = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$_SESSION['max_lines_page']}";
-	if (!$exec_db_browse = mysql_query($sql_db_browse_letter)) {
-		echo "<p class=\"error\">" . ERROR_BROWSE ."\n<br>";
-		echo mysql_error();
-		cs_AddFooter();
-		exit();
-	};
-	cs_AlphaLinks();
-	$num_letter = mysql_num_rows($exec_db_browse);
-	if ($num_letter == "0")
-	{
-		if (!is_numeric($_GET['letter']))
-		{
-		echo "<p class=\"error\">" . MSG_RECIPES_INITIAL . " {$_GET['letter']}\n";
-		cs_AddFooter();
-		exit();
-		}
-		echo "<p class=\"error\">" . MSG_RECIPES_INITIAL . " {$_GET['letter']}\n";
-		cs_AddFooter();
-		exit();
-
-	}
-	$num_color_rows = cs_CountRowsRecipePage();
-	cs_PrintBrowseTable();
-	echo "<p>" . MSG_AVAILABLE_PAGES .": \n";
-	if ($_GET['offset']>=1) 
-	{ 
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		$prevoffset=$_GET['offset'] - $_SESSION['max_lines_page'];
-		echo "<p align=center><a href=\"browse.php?browse={$_GET['browse']}&offset=$prevoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_PREVIOUS ."</a> - \n";
-	}
-$pages=intval($recipe_number/$_SESSION['max_lines_page']);
-if ($recipe_number%$_SESSION['max_lines_page']) {
-    $pages++;
-}
-for ($i=1;$i<=$pages;$i++) { 
-    $newoffset=$_SESSION['max_lines_page']*($i-1);
-		echo "<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">$i</a> \n";
-}
-if (!(($_GET['offset']/$_SESSION['max_lines_page'])==$pages) && $pages!=1) {
-    $newoffset=$_GET['offset']+$_SESSION['max_lines_page'];
-		echo "&nbsp;-&nbsp;<a href=\"browse.php?browse={$_GET['browse']}&offset=$newoffset";if ($trans_sid == 0){ echo "&" . SID;} echo "\">" . MSG_NEXT ."</a>\n";
-}
-}
-/*
- *
- * End browse sorted by letter
- *
- */
-cs_AddFooter();
+foodie_AddFooter();
 ?>
 

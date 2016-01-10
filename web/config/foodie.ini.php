@@ -1,7 +1,5 @@
 <?php 
 
-/* Set the variables that we'll use to connect to the database */
-
 // locale setting
 $setting_locale = 'en';
 // number of recipes per page

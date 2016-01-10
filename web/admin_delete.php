@@ -59,7 +59,7 @@ if (!$exec_db_browse = mysql_query($sql_db_browse_letter))
 	cs_AddFooter();
 	exit();
 };
-cs_AlphaLinksDel();
+foodie_AlphaLinks("admin_delete.php?");
 //Count recipes in query, if == 0 print that no recipes are
 //available
 $num_letter = mysql_num_rows($exec_db_browse);

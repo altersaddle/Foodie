@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,9 +15,8 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="config\crisoftricette.ini.php" />
+    <Compile Include="config\foodie.ini.php" />
     <Compile Include="docs\AUTHORS" />
-    <Compile Include="docs\BUGS" />
     <Compile Include="docs\CHANGELOG" />
     <Compile Include="docs\COPYING" />
     <Compile Include="docs\COPYRIGHT" />
@@ -24,7 +24,6 @@
     <Compile Include="docs\INSTALL" />
     <Compile Include="docs\README" />
     <Compile Include="docs\TODO" />
-    <Compile Include="docs\TRANSLATIONS" />
     <Compile Include="export\CrisoftRicette.txt" />
     <Compile Include="export\CR_00000032.txt" />
     <Compile Include="font\makefont\cp1250.map" />
@@ -64,7 +63,6 @@
     <Compile Include="images\Photo 2.jpg" />
     <Compile Include="images\r_gaenggai.jpg" />
     <Compile Include="includes\dbconnect.inc.php" />
-    <Compile Include="includes\db_connection.inc.php" />
     <Compile Include="includes\footer.inc.php" />
     <Compile Include="includes\fpdf.php" />
     <Compile Include="includes\header.inc.php" />
@@ -116,28 +114,6 @@
     <Compile Include="unitegallery\images\play-button-square.png" />
     <Compile Include="unitegallery\images\transparent.png" />
     <Compile Include="unitegallery\js\jquery-11.0.min.js" />
-    <Compile Include="unitegallery\js\ug-api.js" />
-    <Compile Include="unitegallery\js\ug-avia.js" />
-    <Compile Include="unitegallery\js\ug-carousel.js" />
-    <Compile Include="unitegallery\js\ug-common-libraries.js" />
-    <Compile Include="unitegallery\js\ug-functions.js" />
-    <Compile Include="unitegallery\js\ug-gallery.js" />
-    <Compile Include="unitegallery\js\ug-gridpanel.js" />
-    <Compile Include="unitegallery\js\ug-lightbox.js" />
-    <Compile Include="unitegallery\js\ug-panelsbase.js" />
-    <Compile Include="unitegallery\js\ug-slider.js" />
-    <Compile Include="unitegallery\js\ug-sliderassets.js" />
-    <Compile Include="unitegallery\js\ug-strippanel.js" />
-    <Compile Include="unitegallery\js\ug-tabs.js" />
-    <Compile Include="unitegallery\js\ug-thumbsgeneral.js" />
-    <Compile Include="unitegallery\js\ug-thumbsgrid.js" />
-    <Compile Include="unitegallery\js\ug-thumbsstrip.js" />
-    <Compile Include="unitegallery\js\ug-tiledesign.js" />
-    <Compile Include="unitegallery\js\ug-tiles.js" />
-    <Compile Include="unitegallery\js\ug-touchslider.js" />
-    <Compile Include="unitegallery\js\ug-touchthumbs.js" />
-    <Compile Include="unitegallery\js\ug-video.js" />
-    <Compile Include="unitegallery\js\ug-zoomslider.js" />
     <Compile Include="unitegallery\skins\alexis\images\arrows_strip_left.png" />
     <Compile Include="unitegallery\skins\alexis\images\arrows_strip_right.png" />
     <Compile Include="unitegallery\skins\alexis\images\button_fullscreen.png" />
@@ -228,9 +204,7 @@
     <Compile Include="browse.php" />
     <Compile Include="browsetxt.php" />
     <Compile Include="cookbook.php" />
-    <Compile Include="crisoftlib.php" />
-    <Compile Include="crisoftricette.css" />
-    <Compile Include="crisoftricette.php" />
+    <Compile Include="foodielib.php" />
     <Compile Include="export.php" />
     <Compile Include="index.php" />
     <Compile Include="install.php" />
@@ -286,5 +260,14 @@
     <Folder Include="unitegallery\themes" />
     <Folder Include="unitegallery" />
     <Folder Include="video" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="foodie.css" />
+    <Content Include="images\placeholder-breakfast.png" />
+    <Content Include="images\placeholder-dessert.png" />
+    <Content Include="images\placeholder-dinner.png" />
+    <Content Include="images\placeholder-lunch.png" />
+    <Content Include="unitegallery\js\unitegallery.js" />
+    <Content Include="unitegallery\js\unitegallery.min.js" />
   </ItemGroup>
 </Project>

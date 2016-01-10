@@ -20,23 +20,6 @@
 * at snowdog@tiscali.it
 ****************************************************************************
 */
-/*
- * CrisoftLib is a php function library written and 
- * developed by Lorenzo Pulici
-*/
-//This function evaluates if PHP is compiled with enable-trans-sid
-function cs_IsTransSid()
-{
-	$trans_sid_val = ini_get("session.use_trans_sid");
-	if (empty($trans_sid_val))
-	{
-		$trans_sid_val = 0;
-		return($trans_sid_val);
-	} else
-	{
-		return($trans_sid_val);
-	}
-}
 //This function includes the HTML header
 function foodie_AddHeader() 
 {	global $trans_sid;
@@ -79,17 +62,7 @@ if (!in_array("{$_SESSION['page_size']}", $page_check))
 	exit();
 	}
 }
-//Function used to determine type of browse requests
-function cs_CheckForBrowseType()
-{
-	$browse_check = array ('br_recipe', 'br_alpha', 'br_dish', 'br_ingredient', 'br_cook', 'br_season', 'br_easy', 'br_difficult', 'br_origin', 'br_letter'); 
-	if (!in_array("{$_GET['browse']}", $browse_check))
-	{	
-        	echo "<p class=\"error\">" . ERROR_ILLEGAL_REQUEST ."!\n";
-		cs_AddFooter();
-		exit();
-	}
-}
+
 //This function checks for already logged in user into admin area. If
 //not, it prints out an error message.
 function cs_CheckLoginAdmin()
@@ -567,58 +540,16 @@ function cs_CheckEmptyValueInstall($field)
 	exit();
 	}
 }
-function cs_AlphaLinks()
+function foodie_AlphaLinks($prefix)
 {
-	global $trans_sid;
 	$alphabet = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
 	echo "<p>";
 	foreach ($alphabet as $letter)
 	{
-			echo "<a href=\"browse.php?browse=br_letter&letter=$letter";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}			
-		echo "\">$letter</a> ";
-	}
-}
-function cs_AlphaLinksMod()
-{
-	global $trans_sid;
-	$alphabet = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
-	echo "<p>";
-	foreach ($alphabet as $letter)
-	{
-		echo "<a href=\"admin_modify.php?letter=$letter";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}			
-		echo "\">$letter</a> ";
-	}
-}
-function cs_AlphaLinksDel()
-{
-	global $trans_sid;
-	$alphabet = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
-	echo "<p>";
-	foreach ($alphabet as $letter)
-	{
-		echo "<a href=\"admin_delete.php?letter=$letter&";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}			
-		echo "\">$letter</a> ";
+		echo "<a href=\"".$prefix."letter=$letter\">$letter</a> ";
 	}
 }
 
-function cs_CountRowsRecipePage()
-{
-	global $exec_db_browse;
-	$num_rows_per_page = mysql_num_rows($exec_db_browse);
-	return $num_rows_per_page;
-}
 function cs_CountCookbook()
 {
 	global $exec_cookbook_recipes;
@@ -675,39 +606,19 @@ function cs_PrintCookbook()
 	}
 	echo "</table>\n";
 }
-//Print browse table without any parameter for database
-function cs_PrintBrowseTable()
+//Print browse table 
+//
+// parameters: $query - SQL query to use
+function foodie_PrintBrowseTable($query, $parameter = 'id')
 {
-	global $exec_db_browse;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
+	echo "<table class=\"browse\">";
+	while ($recipe_row = $query->fetch_array()) 
 	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\">\n";
-		echo "<a href=\"recipe.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a></td></tr>\n";
+        echo "<tr>";
+        if ($parameter != 'id') {
+            echo "<td><strong>{$recipe_row[$parameter]}</strong></td>";
+        }
+		echo "<td><a href=\"recipe.php?recipe={$recipe_row['id']}\">{$recipe_row['name']}</a></td></tr>\n";
 	}
 	echo "</table>\n";
 }

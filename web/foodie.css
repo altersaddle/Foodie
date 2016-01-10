@@ -72,3 +72,16 @@ table.recipe tr:nth-child(even) {
 table.recipe tr:nth-child(odd) {
     background-color: #eeeeee;
 }
+
+table.browse {
+    border:none;
+    border-spacing:1px;
+    background-color: #aaaaaa;
+    width: 100%;
+}
+table.browse tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+table.browse tr:nth-child(odd) {
+    background-color: #dddddd;
+}

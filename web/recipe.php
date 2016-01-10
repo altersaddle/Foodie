@@ -1,14 +1,21 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth)
-* You can read license terms reading COPYING file included in this
-* package.
-* In case this file is missing you can obtain license terms through WWW
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* License terms can be read in COPYING file included in this package.
+* If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
 session_name("foodie");
@@ -270,7 +277,7 @@ $reciperow = $recipequery->fetch_assoc();
 $recipename = $reciperow['name'];
 foodie_PrintRecipeData($reciperow);
 $recipequery->close();
-//Counts votes into database and displays number of votes '{$_SESSION['recipe_id']}'
+//Counts votes into database and displays number of votes 
 $sql_count_votes = "SELECT vote FROM rating WHERE id = '{$_GET['recipe']}'";
 if (!$votes_result = $dbconnect->query($sql_count_votes))
 {

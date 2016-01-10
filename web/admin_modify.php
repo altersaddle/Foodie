@@ -182,7 +182,7 @@ if (!$exec_db_browse = mysqli_query($dbconnect, $sql_db_browse_letter)) {
 	cs_AddFooter();
 	exit();
 };
-cs_AlphaLinksMod();
+foodie_AlphaLinks("admin_modify.php?");
 //Count recipes in query, if == 0 print that no recipes are
 //available
 $num_letter = mysqli_num_rows($exec_db_browse);

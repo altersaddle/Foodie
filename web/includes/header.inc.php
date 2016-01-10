@@ -1,6 +1,5 @@
 <?php
 $filename = $_SERVER['PHP_SELF'];
-$trans_sid = cs_IsTransSid();
 /* Every page has this content */
 ?>
 <html>
@@ -40,34 +39,34 @@ if (strstr($filename, "admin"))
 {
 	echo "<table width=\"100%\" bgcolor=\"#dddddd\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">
 	<tr bgcolor=\"#eeeeee\"><td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_RECIPES . "</strong><br>
-	<a href=\"admin_insert.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_INS . "</a><br>
-	<a href=\"admin_modify.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_MOD . "</a><br>
-	<a href=\"admin_delete.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_DEL . "</a><br>
-	<a href=\"admin_mmedia.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_MENU_MULTIMEDIA . "</a></td>
+	<a href=\"admin_insert.php\">" . MSG_ADMIN_HEADER_INS . "</a><br>
+	<a href=\"admin_modify.php\">" . MSG_ADMIN_HEADER_MOD . "</a><br>
+	<a href=\"admin_delete.php\">" . MSG_ADMIN_HEADER_DEL . "</a><br>
+	<a href=\"admin_mmedia.php\">" . MSG_ADMIN_MENU_MULTIMEDIA . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_SERVING . "</strong><br>
-	<a href=\"admin_dish.php?action=adm_insert"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_INS . "</a><br>
-	<a href=\"admin_dish.php?action=adm_modify"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_MOD . "</a></a><br>
-	<a href=\"admin_dish.php?action=adm_delete"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_DEL . "</a></td>
+	<a href=\"admin_dish.php?action=adm_insert" . MSG_ADMIN_HEADER_INS . "</a><br>
+	<a href=\"admin_dish.php?action=adm_modify" . MSG_ADMIN_HEADER_MOD . "</a></a><br>
+	<a href=\"admin_dish.php?action=adm_delete" . MSG_ADMIN_HEADER_DEL . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_COOKING . "</strong><br>
-	<a href=\"admin_cook.php?action=adm_insert"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_INS . "</a><br>
-	<a href=\"admin_cook.php?action=adm_modify"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_MOD . "</a><br>
-	<a href=\"admin_cook.php?action=adm_delete"; if ($trans_sid == 0){ echo "&".SID;} echo "\">" . MSG_ADMIN_HEADER_DEL . "</a></td>
+	<a href=\"admin_cook.php?action=adm_insert" . MSG_ADMIN_HEADER_INS . "</a><br>
+	<a href=\"admin_cook.php?action=adm_modify" . MSG_ADMIN_HEADER_MOD . "</a><br>
+	<a href=\"admin_cook.php?action=adm_delete" . MSG_ADMIN_HEADER_DEL . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_CONFIG . "</strong><br>
-	<a href=\"admin_config.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_SETUP . "</a><br>
-	<a href=\"admin_userpass.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_USERPASS . "</a></td>
+	<a href=\"admin_config.php\">" . MSG_ADMIN_HEADER_SETUP . "</a><br>
+	<a href=\"admin_userpass.php\">" . MSG_ADMIN_HEADER_USERPASS . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_UTIL . "</strong><br>
-	<a href=\"admin_export.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_EXPORT . "</a><br>
-	<a href=\"admin_07import.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_IMP07 . "</a><br>
-	<a href=\"admin_import.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_IMPORT . "</a><br>
-	<a href=\"admin_optimize.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_OPT . "</a></td>
+	<a href=\"admin_export.php\">" . MSG_ADMIN_HEADER_EXPORT . "</a><br>
+	<a href=\"admin_07import.php\">" . MSG_ADMIN_HEADER_IMP07 . "</a><br>
+	<a href=\"admin_import.php\">" . MSG_ADMIN_HEADER_IMPORT . "</a><br>
+	<a href=\"admin_optimize.php\">" . MSG_ADMIN_HEADER_OPT . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_BACKUP . "</strong><br>
-	<a href=\"admin_backup.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_BKP . "</a><br>
-	<a href=\"admin_restore.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_RST . "</a></td>
+	<a href=\"admin_backup.php\">" . MSG_ADMIN_HEADER_BKP . "</a><br>
+	<a href=\"admin_restore.php\">" . MSG_ADMIN_HEADER_RST . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN . "</strong><br>
-	<a href=\"admin_index.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_INDEX . "</a><br>
-	<a href=\"admin_logout.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\">" . MSG_ADMIN_HEADER_LOGOUT . "</a></td>
+	<a href=\"admin_index.php\">" . MSG_ADMIN_HEADER_INDEX . "</a><br>
+	<a href=\"admin_logout.php\">" . MSG_ADMIN_HEADER_LOGOUT . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\">
-	<a href=\"logout.php"; if ($trans_sid == 0){ echo "?".SID;} echo "\"><strong>" . MSG_ADMIN_HEADER_CLOSE . "</strong></a></td></tr>
+	<a href=\"logout.php\"><strong>" . MSG_ADMIN_HEADER_CLOSE . "</strong></a></td></tr>
 	</table>";
 }
 /*
