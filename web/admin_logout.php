@@ -1,27 +1,26 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth)
-* You can read license terms reading COPYING file included in this
-* package.
-* In case this file is missing you can obtain license terms through WWW
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* License terms can be read in COPYING file included in this package.
+* If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+// Clear session variable and take user back to index
+session_name("foodie");
 session_start();
-require(dirname(__FILE__)."/crisoftlib.php");
-$trans_sid = cs_IsTransSid();
-cs_DestroyAdmin();
-if ($trans_sid == 0)
-{
-	header ("Location: index.php?". SID);
-}
-if ($trans_sid == 1)
-{
-	header ("Location: index.php");
-}
+unset($_SESSION['admin_user']);
+header ("Location: index.php");
 ?>

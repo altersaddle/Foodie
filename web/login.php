@@ -1,70 +1,88 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth)
-* You can read license terms reading COPYING file included in this
-* package.
-* In case this file is missing you can obtain license terms through WWW
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* License terms can be read in COPYING file included in this package.
+* If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
-session_name("crisoftricette");
+session_name("foodie");
 session_start();
-require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
-require(dirname(__FILE__)."/crisoftlib.php");
-require(dirname(__FILE__)."/includes/db_connection.inc.php");
-$trans_sid = cs_IsTransSid();
-if (isset($_SESSION['recipe_id']))
-{
-	unset($_SESSION['recipe_id']);
-}
-if (isset($_SESSION['recipe_name']))
-{
-	unset($_SESSION['recipe_name']);
-}
-if (isset($_SESSION['admin_user']) AND isset($_SESSION['admin_pass']))
-{
-	if ($trans_sid == 0)
-	{
-		header("Location: admin_index.php?".SID);
-	}
-	if ($trans_sid == 1)
-	{
-		header("Location: admin_index.php");
-	}
-}
-cs_AddHeader();
-echo "<h2>" . MSG_ADMIN . "</h2>\n";
-echo "<p class=centerwarn>" . MSG_ADMIN_USERPASS_REQUEST . ":\n";
-if ($trans_sid == 0)
-{
-	echo "<form method=\"post\" action=\"admin_index.php?" . SID . "\">\n";
-}
-if ($trans_sid == 1)
-{
-	echo "<form method=\"post\" action=\"admin_index.php\">\n";
-}
-echo "<div align=center><table border=0>\n
-<tr><td><p class=centermsg>" . MSG_ADMIN_USER . ": </td><td><input type=text width=20 name=\"admin_user\"></td></tr>\n
-<tr><td><p class=centermsg>" . MSG_ADMIN_PASS . ": </td><td><input type=password width=20 name=\"admin_pass\"></td></tr>\n
-<tr><td colspan=2 align=center><input type=submit value=\"" . MSG_ADMIN_LOGIN . "\"></form></td></tr></table>\n";
-//Query the database for default admin username and password and display an alert if stored ones are as default
-$sql_check_default = "SELECT * FROM admin WHERE user = 'admin' OR password = 'admin'";
-if (!$exec_check_default = mysql_query($sql_check_default))
-{
-	echo "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "\n";
-	cs_AddFooter();
-	exit();
-}
-$num_default = mysql_num_rows($exec_check_default);
-if ($num_default >= 1)
-{
-	echo "<p class=\"error\">" . ERROR_ADMIN_CHANGE_DEFAULT . "!\n";
+require(dirname(__FILE__)."/config/foodie.ini.php");
 
+if (!isset($_SESSION['locale'])) {
+  $_SESSION['locale'] = $setting_locale;  
 }
-cs_AddFooter();
+require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
+require(dirname(__FILE__)."/foodielib.php");
+require(dirname(__FILE__)."/includes/dbconnect.inc.php");
+
+if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
+	if (empty($_POST['admin_user'])) {
+		echo "<p class=\"error\">" . ERROR_ADMIN_INVALID_USERNAME . "!\n";
+	}
+	if (empty($_POST['admin_pass'])) {
+		echo "<p class=\"error\">" . ERROR_ADMIN_INVALID_PASSWORD . "!\n";
+	}
+    // Check if credentials match
+    // TODO: Convert this function to use stored procedure and single select
+    $sql_stored_user = "SELECT user, password FROM admin";
+	if (!$auth_result = $dbconnect->query($sql_stored_user)) {
+		echo "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "!\n";
+		cs_AddFooter();
+		exit();
+	}
+	while ($auth_data = $auth_result->fetch_object()) {
+		if ($auth_data->user == $_POST['admin_user']) {
+			if ($auth_data->password == $_POST['admin_pass']) {
+				$_SESSION['admin_user'] = $_POST['admin_user'];
+				break;
+			} else {
+				echo "<p class=centerwarn>" . ERROR_ADMIN_AUTHFAIL . "\n";
+			}
+		}
+	}
+}
+
+if (isset($_SESSION['admin_user'])) {
+	header("Location: admin_index.php");
+}
+else {
+    foodie_AddHeader();
+    echo "<h2>" . MSG_ADMIN . "</h2>\n";
+    echo "<p class=centerwarn>" . MSG_ADMIN_USERPASS_REQUEST . ":\n";
+    echo "<form method=\"post\" action=\"#\">\n";
+    echo "<div align=center><table border=0>\n
+    <tr><td><p class=centermsg>" . MSG_ADMIN_USER . ": </td><td><input type=text width=20 name=\"admin_user\"></td></tr>\n
+    <tr><td><p class=centermsg>" . MSG_ADMIN_PASS . ": </td><td><input type=password width=20 name=\"admin_pass\"></td></tr>\n
+    <tr><td colspan=2 align=center><input type=submit value=\"" . MSG_ADMIN_LOGIN . "\"></form></td></tr></table>\n";
+    //Query the database for default admin username and password and display an alert if stored ones are as default
+    $sql_check_default = "SELECT * FROM admin WHERE user = 'admin' OR password = 'admin'";
+    if (!$query_admin = $dbconnect->query($sql_check_default))
+    {
+	    echo "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "\n";
+    }
+    else {
+        $num_default = $query_admin->num_rows;
+        if ($num_default >= 1)
+        {
+	        echo "<p class=\"error\">" . ERROR_ADMIN_CHANGE_DEFAULT . "!\n";
+
+        }
+    }
+    foodie_AddFooter();
+}
 ?>
 

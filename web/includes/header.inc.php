@@ -44,13 +44,13 @@ if (strstr($filename, "admin"))
 	<a href=\"admin_delete.php\">" . MSG_ADMIN_HEADER_DEL . "</a><br>
 	<a href=\"admin_mmedia.php\">" . MSG_ADMIN_MENU_MULTIMEDIA . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_SERVING . "</strong><br>
-	<a href=\"admin_dish.php?action=adm_insert" . MSG_ADMIN_HEADER_INS . "</a><br>
-	<a href=\"admin_dish.php?action=adm_modify" . MSG_ADMIN_HEADER_MOD . "</a></a><br>
-	<a href=\"admin_dish.php?action=adm_delete" . MSG_ADMIN_HEADER_DEL . "</a></td>
+	<a href=\"admin_dish.php?action=adm_insert\">" . MSG_ADMIN_HEADER_INS . "</a><br>
+	<a href=\"admin_dish.php?action=adm_modify\">" . MSG_ADMIN_HEADER_MOD . "</a></a><br>
+	<a href=\"admin_dish.php?action=adm_delete\">" . MSG_ADMIN_HEADER_DEL . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_COOKING . "</strong><br>
-	<a href=\"admin_cook.php?action=adm_insert" . MSG_ADMIN_HEADER_INS . "</a><br>
-	<a href=\"admin_cook.php?action=adm_modify" . MSG_ADMIN_HEADER_MOD . "</a><br>
-	<a href=\"admin_cook.php?action=adm_delete" . MSG_ADMIN_HEADER_DEL . "</a></td>
+	<a href=\"admin_cook.php?action=adm_insert\">" . MSG_ADMIN_HEADER_INS . "</a><br>
+	<a href=\"admin_cook.php?action=adm_modify\">" . MSG_ADMIN_HEADER_MOD . "</a><br>
+	<a href=\"admin_cook.php?action=adm_delete\">" . MSG_ADMIN_HEADER_DEL . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_CONFIG . "</strong><br>
 	<a href=\"admin_config.php\">" . MSG_ADMIN_HEADER_SETUP . "</a><br>
 	<a href=\"admin_userpass.php\">" . MSG_ADMIN_HEADER_USERPASS . "</a></td>
