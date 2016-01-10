@@ -128,7 +128,6 @@ if (isset($_POST['change']))
 		exit();
 	}
 	//modify configuration and when finished unset all session variables then reload index.php
-	include("version.php");
 	if (!unlink(dirname(__FILE__)."/config/crisoftricette.ini.php"))
 	{
 		cs_AddHeader();

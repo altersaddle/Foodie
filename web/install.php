@@ -95,8 +95,6 @@ if (array_key_exists("installation", $_POST))
 	if ($_POST['installation'] == "ok")
 	{
 		require_once(dirname(__FILE__)."/lang/".$_POST['sw_locale'].".php");
-		//Read version number from version.php
-		include("version.php");
 		//Check some fields for empty values
 		cs_CheckEmptyValueInstall($_POST['db_hostname']);
 		cs_CheckEmptyValueInstall($_POST['db_port']);
