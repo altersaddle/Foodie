@@ -56,7 +56,6 @@ if (strstr($filename, "admin"))
 	<a href=\"admin_userpass.php\">" . MSG_ADMIN_HEADER_USERPASS . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_UTIL . "</strong><br>
 	<a href=\"admin_export.php\">" . MSG_ADMIN_HEADER_EXPORT . "</a><br>
-	<a href=\"admin_07import.php\">" . MSG_ADMIN_HEADER_IMP07 . "</a><br>
 	<a href=\"admin_import.php\">" . MSG_ADMIN_HEADER_IMPORT . "</a></td>
 	<td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_BACKUP . "</strong><br>
 	<a href=\"admin_backup.php\">" . MSG_ADMIN_HEADER_BKP . "</a><br>

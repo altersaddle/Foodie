@@ -85,7 +85,7 @@ define("ERROR_BROWSE", "Unable to browse database");
 define("MSG_AVAILABLE_PAGES", "Available pages");
 define("MSG_PREVIOUS", "Previous page");
 define("MSG_NEXT", "Next page");
-//crisoftlib.php
+//foodielib.php
 define("ERROR_PAGE_SIZE", " is not a valid configuration key for page_size");
 define("MSG_USE_ONLY_VALUES", "Valid values");
 define("ERROR_ILLEGAL_REQUEST", "Forbidden request");
@@ -280,21 +280,6 @@ define("ERROR_ADMIN_CHANGE_DEFAULT", "Please immediately change default username
 define("ERROR_ADMIN_INVALID_USERNAME", "Empty or invalid username");
 define("ERROR_ADMIN_INVALID_PASSWORD", "Empty or invalid password");
 define("ERROR_ADMIN_AUTHFAIL", "Invalid username/password");
-//admin_import07.php
-define("MSG_ADMIN_IMP07_FILL", "Type data modifying defaults if needed");
-define("MSG_ADMIN_IMP07_HOSTNAME", "0.7 version MySQL database server name/IP address");
-define("MSG_ADMIN_IMP07_PORT", "0.7 version MySQL database server TCP/IP port");
-define("MSG_ADMIN_IMP07_USER", "0.7 version MySQL database username");
-define("MSG_ADMIN_IMP07_PASS", "0.7 version MySQL database password");
-define("MSG_ADMIN_IMP07_DBNAME", "0.7 version MySQL database name");
-define("MSG_ADMIN_IMP07_SUCCESS", "Copy recipe");
-define("BTN_ADMIN_IMP07_IMPORT", "Import recipe");
-define("ERROR_ADMIN_IMP07_TITLE", "Import from version 0.7 - Error");
-define("ERROR_ADMIN_IMP07_HOSTNAME", "invalid as server name/IP address");
-define("ERROR_ADMIN_IMP07_PORT", "TCP/IP port number should be a numeric value");
-define("ERROR_ADMIN_IMP07_SERVER", "Unable to connect to MySQL server with 0.7 version database");
-define("ERROR_ADMIN_IMP07_SELECT", "Unable to connect to 0.7 version database");
-define("ERROR_ADMIN_IMP07_COPY", "IUnable to copy data from 0.7 version database");
 //admin_config.php
 define("ERROR_ADMIN_CFG_HOSTNAME", "invalid as server name/IP address");
 define("ERROR_ADMIN_CFG_PORT", "TCP/IP port number should be a numeric value");

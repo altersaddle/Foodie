@@ -185,7 +185,6 @@
     <Compile Include="unitegallery\themes\video\skin-right-title-only.css" />
     <Compile Include="unitegallery\themes\video\ug-theme-video.js" />
     <Compile Include="unitegallery\release_log.txt" />
-    <Compile Include="admin_07import.php" />
     <Compile Include="admin_backup.php" />
     <Compile Include="admin_config.php" />
     <Compile Include="admin_cook.php" />
@@ -198,11 +197,9 @@
     <Compile Include="admin_logout.php" />
     <Compile Include="admin_mmedia.php" />
     <Compile Include="admin_modify.php" />
-    <Compile Include="admin_optimize.php" />
     <Compile Include="admin_restore.php" />
     <Compile Include="admin_userpass.php" />
     <Compile Include="browse.php" />
-    <Compile Include="browsetxt.php" />
     <Compile Include="cookbook.php" />
     <Compile Include="foodielib.php" />
     <Compile Include="export.php" />
@@ -211,7 +208,6 @@
     <Compile Include="language.php" />
     <Compile Include="license.php" />
     <Compile Include="login.php" />
-    <Compile Include="logout.php" />
     <Compile Include="mail.php" />
     <Compile Include="php.ini" />
     <Compile Include="rate.php" />
@@ -220,7 +216,6 @@
     <Compile Include="search.php" />
     <Compile Include="shoppinglist.php" />
     <Compile Include="testphp.php" />
-    <Compile Include="version.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="backup" />
