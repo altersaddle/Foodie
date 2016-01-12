@@ -73,10 +73,6 @@ else if (strstr($filename, "install"))
 {
 	echo "<h2>Installation</h2>";
 }
-else if (strstr($filename, "language"))
-{
-	echo "<h2>Language Selection</h2>";
-}
 /*
  *	Header for all other scripts
  */

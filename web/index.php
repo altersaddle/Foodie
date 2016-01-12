@@ -24,13 +24,6 @@ $sess_id = md5(rand(0,9999999));
 session_id($sess_id);
 session_name("foodie");
 session_start();
-//Check for existance of ini file
-if (!file_exists(dirname(__FILE__)."/config/foodie.ini.php"))
-{
-	session_destroy();
-	header ("Location: language.php");
-	exit();
-}
 
 require(dirname(__FILE__)."/config/foodie.ini.php");
 
