@@ -396,6 +396,7 @@ define("MSG_ADMIN_RESTORE_SUCCESS", "I dati sono stati recuperati con successo")
 define("BTN_ADMIN_RESTORE_PROCEED", "Recupera i dati");
 define("ERROR_ADMIN_RESTORE_FILE", "Impossibile trovare il file con il salvataggio");
 //includes/header_admin.inc.php
+define("MSG_SITE_TITLE", "Foodie");
 define("MSG_ADMIN_HEADER_RECIPES", "Ricette");
 define("MSG_ADMIN_HEADER_SERVING", "Portate");
 define("MSG_ADMIN_HEADER_COOKING", "Tipi di cucina");

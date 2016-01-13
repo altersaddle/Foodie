@@ -58,7 +58,7 @@ if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
 
 if (isset($_SESSION['admin_user'])) {
     if (!empty($_POST['redirect'])) {
-        header("Location: {$_POST['redirect']}")
+        header("Location: {$_POST['redirect']}");
     }
     else {
         header("Location: admin_index.php");

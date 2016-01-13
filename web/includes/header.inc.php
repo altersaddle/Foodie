@@ -27,16 +27,29 @@ if (strstr($_SERVER['SCRIPT_NAME'], "index.php")) {
 		</script>
 <?php
 }
-?>
-  </head>
-  <body>
-    <h1>iPatch Chest o' Cookery</h1>
-<?php
 /*
  *   Header for admin_*.php scripts
  */
 if (strstr($filename, "admin"))
 {
+    echo "<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>";
+    echo "<script src=\"//code.jquery.com/ui/1.11.4/jquery-ui.js\"></script>";
+    echo "<link rel=\"stylesheet\" href=\"//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css\">";
+?>
+
+<style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+  #sortable li span { position: absolute; margin-left: -1.3em; }
+</style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  });
+  </script>
+  <?php
+    echo "</head><body><h1>". MSG_SITE_TITLE . "</h1>";
 	echo "<table width=\"100%\" bgcolor=\"#dddddd\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">
 	<tr bgcolor=\"#eeeeee\"><td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_RECIPES . "</strong><br>
 	<a href=\"admin_insert.php\">" . MSG_ADMIN_HEADER_INS . "</a><br>
@@ -71,6 +84,7 @@ if (strstr($filename, "admin"))
  */
 else if (strstr($filename, "install"))
 {
+    echo "</head><body><h1>". MSG_SITE_TITLE . "</h1>";
 	echo "<h2>Installation</h2>";
 }
 /*
@@ -79,6 +93,9 @@ else if (strstr($filename, "install"))
 else
 {
 ?>
+  </head>
+  <body>
+    <h1><?= MSG_SITE_TITLE ?></h1>
     <p class="menu">
       <table border="0" width="95%" cellpadding=0 cellspacing=0>
         <tr>

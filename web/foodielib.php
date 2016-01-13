@@ -20,14 +20,13 @@
 */
 //This function includes the HTML header
 function foodie_AddHeader() 
-{	global $trans_sid;
+{	
 	include(dirname(__FILE__)."/includes/header.inc.php");
 }
 //This function includes the HTML footer
 function foodie_AddFooter()
 {
-	global $trans_sid;
-    include(dirname(__FILE__)."/includes/footer.inc.php");
+	include(dirname(__FILE__)."/includes/footer.inc.php");
 }
 //This function prints fast logout from admin area link
 function cs_AdminFastLogout()

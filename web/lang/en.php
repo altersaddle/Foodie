@@ -380,6 +380,7 @@ define("MSG_ADMIN_RESTORE_SUCCESS", "Data successfully restored");
 define("BTN_ADMIN_RESTORE_PROCEED", "Restore data");
 define("ERROR_ADMIN_RESTORE_FILE", "Backup file not found");
 //includes/header_admin.inc.php
+define("MSG_SITE_TITLE", "iPatch Chest o' Cookery");
 define("MSG_ADMIN_HEADER_RECIPES", "Recipes");
 define("MSG_ADMIN_HEADER_SERVING", "Servings");
 define("MSG_ADMIN_HEADER_COOKING", "Cooking types");
