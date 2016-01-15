@@ -29,17 +29,10 @@ require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
+foodie_AddHeader();
 echo "<h2>" . MSG_SHOPPING_TITLE . "</h2>\n";
 if (!isset($_POST['action']))
 {
-	if (isset($_SESSION['recipe_id']))
-	{
-		unset($_SESSION['recipe_id']);
-	}
-	if (isset($_SESSION['recipe_name']))
-	{
-		unset($_SESSION['recipe_name']);
-	}
 	//Print shopping list
 	$sql_shopping = "SELECT * FROM shopping";
 	if (!$exec_shopping = $dbconnect->query($sql_shopping))
@@ -89,7 +82,7 @@ if (!in_array("{$_POST['action']}", $action_ok))
 if ($_POST['action'] == "sl_add")
 {
 	//Add ingredients of recipe to shopping list
-	$sql_select_for_shopping = "SELECT name,ingredients FROM main WHERE id = '{$_SESSION['recipe_id']}'";
+	$sql_select_for_shopping = "SELECT name,ingredients FROM main WHERE id = '{$_POST['recipe']}'";
 	if (!$exec_select_for_shopping = $dbconnect->query($sql_select_for_shopping))
 	{
 		echo "<p class=\"error\">" . ERROR_SHOPPING_RETRIEVE_RECIPE . "<br>\n" . $exec_select_for_shopping->error();

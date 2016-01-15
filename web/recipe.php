@@ -149,7 +149,7 @@ if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 	{
 		echo "<td><form method=\"post\" action=\"cookbook.php\">\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n";
-        echo "<input type=\"hidden\" name=\"recipe_id\" value=\"{$_GET['recipe']}\">\n";
+        echo "<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n";
         echo "<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
 	}
 	else
@@ -162,7 +162,7 @@ if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 echo "<td><form method=\"post\" action=\"recipe.php\" target=\"_blank\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\"><input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n<input type=\"submit\" value=\"" . BTN_PRINT . "\"></form></td>\n";
 echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
-echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
+echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\"><input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
 //Export single recipe
 echo "<p>" . MSG_EXPORT_ASK .":\n";
 echo "<form method=\"post\" action=\"export.php\">\n";
