@@ -148,7 +148,9 @@ if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 	if (0 == $num_cookbook)
 	{
 		echo "<td><form method=\"post\" action=\"cookbook.php\">\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n";
+        echo "<input type=\"hidden\" name=\"recipe_id\" value=\"{$_GET['recipe']}\">\n";
+        echo "<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
 	}
 	else
 	{

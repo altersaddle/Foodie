@@ -38,7 +38,7 @@ else {
     // 
     echo "<ul id=\"sortable\">";
     
-    $sql = "SELECT id, dish FROM dish";
+    $sql = "SELECT id, dish FROM dish ORDER BY id";
     $dbquery = $dbconnect->query($sql);
     
     while ($row = $dbquery->fetch_object()) {

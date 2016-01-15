@@ -30,7 +30,7 @@ if (strstr($_SERVER['SCRIPT_NAME'], "index.php")) {
 /*
  *   Header for admin_*.php scripts
  */
-if (strstr($filename, "admin"))
+if (strstr($filename, "admin_"))
 {
     echo "<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>";
     echo "<script src=\"//code.jquery.com/ui/1.11.4/jquery-ui.js\"></script>";

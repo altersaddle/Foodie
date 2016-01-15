@@ -21,10 +21,10 @@
 ****************************************************************************
 */
 /*
- *	CrisoftRicette language file
- *	Language: italiano
+ *	Foodie language file
+ *	Language: English
  *	Translated by: Lorenzo Pulici snowdog@tiscalinet.it
- *	File: lang/it.php
+ *	File: lang/en.php
  */
 //messages added 1.0pre15b
 define("MSG_SEARCH_NORECIPESFOUND", "No recipes found for requested search terms");
