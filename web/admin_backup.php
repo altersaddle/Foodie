@@ -40,7 +40,7 @@ else {
     if (!isset($_POST['backup_action']))
     {
 	    echo "<p>" . MSG_ADMIN_BACKUP_SAVEDIR . "\n";
-	    echo "<form method=\"post\" action=\"admin_backup.php"; if ($trans_sid == 0) { echo "?" . SID; } echo "\">\n";
+	    echo "<form method=\"post\" action=\"admin_backup.php\">\n";
 	    echo "<p><input type=\"hidden\" name=\"backup_action\" value=\"do_backup\">
 	    <p><input type=\"submit\" value=\"" . BTN_ADMIN_BACKUP_PROCEED . "\">
 	    </form>\n";
@@ -154,15 +154,6 @@ else {
 			    $main_time = addslashes($dump_main->time);
 			    $main_notes = addslashes($dump_main->notes);
 			    $main_wines = addslashes($dump_main->wines);
-			    $main_ingredients = str_replace("\n", "", $main_ingredients);
-			    $main_ingredients = str_replace("\r", "", $main_ingredients);
-			    $main_ingredients = str_replace("\r\n", "", $main_ingredients);
-			    $main_description = str_replace("\n", "", $main_description);
-			    $main_description = str_replace("\r", "", $main_description);
-			    $main_description = str_replace("\r\n", "", $main_description);
-			    $main_notes = str_replace("\n", "", $main_notes);
-			    $main_notes = str_replace("\r", "", $main_notes);
-			    $main_notes = str_replace("\r\n", "", $main_notes);
 			    fputs($backup_file, "INSERT INTO main VALUES($dump_main->id, '$main_name', '$main_dish', '$main_mainingredient', '$dump_main->people', '$main_origin', '$main_ingredients', '$main_description', '$main_kind', '$main_season', '$main_time', '$dump_main->difficulty', '$main_notes', '$dump_main->image', '$dump_main->video', '$main_wines');\n");
 		    }
 		    //Backup personal_book
@@ -211,9 +202,6 @@ else {
 		    {
 			    $shopping_recipe = addslashes($dump_shopping->recipe);
 			    $shopping_ingredients = addslashes($dump_shopping->ingredients);
-			    $shopping_ingredients = str_replace("\n", "", $shopping_ingredients);
-			    $shopping_ingredients = str_replace("\r", "", $shopping_ingredients);
-			    $shopping_ingredients = str_replace("\r\n", "", $shopping_ingredients);
 			    fputs($backup_file, "INSERT INTO shopping VALUES($dump_shopping->id, '$shopping_recipe', '$shopping_ingredients');\n");
 		    }
 		    fclose ($backup_file);
