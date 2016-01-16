@@ -79,7 +79,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS admin;\n");
-		    fputs($backup_file, "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['admin'].";\n");
 		    while ($dump_admin = $exec_admin->fetch_object())
 		    {
 			    fputs($backup_file, "INSERT INTO admin VALUES('$dump_admin->user', '$dump_admin->password');\n");
@@ -94,7 +94,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS cooking;\n");
-		    fputs($backup_file, "CREATE TABLE cooking (id int(3) unsigned zerofill NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['cooking'].";\n");
 		    while ($dump_cooking = $exec_cooking->fetch_object())
 		    {
 			    $cooking_type = addslashes($dump_cooking->type);
@@ -110,7 +110,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS difficulty;\n");
-		    fputs($backup_file, "CREATE TABLE difficulty (id int(1) unsigned zerofill NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['difficulty'].";\n");
 		    while ($dump_difficulty = $exec_difficulty->fetch_object())
 		    {
 			    fputs($backup_file, "INSERT INTO difficulty VALUES($dump_difficulty->id, $dump_difficulty->difficulty);\n");
@@ -125,7 +125,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS dish;\n");
-		    fputs($backup_file, "CREATE TABLE dish (id int(3) unsigned zerofill NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['admin'].";\n");
 		    while ($dump_dish = $exec_dish->fetch_object())
 		    {
 			    $dish_dish = addslashes($dump_dish->dish);
@@ -140,7 +140,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS main;\n");
-		    fputs($backup_file, "CREATE TABLE main (id int(8) unsigned zerofill NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['main'].";\n");
 		    while ($dump_main = $exec_main->fetch_object())
 		    {
 			    $main_name = addslashes($dump_main->name);
@@ -175,7 +175,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS personal_book;\n");
-		    fputs($backup_file, "CREATE TABLE personal_book (id int(8) unsigned zerofill NOT NULL default '00000000', recipe_name varchar(255) NOT NULL default '', KEY id (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['personal_book'].";\n");
 		    while ($dump_personal_book = $exec_personal_book->fetch_object())
 		    {
 			    $personal_book_recipe_name = addslashes($dump_personal_book->recipe_name);
@@ -191,7 +191,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS rating;\n");
-		    fputs($backup_file, "CREATE TABLE rating (id int(8) unsigned zerofill NOT NULL default '00000000', vote smallint(1) NOT NULL default '0', KEY id (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['rating'].";\n");
 		    while ($dump_rating = $exec_rating->fetch_object())
 		    {
 			    fputs($backup_file, "INSERT INTO rating VALUES($dump_rating->id, $dump_rating->vote);\n");
@@ -206,7 +206,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS shopping;\n");
-		    fputs($backup_file, "CREATE TABLE shopping (id int(8) unsigned zerofill NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM;\n");
+		    fputs($backup_file, $dbcreatecommands['shopping'].";\n");
 		    while ($dump_shopping = $exec_shopping->fetch_object())
 		    {
 			    $shopping_recipe = addslashes($dump_shopping->recipe);

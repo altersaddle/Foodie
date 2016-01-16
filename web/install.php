@@ -72,6 +72,7 @@ else {
 		}
 		
 		require(dirname(__FILE__)."/includes/dbconnect.inc.php");
+        require(dirname(__FILE__)."/includes/dbcommands.inc.php");
 		if (!$dbconnect) 
 		{
 			foodie_AddHeader();
@@ -92,78 +93,16 @@ else {
 			/*
 			 *  Create tables
 			 */
-			//Admin table
-			$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') ENGINE=MyISAM";
-			if (!$exec_table_admin = $dbconnect->query($sql_table_admin))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " admin<br>\n" . $dbconnect->error;
-				exit();
-			}
-			//Cooking type table
-			$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
-  			if (!$exec_table_cooking = $dbconnect->query($sql_table_cooking))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " cooking<br>\n" . $exec_table_cooking->error();
-				exit();
-			}
-			//Difficulty grade table
-  			$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) ENGINE=MyISAM";
-			if (!$exec_table_difficulty = $dbconnect->query($sql_table_difficulty))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " difficulty<br>\n" . $exec_table_difficulty->error();
-				exit();
-			}
-			//Dish (Serving) table
-			$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
-			if (!$exec_table_dish = $dbconnect->query($sql_table_dish))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " dish<br>\n" . $exec_table_dish->error();
-				exit();
-			}
-			//Main table
-			$sql_table_main = "CREATE TABLE main (id int(8) unsigned NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) ENGINE=MyISAM";
-			if (!$exec_table_main = $dbconnect->query($sql_table_main))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " main<br>\n" . $exec_table_main->error();
-				exit();
-			}
-			//Personal cookbook table
-			$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned NOT NULL default 0, recipe_name varchar(255) NOT NULL default '', KEY id (id)) ENGINE=MyISAM";
-			if (!$exec_table_cookbook = $dbconnect->query($sql_table_cookbook))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " cookbook<br>\n" . $exec_table_cookbook->error();
-				exit();
-			}
-			//Rating table
-			$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned NOT NULL default 0, vote smallint(1) NOT NULL default '0', KEY id (id)) ENGINE=MyISAM";
-			if (!$exec_table_rating = $dbconnect->query($sql_table_rating))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " rating<br>\n" . $exec_table_rating->error();
-				exit();
-			}
-			//Shopping list table
-			$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM";
-			if (!$exec_table_shopping = $dbconnect->query($sql_table_shopping))
-			{
-				foodie_AddHeader();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " shopping<br>\n" . $exec_table_shopping->error();
-				exit();
-			}
+            foreach(array_keys($dbcreatecommands) as $tablename) { 
+			//Create table
+			    if (!$exec_table_create = $dbconnect->query($dbcreatecommands[$tablename]))
+			    {
+				    foodie_AddHeader();
+				    echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
+				    echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " $tablename<br>\n" . $dbconnect->error;
+				    exit();
+			    }
+            }
 			/*
 			 *  Add default values
 			 */
@@ -185,218 +124,35 @@ else {
 				echo "<p class=\"error\">" . ERROR_INSTALL_DATA . " difficulty <br>\n" . $exec_table_difficulty_data->error();
 				exit();
 			}
-			//If table admin and difficulty exist check if they have values into them
-			//compare submitted username and password with already existing ones
-			//and terminate with error if not equal
-			$sql_check_table_admin = "DESCRIBE admin";
-			if ($exec_check_table_admin = $dbconnect->query($sql_check_table_admin))
-			{
-				$sql_check_admin = "SELECT * FROM admin";
-				if (!$exec_check_admin = $dbconnect->query($sql_check_admin))
-				{
-					foodie_AddHeader();
-					echo "<p class=\"error\">" . ERROR_INSTALL_USERPASS ."<br>\n" . $exec_check_admin->error();
-					exit();
-				}
-				//Check number of records into admin table
-				$rows_admin = $exec_check_admin->num_rows;
-				//if 1 compare them with submitted ones
-				if ($rows_admin == 1)
-				{
-					while ($row = $exec_check_admin->fetch_row)
-					{
-						if ($row[0] != $_POST['sw_admin_user'] OR $row[1] != $_POST['sw_admin_password'])
-						{
-							foodie_AddHeader();
-							echo "<p class=\"error\">" . ERROR_INSTALL_NOMATCH . "\n";
-							echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}\">" . MSG_BACK . "</a>\n";
-							exit();
-						}
-					}
-				}
-				//if 0 insert submitted ones
-				if ($rows_admin == 0)
-				{
-					$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
-					if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
-					{
-						foodie_AddHeader();
-						echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-						echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
-						exit();
-					}
-				}
-				//if more than 1 zap them and insert submitted ones
-				if ($rows_admin >= 2)
-				{
-					$sql_zap_admin = "DELETE FROM admin";
-					if (!$exec_zap_admin = $dbconnect->query($sql_zap_admin))
-					{
-						foodie_AddHeader();
-						echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-						echo "<p class=\"error\">" . ERROR_INSTALL_MANAGE . "<br>" . MSG_INSTALL_FULL . "<br>\n" . $exec_zap_admin->error();
-						exit();
-					}
-					$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
-					if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
-					{
-						foodie_AddHeader();
-						echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-						echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
-						exit();
-					}
-				}
-			}
+
 			//For difficulty grade check number of records, if == 0 add defaults.
-			$sql_check_table_difficulty = "DESCRIBE difficulty";
-			if ($exec_check_table_difficulty = $dbconnect->query($sql_check_table_difficulty))
+			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
+			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
 			{
-				$sql_check_difficulty = "SELECT * FROM difficulty";
-				if (!$exec_check_difficulty = $dbconnect->query($sql_check_difficulty))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_CHECK . " difficulty<br>\n" . $exec_check_difficulty->error();
-					exit();
-				}
-				//Check number of records into admin table
-				$rows_difficulty = $exec_check_difficulty->num_rows;
-				//if 0 insert default values
-				if ($rows_difficulty == 0)
-				{
-					$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
-					if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
-					{
-						foodie_AddHeader();
-						echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-						echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
-						exit();
-					}
-				}
+				foodie_AddHeader();
+				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
+				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
+				exit();
 			}
-			
-			//Check if tables exist and operate only if not
-			$sql_check_table_admin = "DESCRIBE admin";
-			if (!$exec_check_table_admin = $dbconnect->query($sql_check_table_admin))
+
+			//Add admin username and password
+			$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
+			if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
 			{
-				//Admin table
-				$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') ENGINE=MyISAM";
-				if (!$exec_table_admin = $dbconnect->query($sql_table_admin))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " admin<br>\n" . $exec_table_admin->error();
-					exit();
-				}
-				//Add admin username and password
-				$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
-				if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
-					exit();
-				}
+				foodie_AddHeader();
+				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
+				echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
+				exit();
 			}
-			$sql_check_table_cooking = "DESCRIBE cooking";
-			if (!$exec_check_table_cooking = $dbconnect->query($sql_check_table_cooking))
+
+			//Add default difficulty values
+			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
+			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
 			{
-				//Cooking type table
-				$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
-				if (!$exec_table_cooking = $dbconnect->query($sql_table_cooking))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " cooking<br>\n" . $exec_table_cooking->error();
-					exit();
-				}
-			}
-			$sql_check_table_difficulty = "DESCRIBE difficulty";
-			if (!$exec_check_table_difficulty = $dbconnect->query($sql_check_table_difficulty))
-			{
-				//Difficulty grade table
-				$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) ENGINE=MyISAM";
-				if (!$exec_table_difficulty = $dbconnect->query($sql_table_difficulty))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " difficulty<br>\n" . $exec_table_difficulty->error();
-					exit();
-				}
-				//Add default values
-				$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
-				if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
-					exit();
-				}
-			}
-			$sql_check_table_dish = "DESCRIBE dish";
-			if (!$exec_check_table_dish = $dbconnect->query($sql_check_table_dish))
-			{
-				//Dish (Serving) table
-				$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
-				if (!$exec_table_dish = $dbconnect->query($sql_table_dish))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " dish<br>\n" . $exec_table_dish->error();
-					exit();
-				}
-			}
-			$sql_check_table_main = "DESCRIBE main";
-			if (!$exec_check_table_main = $dbconnect->query($sql_check_table_main))
-			{
-				//Main table
-				$sql_table_main = "CREATE TABLE main (id int(8) unsigned NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) ENGINE=MyISAM";
-				if (!$exec_table_dish = $dbconnect->query($sql_table_main))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " main<br>\n" . $exec_table_dish->error();
-					exit();
-				}
-			}
-			$sql_check_table_cookbook = "DESCRIBE personal_book";
-			if (!$exec_check_table_cookbook = $dbconnect->query($sql_check_table_cookbook))
-			{
-				//Personal cookbook table
-				$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned NOT NULL default 0, recipe_name varchar(255) NOT NULL default '', KEY id (id)) ENGINE=MyISAM";
-				if (!$exec_table_cookbook = $dbconnect->query($sql_table_cookbook))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " cookbook<br>\n" . $exec_table_cookbook->error();
-					exit();
-				}
-			}
-			$sql_check_table_rating = "DESCRIBE rating";
-			if (!$exec_check_table_rating = $dbconnect->query($sql_check_table_rating))
-			{
-				//Rating table
-				$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned NOT NULL default 0, vote smallint(1) NOT NULL default '0', KEY id (id)) ENGINE=MyISAM";
-				if (!$exec_table_rating = $dbconnect->query($sql_table_rating))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " rating<br>\n" . $exec_table_rating->error();
-					exit();
-				}
-			}
-			$sql_check_table_shopping = "DESCRIBE shopping";
-			if (!$exec_check_table_shopping = $dbconnect->query($sql_check_table_shopping))
-			{
-				//Shopping list table
-				$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY  (id)) ENGINE=MyISAM";
-				if (!$exec_table_shopping = $dbconnect->query($sql_table_shopping))
-				{
-					foodie_AddHeader();
-					echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-					echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " shopping<br>\n" . $exec_table_shopping->error();
-					exit();
-				}
+				foodie_AddHeader();
+				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
+				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
+				exit();
 			}
 		}
         else {
