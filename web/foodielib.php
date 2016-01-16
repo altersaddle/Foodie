@@ -573,40 +573,7 @@ function foodie_PrintRecipeData($recipe_data)
 	echo "<tr><td>" . MSG_RECIPE_NOTES . "</td><td>$recipe_notes</td></tr>\n";
 	echo "</table>\n";
 }
-//Print browse table used to modify recipes
-function cs_PrintModifyTable()
-{
-	global $exec_db_browse;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
-	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\"><a href=\"admin_modify.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a></td></tr>\n";
-	}
-	echo "</table>\n";
-}
+
 //Print browse table used to delete recipes
 function cs_PrintDeleteTable()
 {
