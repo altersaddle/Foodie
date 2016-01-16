@@ -127,7 +127,7 @@ else {
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS dish;\n");
-		    fputs($backup_file, $dbcreatecommands['admin'].";\n");
+		    fputs($backup_file, $dbcreatecommands['dish'].";\n");
 		    while ($dump_dish = $exec_dish->fetch_object())
 		    {
 			    $dish_dish = $dbconnect->real_escape_string($dump_dish->dish);
