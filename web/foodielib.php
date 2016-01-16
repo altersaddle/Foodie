@@ -742,52 +742,6 @@ function cs_PrintDishTable($action)
 	echo "</table>\n";
 }
 
-//Function to check for default values for admin credentials
-function cs_CheckAdminDefault($variable)
-{
-	if ($variable == "admin")
-	{
-		global $page_size_array;
-		cs_AddHeader();
-		echo "<p class=\"error\">" . ERROR_INSTALL_ADMINDEFAULT . "!\n";
-		echo "<p>" . MSG_INSTALL_FORM . "\n";
-		echo "<form method=\"post\" action=\"{$_SERVER['PHP_SELF']}\">\n
-		<h3>" . MSG_INSTALL_SERVER . "</h3>\n<table width=\"100%\">
-		<tr><td><p>" . MSG_ADMIN_CFG_HOSTNAME . ":\n</td>
-		<td><input type=\"text\" size=\"30\" name=\"db_hostname\" value=\"{$_POST['db_hostname']}\"></td>\n
-		<td><p>" . MSG_ADMIN_CFG_PORT . ":\n</td>
-		<td><input type=\"text\" size=\"30\" name=\"db_port\" value=\"{$_POST['db_port']}\"></td></tr>\n
-		<tr><td><p>" . MSG_ADMIN_CFG_USER . "\n</td>
-		<td><input type=\"text\" size=\"30\" name=\"db_username\" value=\"{$_POST['db_username']}\"></td>\n
-		<td><p>" . MSG_ADMIN_CFG_PASS . "\n</td><td><input type=\"password\" size=\"30\" name=\"{$_POST['db_password']}\" value=\"PASSWORD\"></td></tr>
-		<tr><td><p>" . MSG_ADMIN_CFG_DBNAME . "\n</td>
-		<td><input type=\"text\" size=\"30\" name=\"{$_POST['db_name']}\" value=\"ricette\"></td>
-		<td colspan=\"2\">&nbsp;</td></tr>\n</table>\n
-		<h3>" . MSG_INSTALL_APPLICATION . "</h3>\n
-		<table width=\"100%\">
-		<tr><td><p>" . MSG_ADMIN_CFG_LINES . ":\n</td>
-		<td><input type=\"text\" size=\"3\" name=\"sw_lines_per_page\" value=\"{$_POST['sw_lines_per_page']}\"></td>\n
-		<td><p>" . MSG_ADMIN_CFG_PAGESIZE . ":\n</td><td><select name=\"sw_page_size\">\n";
-		foreach ($page_size_array as $available_size)
-		{
-			echo "<option value=\"$available_size\">$available_size</option>\n";
-		}
-		echo "</select></td></tr>\n
-		<tr><td><p>" . MSG_ADMIN_CFG_EMAIL . ":\n</td>
-		<td colspan=\"3\"><input type=\"text\" size=\"50\" name=\"sw_email_address\" value=\"{$_POST['sw_email_address']}\">
-		</td></tr></table>\n
-		<br><h3>" . MSG_INSTALL_ADMIN . "</h3>\n
-		<table width=\"100%\">
-		<tr><td><p>" . MSG_ADMIN_USER . ":</td>
-		<td><input type=\"text\" size=\"20\" name=\"sw_admin_user\" value=\"{$_POST['sw_admin_user']}\"></td>
-		<td><p>" . MSG_ADMIN_PASS . ":</td>
-		<td><input type=\"password\" size=\"20\" name=\"sw_admin_password\" value=\"{$_POST['sw_admin_password']}\"></td></tr></table>\n
-		<input type=\"hidden\" name=\"installation\" value=\"ok\">\n
-		<input type=\"hidden\" name=\"sw_locale\" value=\"{$_POST['sw_locale']}\">
-		<div align=center><input type=\"submit\" value=\"" . BTN_INSTALL . "\"></div></form>\n";
-		exit();
-	}
-}
 function cs_PrintInstallationForm()
 {
 	global $page_size_array;

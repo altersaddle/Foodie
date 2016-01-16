@@ -1,0 +1,10 @@
+<?php
+$dbcreatecommands['admin'] = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') ENGINE=MyISAM";
+$dbcreatecommands['cooking'] = "CREATE TABLE cooking (id int unsigned NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY (id)) ENGINE=MyISAM";
+$dbcreatecommands['difficulty'] = "CREATE TABLE difficulty (id int unsigned NOT NULL auto_increment, difficulty int NOT NULL default 0, PRIMARY KEY (id)) ENGINE=MyISAM";
+$dbcreatecommands['dish'] = "CREATE TABLE dish (id int unsigned NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
+$dbcreatecommands['main'] = "CREATE TABLE main (id int unsigned NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) ENGINE=MyISAM";
+$dbcreatecommands['personal_book'] = "CREATE TABLE personal_book (id int unsigned NOT NULL default 0, recipe_name varchar(255) NOT NULL default '', KEY id (id)) ENGINE=MyISAM";
+$dbcreatecommands['rating'] = "CREATE TABLE rating (id int unsigned NOT NULL default 0, vote smallint NOT NULL default 0, KEY id (id)) ENGINE=MyISAM";
+$dbcreatecommands['shopping'] = "CREATE TABLE shopping (id int unsigned NOT NULL auto_increment, recipe varchar(255) NOT NULL default 0, ingredients text NOT NULL, PRIMARY KEY  (id)) ENGINE=MyISAM";
+?>

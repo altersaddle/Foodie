@@ -1,9 +1,9 @@
 <?php
 /*
 ***************************************************************************
-* CrisoftRicette is a GPL licensed free software sofware written
-* by Lorenzo Pulici, Milano, Italy (Earth) and is copyrighted by the
-* author, 2002.
+* Foodie is a GPL licensed free software web application written
+* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* 
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
@@ -16,8 +16,6 @@
 * License terms can be read in COPYING file included in this package.
 * If this file is missing you can obtain license terms through WWW
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
-* If you can't browse the web please write an email to the software author
-* at snowdog@tiscali.it
 ****************************************************************************
 */
 /*

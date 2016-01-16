@@ -145,6 +145,5 @@ if ($_POST['action'] == "sl_print")
 		echo "<p><strong>$shopping_data->recipe</strong><br>\n$things_to_buy";
 	}
 	echo "<p class=small>" . MSG_SHOPPING_SIGNATURE . " {$_SESSION['software']} {$_SESSION['version']}\n";
-	exit();
 }
 ?>

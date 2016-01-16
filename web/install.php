@@ -59,14 +59,10 @@ if (!array_key_exists("installation", $_POST))
 	<div align=center><input type=\"submit\" value=\"" . BTN_INSTALL . "\"></div></form>\n";
 	exit();
 } 
-if (array_key_exists("installation", $_POST))
-{
+else {
 	if ($_POST['installation'] == "ok")
 	{
 		require_once(dirname(__FILE__)."/lang/".$setting_locale.".php");
-		//Check some fields for empty values
-		cs_CheckAdminDefault($_POST['sw_admin_user']);
-		cs_CheckAdminDefault($_POST['sw_admin_password']);
 		//Check username and password for admin 
 		if ($_POST['sw_admin_user'] == $_POST['sw_admin_password'])
 		{
@@ -80,7 +76,7 @@ if (array_key_exists("installation", $_POST))
 		{
 			foodie_AddHeader();
 			echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-			echo "<p class=\"error\">" . ERROR_INSTALL_CONNECTION . "!</strong><br>\n" . mysql_error();
+			echo "<p class=\"error\">" . ERROR_INSTALL_CONNECTION . "!</strong><br>\n" . $dbconnect->error;
 			echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}\">" . MSG_BACK . "</a>\n";
 			exit();
 		}
@@ -97,16 +93,16 @@ if (array_key_exists("installation", $_POST))
 			 *  Create tables
 			 */
 			//Admin table
-			$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') TYPE=MyISAM";
+			$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') ENGINE=MyISAM";
 			if (!$exec_table_admin = $dbconnect->query($sql_table_admin))
 			{
 				foodie_AddHeader();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " admin<br>\n" . $exec_table_admin->error();
+				echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " admin<br>\n" . $dbconnect->error;
 				exit();
 			}
 			//Cooking type table
-			$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned zerofill NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM";
+			$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
   			if (!$exec_table_cooking = $dbconnect->query($sql_table_cooking))
 			{
 				foodie_AddHeader();
@@ -115,7 +111,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Difficulty grade table
-  			$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned zerofill NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) TYPE=MyISAM";
+  			$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) ENGINE=MyISAM";
 			if (!$exec_table_difficulty = $dbconnect->query($sql_table_difficulty))
 			{
 				foodie_AddHeader();
@@ -124,7 +120,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Dish (Serving) table
-			$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned zerofill NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM";
+			$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
 			if (!$exec_table_dish = $dbconnect->query($sql_table_dish))
 			{
 				foodie_AddHeader();
@@ -133,7 +129,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Main table
-			$sql_table_main = "CREATE TABLE main (id int(8) unsigned zerofill NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) TYPE=MyISAM";
+			$sql_table_main = "CREATE TABLE main (id int(8) unsigned NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) ENGINE=MyISAM";
 			if (!$exec_table_main = $dbconnect->query($sql_table_main))
 			{
 				foodie_AddHeader();
@@ -142,7 +138,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Personal cookbook table
-			$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned zerofill NOT NULL default '00000000', recipe_name varchar(255) NOT NULL default '', KEY id (id)) TYPE=MyISAM";
+			$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned NOT NULL default 0, recipe_name varchar(255) NOT NULL default '', KEY id (id)) ENGINE=MyISAM";
 			if (!$exec_table_cookbook = $dbconnect->query($sql_table_cookbook))
 			{
 				foodie_AddHeader();
@@ -151,7 +147,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Rating table
-			$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned zerofill NOT NULL default '00000000', vote smallint(1) NOT NULL default '0', KEY id (id)) TYPE=MyISAM";
+			$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned NOT NULL default 0, vote smallint(1) NOT NULL default '0', KEY id (id)) ENGINE=MyISAM";
 			if (!$exec_table_rating = $dbconnect->query($sql_table_rating))
 			{
 				foodie_AddHeader();
@@ -160,7 +156,7 @@ if (array_key_exists("installation", $_POST))
 				exit();
 			}
 			//Shopping list table
-			$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned zerofill NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM";
+			$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM";
 			if (!$exec_table_shopping = $dbconnect->query($sql_table_shopping))
 			{
 				foodie_AddHeader();
@@ -199,15 +195,15 @@ if (array_key_exists("installation", $_POST))
 				if (!$exec_check_admin = $dbconnect->query($sql_check_admin))
 				{
 					foodie_AddHeader();
-					echo "<p class=\"error\">" . ERROR_INSTALL_USERPASS ."<br>\n" . mysql_error();
+					echo "<p class=\"error\">" . ERROR_INSTALL_USERPASS ."<br>\n" . $exec_check_admin->error();
 					exit();
 				}
 				//Check number of records into admin table
-				$rows_admin = mysql_num_rows($exec_check_admin);
+				$rows_admin = $exec_check_admin->num_rows;
 				//if 1 compare them with submitted ones
 				if ($rows_admin == 1)
 				{
-					while ($row = mysql_fetch_row($exec_check_admin))
+					while ($row = $exec_check_admin->fetch_row)
 					{
 						if ($row[0] != $_POST['sw_admin_user'] OR $row[1] != $_POST['sw_admin_password'])
 						{
@@ -264,7 +260,7 @@ if (array_key_exists("installation", $_POST))
 					exit();
 				}
 				//Check number of records into admin table
-				$rows_difficulty = mysql_num_rows($exec_check_difficulty);
+				$rows_difficulty = $exec_check_difficulty->num_rows;
 				//if 0 insert default values
 				if ($rows_difficulty == 0)
 				{
@@ -284,7 +280,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_admin = $dbconnect->query($sql_check_table_admin))
 			{
 				//Admin table
-				$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') TYPE=MyISAM";
+				$sql_table_admin = "CREATE TABLE admin (user varchar(50) NOT NULL default '', password varchar(50) NOT NULL default '') ENGINE=MyISAM";
 				if (!$exec_table_admin = $dbconnect->query($sql_table_admin))
 				{
 					foodie_AddHeader();
@@ -306,7 +302,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_cooking = $dbconnect->query($sql_check_table_cooking))
 			{
 				//Cooking type table
-				$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned zerofill NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM";
+				$sql_table_cooking = "CREATE TABLE cooking (id int(3) unsigned NOT NULL auto_increment, type varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
 				if (!$exec_table_cooking = $dbconnect->query($sql_table_cooking))
 				{
 					foodie_AddHeader();
@@ -319,7 +315,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_difficulty = $dbconnect->query($sql_check_table_difficulty))
 			{
 				//Difficulty grade table
-				$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned zerofill NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) TYPE=MyISAM";
+				$sql_table_difficulty = "CREATE TABLE difficulty (id int(1) unsigned NOT NULL auto_increment, difficulty int(1) NOT NULL default '0', PRIMARY KEY  (id)) ENGINE=MyISAM";
 				if (!$exec_table_difficulty = $dbconnect->query($sql_table_difficulty))
 				{
 					foodie_AddHeader();
@@ -341,7 +337,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_dish = $dbconnect->query($sql_check_table_dish))
 			{
 				//Dish (Serving) table
-				$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned zerofill NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) TYPE=MyISAM";
+				$sql_table_dish = "CREATE TABLE dish (id int(3) unsigned NOT NULL auto_increment, dish varchar(255) NOT NULL default '', PRIMARY KEY  (id)) ENGINE=MyISAM";
 				if (!$exec_table_dish = $dbconnect->query($sql_table_dish))
 				{
 					foodie_AddHeader();
@@ -354,7 +350,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_main = $dbconnect->query($sql_check_table_main))
 			{
 				//Main table
-				$sql_table_main = "CREATE TABLE main (id int(8) unsigned zerofill NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) TYPE=MyISAM";
+				$sql_table_main = "CREATE TABLE main (id int(8) unsigned NOT NULL auto_increment, name varchar(255) NOT NULL default '', dish varchar(255) NOT NULL default '', mainingredient varchar(255) NOT NULL default '', people varchar(4) NOT NULL default '', origin varchar(255) NOT NULL default '', ingredients text NOT NULL, description text NOT NULL, kind varchar(255) NOT NULL default '', season varchar(255) NOT NULL default '', time varchar(255) NOT NULL default '', difficulty varchar(255) NOT NULL default '', notes text NOT NULL, image varchar(255) NOT NULL default '', video varchar(255) NOT NULL default '', wines varchar(255) NOT NULL default '', PRIMARY KEY  (id), KEY id (id)) ENGINE=MyISAM";
 				if (!$exec_table_dish = $dbconnect->query($sql_table_main))
 				{
 					foodie_AddHeader();
@@ -367,7 +363,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_cookbook = $dbconnect->query($sql_check_table_cookbook))
 			{
 				//Personal cookbook table
-				$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned zerofill NOT NULL default '00000000', recipe_name varchar(255) NOT NULL default '', KEY id (id)) TYPE=MyISAM";
+				$sql_table_cookbook = "CREATE TABLE personal_book (id int(8) unsigned NOT NULL default 0, recipe_name varchar(255) NOT NULL default '', KEY id (id)) ENGINE=MyISAM";
 				if (!$exec_table_cookbook = $dbconnect->query($sql_table_cookbook))
 				{
 					foodie_AddHeader();
@@ -380,7 +376,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_rating = $dbconnect->query($sql_check_table_rating))
 			{
 				//Rating table
-				$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned zerofill NOT NULL default '00000000', vote smallint(1) NOT NULL default '0', KEY id (id)) TYPE=MyISAM";
+				$sql_table_rating = "CREATE TABLE rating (id int(8) unsigned NOT NULL default 0, vote smallint(1) NOT NULL default '0', KEY id (id)) ENGINE=MyISAM";
 				if (!$exec_table_rating = $dbconnect->query($sql_table_rating))
 				{
 					foodie_AddHeader();
@@ -393,7 +389,7 @@ if (array_key_exists("installation", $_POST))
 			if (!$exec_check_table_shopping = $dbconnect->query($sql_check_table_shopping))
 			{
 				//Shopping list table
-				$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned zerofill NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY  (id)) TYPE=MyISAM";
+				$sql_table_shopping = "CREATE TABLE shopping (id int(8) unsigned NOT NULL auto_increment, recipe varchar(255) NOT NULL default '0', ingredients text NOT NULL, PRIMARY KEY  (id)) ENGINE=MyISAM";
 				if (!$exec_table_shopping = $dbconnect->query($sql_table_shopping))
 				{
 					foodie_AddHeader();
@@ -403,19 +399,15 @@ if (array_key_exists("installation", $_POST))
 				}
 			}
 		}
+        else {
+		    foodie_AddHeader();
+		    require_once(dirname(__FILE__)."/lang/".$setting_locale.".php");
+		    echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>\n
+		    <p>" . ERROR_UNEXPECTED . "\n";
+		    exit();
+        }
         // If we got this far, redirect to the index
 		header("Location: index.php");
 	} 
-	//if install value differs from ok prints out an error message
-	//since this variable has been tampered
-	if ($_POST['installation'] != "ok")
-	{
-		foodie_AddHeader();
-		require_once(dirname(__FILE__)."/lang/".$setting_locale.".php");
-		echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>\n
-		<p>" . ERROR_UNEXPECTED . "\n";
-		exit();
-	}
-}
 ?>
 
