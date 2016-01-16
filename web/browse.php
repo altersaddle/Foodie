@@ -45,7 +45,7 @@ $letterarg = '';
 $letter = '';
 $offset = 0;
 
-if (isset($_GET['offset']) && isnumeric($_GET['offset'])) {
+if (isset($_GET['offset']) && is_numeric($_GET['offset'])) {
 	$offset = $_GET['offset'];
 }
 

@@ -28,17 +28,6 @@ function foodie_AddFooter()
 {
 	include(dirname(__FILE__)."/includes/footer.inc.php");
 }
-//This function prints fast logout from admin area link
-function cs_AdminFastLogout()
-{
-	global $trans_sid;
-	echo "<p><a href=\"admin_logout.php";
-	if ($trans_sid == 0)
-	{
-		echo "?" . SID;
-	}
-	echo "\">" . MSG_ADMIN_LOGOUT_FAST . "</a>\n";
-}
 //Function used to determine page size for PDF generated file
 function cs_CheckForPageSize()
 {

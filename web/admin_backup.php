@@ -30,6 +30,8 @@ require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 require(dirname(__FILE__)."/includes/dbcommands.inc.php");
 
+$filename = "foodie.sql";
+
 if (!isset($_SESSION['admin_user'])) {
     header("Location: login.php");
 }
@@ -53,12 +55,12 @@ else {
 	    //If $_POST variable is correctly set save sql backup file
 	    if ($_POST['backup_action'] == "do_backup")
 	    {
-		    if (file_exists(dirname(__FILE__)."/backup/crisoftricette.sql"))
+		    if (file_exists(dirname(__FILE__)."/backup/$filename"))
 		    {
-			    unlink(dirname(__FILE__)."/backup/crisoftricette.sql");
+			    unlink(dirname(__FILE__)."/backup/$filename");
 			    echo "<p>" . MSG_ADMIN_BACKUP_OLDDEL . "\n";
 		    }
-		    $backup_file = fopen(dirname(__FILE__)."/backup/crisoftricette.sql", "w");
+		    $backup_file = fopen(dirname(__FILE__)."/backup/$filename", "w");
 		    if (!$backup_file)
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_SUBDIR . "\n";
@@ -82,7 +84,7 @@ else {
 		    fputs($backup_file, $dbcreatecommands['admin'].";\n");
 		    while ($dump_admin = $exec_admin->fetch_object())
 		    {
-			    fputs($backup_file, "INSERT INTO admin VALUES('$dump_admin->user', '$dump_admin->password');\n");
+			    fputs($backup_file, "INSERT INTO admin VALUES ('$dump_admin->user', '$dump_admin->password');\n");
 		    }
 		    //Backup cooking table
 		    $sql_cooking = "SELECT * FROM cooking";
@@ -97,8 +99,8 @@ else {
 		    fputs($backup_file, $dbcreatecommands['cooking'].";\n");
 		    while ($dump_cooking = $exec_cooking->fetch_object())
 		    {
-			    $cooking_type = addslashes($dump_cooking->type);
-			    fputs($backup_file, "INSERT INTO cooking VALUES($dump_cooking->id, '$cooking_type');\n");
+			    $cooking_type = $dbconnect->real_escape_string($dump_cooking->type);
+			    fputs($backup_file, "INSERT INTO cooking VALUES ($dump_cooking->id, '$cooking_type');\n");
 		    }
 		    //Backup difficulty table
 		    $sql_difficulty = "SELECT * FROM difficulty";
@@ -113,7 +115,7 @@ else {
 		    fputs($backup_file, $dbcreatecommands['difficulty'].";\n");
 		    while ($dump_difficulty = $exec_difficulty->fetch_object())
 		    {
-			    fputs($backup_file, "INSERT INTO difficulty VALUES($dump_difficulty->id, $dump_difficulty->difficulty);\n");
+			    fputs($backup_file, "INSERT INTO difficulty VALUES ($dump_difficulty->id, $dump_difficulty->difficulty);\n");
 		    }
 		    //Backup dish table
 		    $sql_dish = "SELECT * FROM dish";
@@ -128,8 +130,8 @@ else {
 		    fputs($backup_file, $dbcreatecommands['admin'].";\n");
 		    while ($dump_dish = $exec_dish->fetch_object())
 		    {
-			    $dish_dish = addslashes($dump_dish->dish);
-			    fputs($backup_file, "INSERT INTO dish VALUES($dump_dish->id, '$dish_dish');\n");
+			    $dish_dish = $dbconnect->real_escape_string($dump_dish->dish);
+			    fputs($backup_file, "INSERT INTO dish VALUES ($dump_dish->id, '$dish_dish');\n");
 		    }
 		    //Backup main table
 		    $sql_main = "SELECT * FROM main";
@@ -143,18 +145,18 @@ else {
 		    fputs($backup_file, $dbcreatecommands['main'].";\n");
 		    while ($dump_main = $exec_main->fetch_object())
 		    {
-			    $main_name = addslashes($dump_main->name);
-			    $main_dish = addslashes($dump_main->dish);
-			    $main_mainingredient = addslashes($dump_main->mainingredient);
-			    $main_origin = addslashes($dump_main->origin);
-			    $main_ingredients = addslashes($dump_main->ingredients);
-			    $main_description = addslashes($dump_main->description);
-			    $main_kind = addslashes($dump_main->kind);
-			    $main_season = addslashes($dump_main->season);
-			    $main_time = addslashes($dump_main->time);
-			    $main_notes = addslashes($dump_main->notes);
-			    $main_wines = addslashes($dump_main->wines);
-			    fputs($backup_file, "INSERT INTO main VALUES($dump_main->id, '$main_name', '$main_dish', '$main_mainingredient', '$dump_main->people', '$main_origin', '$main_ingredients', '$main_description', '$main_kind', '$main_season', '$main_time', '$dump_main->difficulty', '$main_notes', '$dump_main->image', '$dump_main->video', '$main_wines');\n");
+			    $main_name = $dbconnect->real_escape_string($dump_main->name);
+			    $main_dish = $dbconnect->real_escape_string($dump_main->dish);
+			    $main_mainingredient = $dbconnect->real_escape_string($dump_main->mainingredient);
+			    $main_origin = $dbconnect->real_escape_string($dump_main->origin);
+			    $main_ingredients = $dbconnect->real_escape_string($dump_main->ingredients);
+			    $main_description = $dbconnect->real_escape_string($dump_main->description);
+			    $main_kind = $dbconnect->real_escape_string($dump_main->kind);
+			    $main_season = $dbconnect->real_escape_string($dump_main->season);
+			    $main_time = $dbconnect->real_escape_string($dump_main->time);
+			    $main_notes = $dbconnect->real_escape_string($dump_main->notes);
+			    $main_wines = $dbconnect->real_escape_string($dump_main->wines);
+			    fputs($backup_file, "INSERT INTO main VALUES ($dump_main->id, '$main_name', '$main_dish', '$main_mainingredient', '$dump_main->people', '$main_origin', '$main_ingredients', '$main_description', '$main_kind', '$main_season', '$main_time', '$dump_main->difficulty', '$main_notes', '$dump_main->image', '$dump_main->video', '$main_wines');\n");
 		    }
 		    //Backup personal_book
 		    $sql_personal_book = "SELECT * FROM personal_book";
@@ -169,8 +171,8 @@ else {
 		    fputs($backup_file, $dbcreatecommands['personal_book'].";\n");
 		    while ($dump_personal_book = $exec_personal_book->fetch_object())
 		    {
-			    $personal_book_recipe_name = addslashes($dump_personal_book->recipe_name);
-			    fputs($backup_file, "INSERT INTO personal_book VALUES($dump_personal_book->id, '$personal_book_recipe_name');\n");
+			    $personal_book_recipe_name = $dbconnect->real_escape_string($dump_personal_book->recipe_name);
+			    fputs($backup_file, "INSERT INTO personal_book VALUES ($dump_personal_book->id, '$personal_book_recipe_name');\n");
 		    }
 		    //Backup rating
 		    $sql_rating = "SELECT * FROM rating";
@@ -185,7 +187,7 @@ else {
 		    fputs($backup_file, $dbcreatecommands['rating'].";\n");
 		    while ($dump_rating = $exec_rating->fetch_object())
 		    {
-			    fputs($backup_file, "INSERT INTO rating VALUES($dump_rating->id, $dump_rating->vote);\n");
+			    fputs($backup_file, "INSERT INTO rating VALUES ($dump_rating->id, $dump_rating->vote);\n");
 		    }
 		    //Backup shopping
 		    $sql_shopping = "SELECT * FROM shopping";
@@ -200,12 +202,12 @@ else {
 		    fputs($backup_file, $dbcreatecommands['shopping'].";\n");
 		    while ($dump_shopping = $exec_shopping->fetch_object())
 		    {
-			    $shopping_recipe = addslashes($dump_shopping->recipe);
-			    $shopping_ingredients = addslashes($dump_shopping->ingredients);
-			    fputs($backup_file, "INSERT INTO shopping VALUES($dump_shopping->id, '$shopping_recipe', '$shopping_ingredients');\n");
+			    $shopping_recipe = $dbconnect->real_escape_string($dump_shopping->recipe);
+			    $shopping_ingredients = $dbconnect->real_escape_string($dump_shopping->ingredients);
+			    fputs($backup_file, "INSERT INTO shopping VALUES ($dump_shopping->id, '$shopping_recipe', '$shopping_ingredients');\n");
 		    }
 		    fclose ($backup_file);
-		    echo "<p>" . MSG_ADMIN_BACKUP_FILE . ": <a href=\"backup/crisoftricette.sql\" target=\"_blank\">backup/crisoftricette.sql</a>\n";
+		    echo "<p>" . MSG_ADMIN_BACKUP_FILE . ": <a href=\"backup/$filename\" target=\"_blank\">backup/$filename</a>\n";
 		
 		    foodie_AddFooter();
 		    exit();
