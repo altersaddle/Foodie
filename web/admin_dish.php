@@ -45,6 +45,7 @@ else {
         echo "<li id=\"{$row->id}\" class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>{$row->dish}</li>";
     }
     echo "</ul>";
+    echo "<form action=\"\"><p><input type=\"button\" onClick=\"JavaScript:submitDish();\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
 
     foodie_AddFooter();
 }?>

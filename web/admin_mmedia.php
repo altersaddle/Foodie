@@ -114,7 +114,7 @@ else {
 			echo "<input type=\"hidden\" name=\"action\" value=\"update_media\">\n";
             echo "<input type=\"hidden\" name=\"recipe_id\" value=\"$recipe_id\">\n";
             echo "<input type=\"hidden\" name=\"recipe_name\" value=\"{$recipe->name}\">\n";
-            echo "<p><input type=\"submit\" value=\"" . BTN_MMEDIA_SUBMIT_CHANGES . "\">\n</form>\n";
+            echo "<p><input type=\"submit\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
         }
         $recipe_result->close();
     }

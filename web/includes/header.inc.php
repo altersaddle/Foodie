@@ -32,16 +32,12 @@ if (strstr($_SERVER['SCRIPT_NAME'], "/index.php")) {
  */
 if (strstr($filename, "admin_"))
 {
-    echo "<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>";
-    echo "<script src=\"//code.jquery.com/ui/1.11.4/jquery-ui.js\"></script>";
-    echo "<link rel=\"stylesheet\" href=\"//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css\">";
+    echo "<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>\n";
+    echo "<script src=\"//code.jquery.com/ui/1.11.4/jquery-ui.js\"></script>\n";
+    echo "<link rel=\"stylesheet\" href=\"//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css\">\n";
+    echo "<script src=\"js/foodie_admin.js\"></script>\n";
 ?>
 
-<style>
-  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-  #sortable li span { position: absolute; margin-left: -1.3em; }
-</style>
   <script>
   $(function() {
     $( "#sortable" ).sortable();

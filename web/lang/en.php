@@ -38,7 +38,7 @@ define("MSG_ADMIN_MULTIMEDIA_VIDEO_AVAILABLE", "Video already available for reci
 define("MSG_ADMIN_MULTIMEDIA_LAUNCH_VIDEO", "Open video in new window");
 define("MSG_MMEDIA_INSERT_IMAGE", "Upload image for recipe");
 define("MSG_MMEDIA_INSERT_VIDEOCLIP", "Link to online video");
-define("BTN_MMEDIA_SUBMIT_CHANGES", "Submit changes");
+define("BTN_SUBMIT_CHANGES", "Submit changes");
 define("ERROR_ADMIN_MMEDIA_IMAGE_ADD", "Unable to add image to recipe");
 define("MSG_ADMIN_MMEDIA_IMAGE_ADDED", "image added to recipe");
 define("MSG_ADMIN_MMEDIA_BACK_RECIPE", "Back to recipe");
