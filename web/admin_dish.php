@@ -36,7 +36,7 @@ else {
     foodie_AddHeader();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
     // 
-    echo "<ul id=\"sortable\">";
+    echo "<div id=\"dish\"><ul id=\"sortable\">";
     
     $sql = "SELECT id, dish FROM dish ORDER BY id";
     $dbquery = $dbconnect->query($sql);
@@ -44,8 +44,10 @@ else {
     while ($row = $dbquery->fetch_object()) {
         echo "<li id=\"{$row->id}\" class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>{$row->dish}</li>";
     }
-    echo "</ul>";
-    echo "<form action=\"\"><p><input type=\"button\" onClick=\"JavaScript:submitDish();\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
+    echo "</ul></div>";
+    echo "<form action=\"\"><p>";
+    echo "<input type=\"button\" onClick=\"JavaScript:addDish('".MSG_ADMIN_NEW_SERVING."')\" value=\"". MSG_ADMIN_SERVING_ASKNEW . "\">\n";
+    echo "<input type=\"button\" onClick=\"JavaScript:submitDish();\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
 
     foodie_AddFooter();
 }?>

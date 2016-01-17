@@ -327,6 +327,7 @@ define("ERROR_ADMIN_DELETE_LETTER", "No recipe in database beginning with letter
 //admin_dish.php
 define("MSG_ADMIN_SERVING_SUCCESS", "successfully added to available servings");
 define("MSG_ADMIN_SERVING_ASKNEW", "Add new serving");
+define("MSG_ADMIN_NEW_SERVING", "New serving");
 define("MSG_ADMIN_SERVING_CHANGED", "Serving changed to");
 define("MSG_ADMIN_SERVING_DELETED", "Serving deleted");
 define("BTN_ADMIN_SERVING_CHANGE", "Modify serving");
