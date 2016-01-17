@@ -144,15 +144,24 @@ else {
         if (!isset($_GET['offset'])) {
 	        $_GET['offset'] = 0;
         }
-        if (!isset($_GET['letter'])) {
-	        $_GET['letter'] = "A";
+
+        $letter_where = '';
+        $letter_arg = '';
+        $sql = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$_GET['offset']},{$setting_max_lines_page}";
+        // If letter is set, adjust SQL
+        if (isset($_GET['letter'])) {
+	        $sql = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$setting_max_lines_page}";
+            $letter_arg = "&letter=".$_GET['letter'];
+            $letter_where = " WHERE name LIKE '{$_GET['letter']}%'";
         }
-        //Count recipes into database
-        $sql_db_recipe_number = mysqli_query($dbconnect, "SELECT * FROM main");
-        $recipe_number = mysqli_num_rows($sql_db_recipe_number);
+
+        //Count recipes in query
+        $dbquery = $dbconnect->query("SELECT COUNT(*) FROM main $letter_where");
+        $result = $dbquery->fetch_row();
+        $recipe_number = $result[0];
+        $dbquery->close();
         //Retrieve recipe names and ID's
-        $sql_db_browse_letter = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$setting_max_lines_page}";
-        if (!$exec_db_browse = mysqli_query($dbconnect, $sql_db_browse_letter)) {
+        if (!$exec_db_browse = $dbconnect->query($sql)) {
 	        echo "<p class=\"error\">" . ERROR_BROWSE . "\n<br>" . mysqli_error();
 	        cs_AdminFastLogout();
 	        cs_AddFooter();
@@ -164,19 +173,7 @@ else {
         $num_letter = mysqli_num_rows($exec_db_browse);
         if ($num_letter == "0")
         {
-	        if (!is_numeric($_GET['letter']))
-	        {
 	        echo "<p class=\"error\">" . ERROR_ADMIN_DELETE_LETTER . " {$_GET['letter']}\n";
-	        //Fast logout from admin area
-	        cs_AdminFastLogout();
-	        cs_AddFooter();
-	        exit();
-	        }
-	        echo "<p class=\"error\">" . ERROR_ADMIN_DELETE_LETTER . " {$_GET['letter']}\n";
-	        //Fast logout from admin area
-	        cs_AdminFastLogout();
-	        cs_AddFooter();
-	        exit();
         }
 	    echo "<table class=\"browse\">";
 	    while ($recipe_browse_list = $exec_db_browse->fetch_object()) 
@@ -185,11 +182,11 @@ else {
 	    }
 	    echo "</table>\n";
 
-        echo "<p>" . MSG_AVAILABLE_PAGES . "Available pages: \n";
+        echo "<p>" . MSG_AVAILABLE_PAGES . ": \n";
         if ($_GET['offset']>=1) 
         { // bypass PREV link if offset is 0
 	        $prevoffset=$_GET['offset'] - $setting_max_lines_page;
-	        echo "<p align=center><a href=\"admin_modify.php?&letter={$_GET['letter']}&offset=$prevoffset\">" . MSG_PREVIOUS . "</a> - \n";
+	        echo "<p align=center><a href=\"admin_modify.php?offset=$prevoffset$letter_arg\">" . MSG_PREVIOUS . "</a> - \n";
         }
         // calculate number of pages needing links
         $pages=intval($recipe_number/$setting_max_lines_page);
@@ -200,13 +197,13 @@ else {
         }
         for ($i=1;$i<=$pages;$i++) { // loop thru
             $newoffset=$setting_max_lines_page*($i-1);
-            echo "<a href=\"admin_modify.php?letter={$_GET['letter']}&offset=$newoffset\">$i</a> \n";
+            echo "<a href=\"admin_modify.php?offset=$newoffset$letter_arg\">$i</a> \n";
         }
         // check to see if last page
         if (!(($_GET['offset']/$setting_max_lines_page)==$pages) && $pages!=1) {
             // not last page so give NEXT link
 	        $newoffset=$_GET['offset']+$setting_max_lines_page;
-	        echo "&nbsp;-&nbsp;<a href=\"admin_modify.php?letter={$_GET['letter']}&offset=$newoffset\">" . MSG_NEXT . "</a>\n";
+	        echo "&nbsp;-&nbsp;<a href=\"admin_modify.php?offset=$newoffset$letter_arg\">" . MSG_NEXT . "</a>\n";
         }
     }
     foodie_AddFooter();

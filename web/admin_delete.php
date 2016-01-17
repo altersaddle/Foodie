@@ -58,14 +58,14 @@ else {
         $letter_where = '';
         $letter_arg = '';
         $sql = "SELECT id,name FROM main ORDER BY name ASC LIMIT {$_GET['offset']},{$setting_max_lines_page}";
-        //Retrieve recipe names and ID's
+        // If letter is set, adjust SQL
         if (isset($_GET['letter'])) {
 	        $sql = "SELECT id,name FROM main WHERE name LIKE '{$_GET['letter']}%' ORDER BY name ASC LIMIT {$_GET['offset']},{$setting_max_lines_page}";
             $letter_arg = "&letter=".$_GET['letter'];
             $letter_where = " WHERE name LIKE '{$_GET['letter']}%'";
         }
 
-        //Count recipes in database
+        //Count recipes in query
         $dbquery = $dbconnect->query("SELECT COUNT(*) FROM main $letter_where");
         $result = $dbquery->fetch_row();
         $recipe_number = $result[0];
