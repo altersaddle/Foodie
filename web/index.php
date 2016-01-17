@@ -19,9 +19,6 @@
 ****************************************************************************
 */
 //Session initialization
-srand((double)microtime()*1000000);
-$sess_id = md5(rand(0,9999999));
-session_id($sess_id);
 session_name("foodie");
 session_start();
 

@@ -30,13 +30,13 @@ require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
 if (!isset($_SESSION['admin_user'])) {
-    header("Location: login.php");
+    header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
     foodie_AddHeader();
-    echo "<h2><?= MSG_ADMIN ?></h2>\n";
-    echo "<h3><?= MSG_ADMIN_MAIN_MENU ?></h3>\n";
     ?>
+    <h2><?= MSG_ADMIN ?></h2>
+    <h3><?= MSG_ADMIN_MAIN_MENU ?></h3>
     <table width="100%" bgcolor="#dddddd" cellspacing="1" cellpadding="1">
     <tr bgcolor="#ffffff">
       <td valign=top>

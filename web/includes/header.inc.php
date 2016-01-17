@@ -9,7 +9,7 @@ $filename = $_SERVER['PHP_SELF'];
 	<title>How to Cook Like a Pirate</title>
     <link href="foodie.css" rel="stylesheet" type="text/css">
 <?php
-if (strstr($_SERVER['SCRIPT_NAME'], "index.php")) {
+if (strstr($_SERVER['SCRIPT_NAME'], "/index.php")) {
 ?>
 <script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>
 <!-- Include Unite Gallery -->
@@ -49,7 +49,7 @@ if (strstr($filename, "admin_"))
   });
   </script>
   <?php
-    echo "</head><body><h1>". MSG_SITE_TITLE . "</h1>";
+    echo "</head><body><h1><a href=\"index.php\">". MSG_SITE_TITLE . "</a></h1>";
 	echo "<table width=\"100%\" bgcolor=\"#dddddd\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">
 	<tr bgcolor=\"#eeeeee\"><td valign=\"top\"><p class=\"menu_admin\"><strong>" . MSG_ADMIN_HEADER_RECIPES . "</strong><br>
 	<a href=\"admin_insert.php\">" . MSG_ADMIN_HEADER_INS . "</a><br>
@@ -95,7 +95,7 @@ else
 ?>
   </head>
   <body>
-    <h1><?= MSG_SITE_TITLE ?></h1>
+    <h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>
     <p class="menu">
       <table border="0" width="95%" cellpadding=0 cellspacing=0>
         <tr>
@@ -106,7 +106,7 @@ else
 	        <a href="shoppinglist.php"><?= MSG_SHOPPING ?></a>
 	     </td>
          <td align="right" class="menu">
-            <a href="login.php"><?= MSG_ADMIN ?></a> 
+            <a href="admin_index.php"><?= MSG_ADMIN ?></a> 
          </td>
        </tr>
      </table>

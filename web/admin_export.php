@@ -30,7 +30,7 @@ require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
 if (!isset($_SESSION['admin_user'])) {
-    header("Location: login.php");
+    header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
     foodie_AddHeader();

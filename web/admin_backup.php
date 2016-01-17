@@ -33,7 +33,7 @@ require(dirname(__FILE__)."/includes/dbcommands.inc.php");
 $filename = "foodie.sql";
 
 if (!isset($_SESSION['admin_user'])) {
-    header("Location: login.php?redirect=admin_backup.php");
+    header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
     foodie_AddHeader();

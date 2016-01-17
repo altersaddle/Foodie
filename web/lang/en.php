@@ -28,20 +28,23 @@
 define("MSG_SEARCH_NORECIPESFOUND", "No recipes found for requested search terms");
 define("MSG_SEARCH_RECIPESFOUND", "Recipes found matching requested search terms");
 //messages added into 1.0pre15
-define("MSG_RECIPE_IMAGE_UNAVAILABLE", "Image unavailable, add a new one");
-define("MSG_RECIPE_VIDEO_UNAVAILABLE", "Video unavailable, add a new one");
+define("MSG_RECIPE_IMAGE_UNAVAILABLE", "No image available");
+define("MSG_RECIPE_VIDEO_UNAVAILABLE", "No video available");
+define("MSG_RECIPE_ADD_NEW", "Add a new one");
 define("MSG_RECIPE_VIDEO_FILE", "Video of this recipe");
 define("MSG_ADMIN_MENU_MULTIMEDIA", "Image and video management");
 define("MSG_ADMIN_MULTIMEDIA_IMAGE_AVAILABLE", "Image already available for recipe");
 define("MSG_ADMIN_MULTIMEDIA_VIDEO_AVAILABLE", "Video already available for recipe");
-define("BTN_MMEDIA_INSERT_IMAGE", "Add image to recipe");
-define("BTN_MMEDIA_INSERT_VIDEOCLIP", "Add video to recipe");
+define("MSG_ADMIN_MULTIMEDIA_LAUNCH_VIDEO", "Open video in new window");
+define("MSG_MMEDIA_INSERT_IMAGE", "Upload image for recipe");
+define("MSG_MMEDIA_INSERT_VIDEOCLIP", "Link to online video");
+define("BTN_MMEDIA_SUBMIT_CHANGES", "Submit changes");
 define("ERROR_ADMIN_MMEDIA_IMAGE_ADD", "Unable to add image to recipe");
 define("MSG_ADMIN_MMEDIA_IMAGE_ADDED", "image added to recipe");
 define("MSG_ADMIN_MMEDIA_BACK_RECIPE", "Back to recipe");
 define("MSG_ADMIN_MMEDIA_DISPLAY_RECIPE", "Look at recipe");
 define("ERROR_ADMIN_MMEDIA_VIDEOCLIP_ADD", "Unable to add video to recipe");
-define("MSG_ADMIN_MMEDIA_VIDEOCLIP_ADDED", "video added to recipe");
+define("MSG_ADMIN_MMEDIA_VIDEO_UPDATED", "video link updated for recipe");
 define("MSG_ADMIN_MMEDIA_RECIPE_SELECT", "Select recipe to add image/video");
 define("BTN_ADMIN_MMEDIA_SELECT", "Select this recipe");
 define("MSG_ADMIN_HEADER_INDEX", "Admin home");

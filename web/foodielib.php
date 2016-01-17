@@ -547,8 +547,11 @@ function foodie_PrintRecipeData($recipe_data)
 		echo "<tr><td colspan=2 class=\"recipe-image\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
 	} else
 	{
-		$_SESSION['insert'] = "image";
-		echo "<tr><td colspan=2 style=\"text-align:left;\" class=\"recipe-image\"><a href=\"admin_mmedia.php\">" . MSG_RECIPE_IMAGE_UNAVAILABLE . "</a></td></tr>\n";
+		echo "<tr><td colspan=2 style=\"text-align:left;\" class=\"recipe-image\">" . MSG_RECIPE_IMAGE_UNAVAILABLE ;
+        if (isset($_SESSION['admin_user'])) {
+            echo " <a href=\"admin_mmedia.php?recipe_id={$recipe_data['id']}\">". MSG_RECIPE_ADD_NEW ."</a>";
+        }
+        echo "</td></tr>\n";
 	}
 
 	echo "<tr><td>" . MSG_RECIPE_SERVING . "</td><td>{$recipe_data['dish']}</td></tr>\n";
