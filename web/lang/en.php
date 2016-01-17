@@ -170,7 +170,7 @@ define("MSG_INSERT_VIDEOCLIP", "Video filename referring to recipe");
 define("BTN_INSERT_VIDEOCLIP", "Upload video and add recipe");
 define("MSG_INSERT_IMAGE", "Image filename referring to recipe");
 define("BTN_INSERT_IMAGE", "Upload image and add recipe");
-define("BTN_INSERT_RECIPE", "Insert recipe without video/image");
+define("BTN_INSERT_RECIPE", "Insert recipe");
 define("BTN_INSERT_PREVIEW", "Preview");
 define("BTN_INSERT_CLEAR", "Reset");
 define("MSG_INSERT_OK", "successfully inserted into database");

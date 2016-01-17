@@ -577,43 +577,6 @@ function foodie_PrintRecipeData($recipe_data)
 	echo "</table>\n";
 }
 
-//Print browse table used to delete recipes
-function cs_PrintDeleteTable()
-{
-	global $exec_db_browse;
-	global $trans_sid;
-	echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" bgcolor=\"#aaaaaa\">";
-	$arr_element = 0;
-	$line_number = 1;
-	while ($recipe_browse_list = mysql_fetch_object($exec_db_browse)) 
-	{
-		$list_data[$arr_element][0] = $recipe_browse_list->id;
-		$list_data[$arr_element][1] = $recipe_browse_list->name;
-		$list_data[$arr_element][2] = $line_number;
-		$arr_element++;
-		$line_number++;
-	}
-	$count_data = count($list_data);
-	foreach ($list_data as $list_var)
-	{
-		if (($list_var[2] % 2 == 0))
-		{
-			$row_color = "#eeeeee";
-		} else
-		{
-			$row_color = "#dddddd";
-		}
-		echo "<tr><td bgcolor=\"$row_color\">\n";
-		echo "<a href=\"admin_delete.php?recipe=$list_var[0]";
-		if ($trans_sid == 0)
-		{
-			echo "&" . SID;
-		}
-		echo "\">$list_var[1]</a>";
-		echo "</td></tr>\n";
-	}
-	echo "</table>\n";
-}
 //Print browse table used to modify/delete cooking types
 function cs_PrintCookingTable($action)
 {
