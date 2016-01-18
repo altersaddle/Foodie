@@ -251,8 +251,7 @@ define("MSG_ADMIN_PASS", "Password");
 define("MSG_ADMIN_LOGIN", "Login");
 define("MSG_ADMIN_MAIN_MENU", "Main menu");
 define("MSG_ADMIN_TITLE_RECIPE", "Recipes administration");
-define("MSG_ADMIN_TITLE_SERVING", "Servings administration");
-define("MSG_ADMIN_TITLE_COOKING", "Cooking types administration");
+define("MSG_ADMIN_TITLE_LIST", "List administration");
 define("MSG_ADMIN_TITLE_CONFIG", "Configuration");
 define("MSG_ADMIN_TITLE_UTIL", "Utilities");
 define("MSG_ADMIN_TITLE_BACKUP", "Backups");
@@ -280,24 +279,6 @@ define("ERROR_ADMIN_CHANGE_DEFAULT", "Please set administrator username/password
 define("ERROR_ADMIN_INVALID_USERNAME", "Empty or invalid username");
 define("ERROR_ADMIN_INVALID_PASSWORD", "Empty or invalid password");
 define("ERROR_ADMIN_AUTHFAIL", "Invalid username/password");
-//admin_config.php
-define("ERROR_ADMIN_CFG_HOSTNAME", "invalid as server name/IP address");
-define("ERROR_ADMIN_CFG_PORT", "TCP/IP port number should be a numeric value");
-define("ERROR_ADMIN_CFG_LINES", "Maximum lines per page should be a numeric value");
-define("ERROR_ADMIN_CFG_DELETE", "Unable to delete configuration file");
-define("ERROR_ADMIN_CFG_UPDATE", "Unable to update configuration file");
-define("ERROR_ADMIN_CFG_BELOW", "Save the text below in file");
-define("ERROR_ADMIN_CFG_RESTART", "then restart application");
-define("MSG_ADMIN_CFG_HOSTNAME", "MySQL server name/IP address");
-define("MSG_ADMIN_CFG_PORT", "MySQL server TCP/IP port");
-define("MSG_ADMIN_CFG_USER", "MySQL username");
-define("MSG_ADMIN_CFG_PASS", "MySQL password");
-define("MSG_ADMIN_CFG_DBNAME", "MySQL database");
-define("MSG_ADMIN_CFG_LOCALE", "Language");
-define("MSG_ADMIN_CFG_LINES", "Lines per page");
-define("MSG_ADMIN_CFG_EMAIL", "E-mail address");
-define("MSG_ADMIN_CFG_PAGESIZE", "PDF files page size");
-define("BTN_ADMIN_CFG_CHANGE", "Change configuration");
 //admin_cooking.php
 define("MSG_ADMIN_COOKING_INS", "Add cooking types");
 define("MSG_ADMIN_COOKING_DEL", "Delete cooking types");

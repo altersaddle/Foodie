@@ -51,22 +51,11 @@ else {
     </tr>
     <tr bgcolor="#ffffff">
       <td valign="top">
-        <p class="menu_title"><?= MSG_ADMIN_TITLE_SERVING ?></p>
+        <p class="menu_title"><?= MSG_ADMIN_TITLE_LIST ?></p>
       </td>
       <td valign=top>
-        <p><a href="admin_dish.php?action=adm_insert"><?= MSG_ADMIN_MENU_SERVING_ADD ?></a><br>
-        <a href="admin_dish.php?action=adm_modify"><?= MSG_ADMIN_MENU_SERVING_MOD ?></a><br>
-        <a href="admin_dish.php?action=adm_delete"><?= MSG_ADMIN_MENU_SERVING_DEL ?></a></p>
-      </td>
-    </tr>
-    <tr bgcolor="#ffffff">
-      <td valign="top">
-        <p class="menu_title"><?= MSG_ADMIN_TITLE_COOKING ?></p>
-      </td>
-      <td valign="top">
-        <p><a href="admin_cook.php?action=adm_insert"><?= MSG_ADMIN_MENU_COOKING_ADD ?></a><br>
-        <a href="admin_cook.php?action=adm_modify"><?= MSG_ADMIN_MENU_COOKING_MOD ?></a><br>
-        <a href="admin_cook.php?action=adm_delete"><?= MSG_ADMIN_MENU_COOKING_DEL ?></a><br></p>
+        <p><a href="admin_dish.php"><?= MSG_ADMIN_MENU_DISH ?></a><br>
+        <a href="admin_cook.php"><?= MSG_ADMIN_MENU_COOKING_TYPE ?></a><br></p>
       </td>
     </tr>
     <tr bgcolor="#ffffff">
