@@ -2,11 +2,7 @@ INSTALL file for Foodie
 
 *** COPYING FILES TO YOUR HARD DISK
 
-Ungzip/unbzip and untar (or unzip for .zip version)
-CrisoftRicette-1.0preX.tar.gz
-CrisoftRicette-1.0preX.tar.bz2
-CrisoftRicette-1.0preX.zip
-into your web root folder.
+Extract the contents of the downloaded archive to a web server.
 
 *** SOFTWARE REQUIREMENTS
 
@@ -25,6 +21,8 @@ webserver documentation).
 *** CONFIGURING SOFTWARE
 
 Edit config/foodie.inc.php with your database connection info.
+
+The database user should have sufficient privileges to create tables (for backup / restore and installation)
 
 If you wish to be able to email recipes, configure the email address too.
 

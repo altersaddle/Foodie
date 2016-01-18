@@ -34,6 +34,8 @@ if (!isset($_SESSION['admin_user'])) {
 }
 else {
     foodie_AddHeader();
+    echo "<h2>" . MSG_ADMIN . "</h2>\n";
+    echo "<h3>" . MSG_ADMIN_MENU_RECIPE_ADD . "</h3>\n";
 
     if (isset($_POST['action']))
     {

@@ -262,6 +262,8 @@
     <Content Include="images\placeholder-dessert.png" />
     <Content Include="images\placeholder-dinner.png" />
     <Content Include="images\placeholder-lunch.png" />
+    <Content Include="js\foodie_admin.js" />
+    <Content Include="js\jquery.jeditable.mini.js" />
     <Content Include="unitegallery\js\unitegallery.js" />
     <Content Include="unitegallery\js\unitegallery.min.js" />
   </ItemGroup>

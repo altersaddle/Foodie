@@ -74,8 +74,7 @@ else {
         <p class="menu_title"><?= MSG_ADMIN_TITLE_CONFIG ?></p>
       </td>
       <td valign=top>
-        <p><a href="admin_userpass.php"><?= MSG_ADMIN_MENU_CONFIG_USR ?></a><br>
-        <a href="admin_config.php"><?= MSG_ADMIN_MENU_CONFIG_CFG ?></a><br></p>
+        <p><a href="admin_userpass.php"><?= MSG_ADMIN_MENU_CONFIG_USR ?></a><br></p>
       </td>
     </tr>
     <tr bgcolor="#ffffff">

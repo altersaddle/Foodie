@@ -35,18 +35,33 @@ if (!isset($_SESSION['admin_user'])) {
 else {
     foodie_AddHeader();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
-    // 
+    echo "<h3>" . MSG_ADMIN_MENU_DISH . "</h3>\n";
+    // when this is a postback, insert new data
+    if (isset($_POST['dish_types']) && is_array($_POST['dish_types'])) {
+        // Dump and rewrite the Dish table
+        $dbconnect->query("DELETE FROM dish");
+        
+        $stmt = $dbconnect->prepare("INSERT INTO dish (id, dish) VALUES (?,?)");
+        $count = 1;
+        foreach ($_POST['dish_types'] as $dish) {
+            $stmt->bind_param("is", $count, $dish);
+            $stmt->execute();
+            $count++;    
+        }
+        $stmt->close();
+    }
     echo "<div id=\"dish\"><ul id=\"sortable\">";
     
     $sql = "SELECT id, dish FROM dish ORDER BY id";
     $dbquery = $dbconnect->query($sql);
+    $addMarkup = '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="inline-editable" style="float: left; display: inline;">' . MSG_ADMIN_NEW_SERVING . '</div><span class="close-button ui-icon ui-icon-circle-close"></span></li>';
     
     while ($row = $dbquery->fetch_object()) {
-        echo "<li id=\"{$row->id}\" class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>{$row->dish}</li>";
+        echo "<li id=\"dish_{$row->id}\" class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span><div class=\"inline-editable\" style=\"display: inline; float:left;\">{$row->dish}</div><span class=\"close-button ui-icon ui-icon-circle-close\"></span></li>\n";
     }
     echo "</ul></div>";
-    echo "<form action=\"\"><p>";
-    echo "<input type=\"button\" onClick=\"JavaScript:addDish('".MSG_ADMIN_NEW_SERVING."')\" value=\"". MSG_ADMIN_SERVING_ASKNEW . "\">\n";
+    echo "<form id=\"dish_form\" method=\"post\" action=\"\"><p>\n";
+    echo "<input type=\"button\" onClick=\"JavaScript:addDish('".htmlspecialchars($addMarkup)."');\" value=\"". MSG_ADMIN_SERVING_ASKNEW . "\">\n";
     echo "<input type=\"button\" onClick=\"JavaScript:submitDish();\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
 
     foodie_AddFooter();
