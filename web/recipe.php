@@ -134,7 +134,6 @@ echo "<table><tr>";
 //not exist and referer is not cookbook.php
 if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
 {
-	$sql_query_cookbook = "SELECT id FROM personal_book WHERE id = '{$_GET['recipe']}'";
     $stmt = $dbconnect->prepare("SELECT id FROM personal_book WHERE id = ?");
     $stmt->bind_param('s', $_GET['recipe']);
     $stmt->execute();

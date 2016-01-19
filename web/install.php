@@ -63,13 +63,6 @@ else {
 	if ($_POST['installation'] == "ok")
 	{
 		require_once(dirname(__FILE__)."/lang/".$setting_locale.".php");
-		//Check username and password for admin 
-		if ($_POST['sw_admin_user'] == $_POST['sw_admin_password'])
-		{
-			foodie_AddHeader();
-			echo "<p class=\"error\">" . ERROR_INSTALL_IDENTICAL . "!\n";
-			cs_PrintInstallationForm();
-		}
 		
 		require(dirname(__FILE__)."/includes/dbconnect.inc.php");
         require(dirname(__FILE__)."/includes/dbcommands.inc.php");
