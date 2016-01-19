@@ -108,29 +108,28 @@ if (!$votes_result = $stmt->get_result())
 }
 $num_votes = $votes_result->num_rows;
 //Calculate average vote
-if ($num_votes >= 1)
-{
-$sum_votes = 0;
-while ($rate_data = $votes_result->fetch_object())
-{
-	$sum_votes = $sum_votes + $rate_data->vote;
-}
-$avg_vote = $sum_votes / $num_votes;
-$votes_result->close();
-echo "<table><tr><td><p>" . MSG_RECIPE_VOTES_TOT . " $num_votes " . MSG_RECIPE_VOTES_AVG . ": $avg_vote\n</td><td>\n";
-echo "<form method=\"post\" action=\"rate.php\">\n";
-echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
+if ($num_votes >= 1) {
+    $sum_votes = 0;
+    while ($rate_data = $votes_result->fetch_object())
+    {
+	    $sum_votes = $sum_votes + $rate_data->vote;
+    }
+    $avg_vote = $sum_votes / $num_votes;
+    $votes_result->close();
+    echo "<table><tr><td><p>" . MSG_RECIPE_VOTES_TOT . " $num_votes " . MSG_RECIPE_VOTES_AVG . ": $avg_vote\n</td><td>\n";
 } 
 else
 {
 	echo "<table><tr><td><p>" . MSG_RECIPE_NEVER_RATED . "\n -</td><td>\n";
-	echo "<form method=\"post\" action=\"rate.php\">\n";
-	echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
 }
-//Link to mail this recipe page
-echo "<table><tr><td>";
-echo "<form method=\"post\" action=\"mail.php\">\n";
-echo "<input type=\"submit\" value=\"" . BTN_EMAIL ."\"></form></td>\n";
+echo "<form method=\"post\" action=\"rate.php\">\n";
+echo "<input type=\"hidden\" name=\"action\" value=\"v_rate\">\n";
+echo "<input type=\"hidden\" name=\"recipe_id\" value=\"{$_GET['recipe']}\">\n";
+echo "<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></table>\n";
+
+
+//Buttons below recipe
+echo "<table><tr>";
 //Print link to add selected recipe to personal cookbook only if it does
 //not exist and referer is not cookbook.php
 if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))

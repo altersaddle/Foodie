@@ -190,16 +190,6 @@ define("MSG_NOT_SPECIFIED", "Not specified");
 //license.php
 define("MSG_GPL_LICENSE", "GNU/GPL License");
 define("MSG_COPYRIGHT_NOTICE", "Copyright notice");
-//mail.php
-define("MSG_MAIL_TITLE", "Send recipe by e-mail");
-define("MSG_MAIL_ADDRESS_REQUEST", "Insert recipient email address");
-define("MSG_MAIL_DIFF", "on a total of");
-define("BTN_MAIL_SEND", "Send email");
-define("MSG_MAIL_SENT", "Recipe sent by");
-define("MSG_MAIL_DOWNLOAD", "You can download it on you computer");
-define("MSG_MAIL_WEBSITE", "connecting to website");
-define("MSG_MAIL_DELIVERED", "Email with recipe has been delivered to SMTP server");
-define("MSG_MAIL_AGAIN", "Send this recipe to another recipient");
 //rate.php
 define("MSG_RATE_TITLE", "Rate a recipe");
 define("MSG_RATE_VOTE", "Cast your vote for this recipe");
