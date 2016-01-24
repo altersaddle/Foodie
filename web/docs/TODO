@@ -6,9 +6,9 @@ Please email any feedback to malcolm@ipatch.ca.
 - Responsive design for mobile devices
 - Migrate to an extensible library for translation
 - Convert any SQL with external data into prepared statements (to limit SQL injection)
-- Allow user to sign in (for personal cookbook)
+- Allow user to sign in (for personal cookbook, voting, comments, etc)
 - Convert personal cookbook and shopping list to starred / favorited list
 - Use Javascript to validate forms (pre-submit)
-- Update import/export (plugins)
+- Consider re-implementing import function (from where?)
 - Update recipe rating / voting
 - Add comments ability

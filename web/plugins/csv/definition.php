@@ -1,3 +1,3 @@
 <?php
-$definition = "CSV - Comma Separated Verb";
+$definition = "CSV - Comma Separated Value";
 ?>

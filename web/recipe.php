@@ -164,6 +164,7 @@ echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hi
 //Export single recipe
 echo "<p>" . MSG_EXPORT_ASK .":\n";
 echo "<form method=\"post\" action=\"export.php\">\n";
+echo "<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"export_ok\">\n
 <input type=\"hidden\" name=\"mode\" value=\"single\">\n
 <select name=\"export_type\">\n";

@@ -40,6 +40,20 @@ else {
     else {
 	    $export_type = $_POST['export_type'];
 	    require(dirname(__FILE__)."/plugins/$export_type/export.php");
+        // if recipe_id is set, export just that recipe
+        if (isset($_POST['recipe'])) { 
+            $stmt = $dbconnect->prepare("SELECT * FROM main WHERE id = ?");
+            $stmt->bind_param('s', $_GET['recipe'] );
+            $stmt->execute();
+
+            foodie_export($stmt->get_result());
+        }
+        else if ($_POST['mode'] == "all") {
+            foodie_export($dbconnect->query("SELECT * FROM main"));
+        }
+        else {
+            echo "<p class=\"error\">" . ERROR_UNEXPECTED . "\n";
+        }
     }
 }
 foodie_AddFooter();

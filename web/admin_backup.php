@@ -70,7 +70,7 @@ else {
 			    exit();
 		    }
 		    echo "<p>" . MSG_ADMIN_BACKUP_BACKING . "...\n";
-		    fputs($backup_file, "#   SQL backup file for CrisoftRicette\n");
+		    fputs($backup_file, "#   SQL backup file for Foodie\n");
 		    //Backup admin table
 		    $sql_admin = "SELECT * FROM admin";
 		    if (!$exec_admin = $dbconnect->query($sql_admin))

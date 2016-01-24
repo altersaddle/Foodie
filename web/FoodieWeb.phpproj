@@ -74,12 +74,6 @@
     <Compile Include="layout\arrow.gif" />
     <Compile Include="plugins\csv\definition.php" />
     <Compile Include="plugins\csv\export.php" />
-    <Compile Include="plugins\dbricette\definition.php" />
-    <Compile Include="plugins\dbricette\export.php" />
-    <Compile Include="plugins\dbricette\import.php" />
-    <Compile Include="plugins\mealmaster\definition.php" />
-    <Compile Include="plugins\mealmaster\export.php" />
-    <Compile Include="plugins\mealmaster\import.php" />
     <Compile Include="plugins\plaintext\definition.php" />
     <Compile Include="plugins\plaintext\export.php" />
     <Compile Include="unitegallery\css\unite-gallery.css" />
@@ -187,7 +181,6 @@
     <Compile Include="unitegallery\themes\video\ug-theme-video.js" />
     <Compile Include="unitegallery\release_log.txt" />
     <Compile Include="admin_backup.php" />
-    <Compile Include="admin_config.php" />
     <Compile Include="admin_cook.php" />
     <Compile Include="admin_delete.php" />
     <Compile Include="admin_dish.php" />
@@ -208,7 +201,6 @@
     <Compile Include="install.php" />
     <Compile Include="license.php" />
     <Compile Include="login.php" />
-    <Compile Include="mail.php" />
     <Compile Include="php.ini" />
     <Compile Include="rate.php" />
     <Compile Include="README" />
@@ -230,8 +222,6 @@
     <Folder Include="lang" />
     <Folder Include="layout" />
     <Folder Include="plugins\csv" />
-    <Folder Include="plugins\dbricette" />
-    <Folder Include="plugins\mealmaster" />
     <Folder Include="plugins\plaintext" />
     <Folder Include="plugins" />
     <Folder Include="temp" />

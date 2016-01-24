@@ -1,3 +1,3 @@
 <?php
-$definition = "Plain ASCII Text";
+$definition = "Plain Text";
 ?>
