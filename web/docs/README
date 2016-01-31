@@ -2,4 +2,5 @@ Foodie is a PHP web application for storing recipes.
 
 It is based on CrisoftRicette, http://crisoftricette.sourceforge.net/.
 
-It uses PHP 5 and the mysqlnd driver (for prepared statements)
+It uses PHP 5 and the mysqlnd driver (for prepared statements).
+ImageMagick is used for resampling images.

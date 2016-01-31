@@ -5,4 +5,10 @@ Jan 7, 2016
 -----------
 
 Configured unite gallery for front end
-Migrated database connection objects to mysqli
+Migrated database connection objects to mysqli (requires mysqlnd)
+
+Jan 30, 2016
+------------
+
+Use Image Magick to resize images uploaded
+

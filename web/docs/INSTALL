@@ -6,9 +6,9 @@ Extract the contents of the downloaded archive to a web server.
 
 *** SOFTWARE REQUIREMENTS
 
-A web server (Apache is recommended)
+A web server (Apache 2 is recommended)
 MySQL ver. 3.23.XX or later
-PHP 4.2.1 or later
+PHP 5.5.1 or later
 
 PHP should be set up with
 register_globals = off

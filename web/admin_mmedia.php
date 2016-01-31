@@ -42,10 +42,20 @@ else {
         echo "<h4>" . $recipe_name . "</h4>\n";
         if (!empty($_FILES['recipe_image']) && !empty($_FILES['recipe_image']['tmp_name'])) {
             // update image
-            $uploadtype = exif_imagetype($_FILES['recipe_image']['tmp_name']);
-            $filename = "image-".$_REQUEST['recipe_id'].image_type_to_extension($uploadtype);
-            $upload_error = copy ("{$_FILES['recipe_image']['tmp_name']}", dirname(__FILE__)."/images/$filename");
-            if ($upload_error == 0) {
+            $imageinfo = getimagesize($_FILES['recipe_image']['tmp_name']);
+            $filename = "image-".$_REQUEST['recipe_id'].image_type_to_extension($imageinfo[2]);
+            if ($imageinfo[0] > 700) {
+                // use Image Magick to resize this image
+                $image = new \Imagick($_FILES['recipe_image']['tmp_name']);
+                $scalefactor = 700 / $imageinfo[0];
+                $height = $imageinfo[1] * $scalefactor;
+                $image->scaleImage(700, $height, true);
+                $image_success = $image->writeImage(dirname(__FILE__)."/images/$filename");
+            }
+            else {
+                $image_success = copy ("{$_FILES['recipe_image']['tmp_name']}", dirname(__FILE__)."/images/$filename");
+            }
+            if (!$image_success) {
 			    echo "<p class=\"error\">" . ERROR_UNEXPECTED . ": " . ERROR_UPLOAD . "!\n";
 		    }
             else {
