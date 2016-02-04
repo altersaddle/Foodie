@@ -55,6 +55,9 @@ else {
 	    //If $_POST variable is correctly set save sql backup file
 	    if ($_POST['backup_action'] == "do_backup")
 	    {
+            // Save character set
+            $charset = $dbconnect->character_set_name();
+            $dbconnect->set_charset("utf8");
 		    if (file_exists(dirname(__FILE__)."/backup/$filename"))
 		    {
 			    unlink(dirname(__FILE__)."/backup/$filename");
@@ -208,6 +211,7 @@ else {
 		    }
 		    fclose ($backup_file);
 		    echo "<p>" . MSG_ADMIN_BACKUP_FILE . ": <a href=\"backup/$filename\" target=\"_blank\">backup/$filename</a>\n";
+            $dbconnect->set_charset($charset);
 		
 		    foodie_AddFooter();
 		    exit();

@@ -328,7 +328,7 @@ define("MSG_ADMIN_MODIFY_IMAGE", "Image");
 define("MSG_ADMIN_MODIFY_VIDEO", "Video");
 define("MSG_ADMIN_MODIFY_SELECT", "Select recipe you want to change");
 define("ERROR_ADMIN_MODIFY_UNABLE", "Unable to change recipe");
-define("BTN_ADMIN_MODIFY_RECIPE", "Change recipe");
+define("BTN_ADMIN_MODIFY_RECIPE", "Update recipe");
 //admin_userpass.php 
 define("ERROR_ADMIN_USERPASS_START", "Unable to start admin username/password change procedure");
 define("ERROR_ADMIN_USERPASS_END", "Unable to complete admin username/password change procedure");
