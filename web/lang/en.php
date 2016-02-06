@@ -21,7 +21,7 @@
 /*
  *	Foodie language file
  *	Language: English
- *	Translated by: Lorenzo Pulici snowdog@tiscalinet.it
+ *	Originally by: Lorenzo Pulici snowdog@tiscalinet.it
  *	File: lang/en.php
  */
 //messages added 1.0pre15b
@@ -353,6 +353,7 @@ define("BTN_ADMIN_RESTORE_PROCEED", "Restore data");
 define("ERROR_ADMIN_RESTORE_FILE", "Backup file not found");
 //includes/header_admin.inc.php
 define("MSG_SITE_TITLE", "iPatch Chest o' Cookery");
+define("MSG_SITE_BROWSER_TITLE", "How to Cook Like a Pirate");
 define("MSG_ADMIN_HEADER_RECIPES", "Recipes");
 define("MSG_ADMIN_HEADER_LISTS", "Lists");
 define("MSG_ADMIN_HEADER_MANAGE_SERVINGS", "Manage Servings");
