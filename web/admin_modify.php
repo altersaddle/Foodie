@@ -45,7 +45,7 @@ else {
 		if (!$exec_modify_recipe = $stmt->execute())
 		{
 			echo "<p class=\"error\">" . ERROR_ADMIN_MODIFY_UNABLE . " {$_POST['name']}<br>\n" . mysqli_error();
-			foodie_AddFooter();
+			foodie_Footer();
 			exit(); 
 		}
 		else {
@@ -206,6 +206,6 @@ else {
 	        echo "&nbsp;-&nbsp;<a href=\"admin_modify.php?offset=$newoffset$letter_arg\">" . MSG_NEXT . "</a>\n";
         }
     }
-    foodie_AddFooter();
+    foodie_Footer();
 }
 ?>

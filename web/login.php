@@ -90,7 +90,7 @@ else {
 
         }
     }
-    foodie_AddFooter();
+    foodie_Footer();
 }
 ?>
 

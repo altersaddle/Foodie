@@ -136,7 +136,7 @@ else {
         echo "<p>" . MSG_MMEDIA_INSERT_VIDEOCLIP . ":\n<input type=\"text\" size=\"60\" name=\"video\">";
         echo "<p><input type=\"submit\" value=\"" . BTN_INSERT_RECIPE . "\">\n&nbsp;<input type=\"reset\" value=\"" . BTN_INSERT_CLEAR . "\">\n</form>\n";
     }
-    foodie_AddFooter();
+    foodie_Footer();
 }
 ?>
 

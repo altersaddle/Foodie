@@ -105,5 +105,5 @@ if (isset($_POST['action']) && isset($_POST['recipe_id']))
 		echo "<p class=\"error\">" . ERROR_UNEXPECTED . "<br>\n";
 	}
 }
-foodie_AddFooter();
+foodie_Footer();
 ?>

@@ -24,9 +24,15 @@ function foodie_AddHeader()
 	include(dirname(__FILE__)."/includes/header.inc.php");
 }
 //This function includes the HTML footer
-function foodie_AddFooter()
+function foodie_Footer()
 {
-	include(dirname(__FILE__)."/includes/footer.inc.php");
+    echo "<p class=\"small\">Powered by <a href=\"https://github.com/altersaddle/Foodie\"><em>Foodie</em></a>!</p>\n";
+    echo "<p class=\"small\"><a href=\"license.php\">" . MSG_GPL_NOTICE . "</p>\n";
+}
+
+function foodie_End()
+{
+    echo "</body></html>";
 }
 
 function foodie_AlphaLinks($prefix)

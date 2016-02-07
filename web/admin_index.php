@@ -94,6 +94,6 @@ else {
     </tr>
   </table>
 <?php
-foodie_AddFooter();
+foodie_Footer();
 }
 ?>

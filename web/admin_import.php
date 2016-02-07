@@ -72,6 +72,6 @@ else {
 	        require(dirname(__FILE__)."/plugins/$import_type/import.php");
         }
     }
-    foodie_AddFooter();
+    foodie_Footer();
 }
 ?>

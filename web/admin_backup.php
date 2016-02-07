@@ -47,7 +47,7 @@ else {
 	    <p><input type=\"submit\" value=\"" . BTN_ADMIN_BACKUP_PROCEED . "\">
 	    </form>\n";
 	
-	    foodie_AddFooter();
+	    foodie_Footer();
 	    exit();
     }
     else
@@ -69,7 +69,7 @@ else {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_SUBDIR . "\n";
 			    echo "<br>" . MSG_ADMIN_BACKUP_CRASHED . "\n";
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    echo "<p>" . MSG_ADMIN_BACKUP_BACKING . "...\n";
@@ -80,7 +80,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " admin.<br>\n" . $exec_admin->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS admin;\n");
@@ -95,7 +95,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " cooking.<br>\n" . $exec_cooking->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS cooking;\n");
@@ -111,7 +111,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " difficulty.<br>\n" . $exec_difficulty->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS difficulty;\n");
@@ -126,7 +126,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " dish.<br>\n" . $exec_dish->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS dish;\n");
@@ -141,7 +141,7 @@ else {
 		    if (!$exec_main = $dbconnect->query($sql_main))
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " main.<br>\n" . $exec_main->error();
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS main;\n");
@@ -167,7 +167,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " personal_book.<br>\n" . $exec_personal_book->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS personal_book;\n");
@@ -183,7 +183,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " rating.<br>\n" . $exec_rating->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS rating;\n");
@@ -198,7 +198,7 @@ else {
 		    {
 			    echo "<p class=\"error\">" . ERROR_ADMIN_BACKUP_TABLE . " shopping.<br>\n" . $exec_shopping->error();
 			
-			    foodie_AddFooter();
+			    foodie_Footer();
 			    exit();
 		    }
 		    fputs($backup_file, "DROP TABLE IF EXISTS shopping;\n");
@@ -213,7 +213,7 @@ else {
 		    echo "<p>" . MSG_ADMIN_BACKUP_FILE . ": <a href=\"backup/$filename\" target=\"_blank\">backup/$filename</a>\n";
             $dbconnect->set_charset($charset);
 		
-		    foodie_AddFooter();
+		    foodie_Footer();
 		    exit();
 	    }
 	    //if $_POST has not expected value terminate with error
@@ -221,5 +221,5 @@ else {
     }
     //Fast logout from admin area
 
-    foodie_AddFooter();
+    foodie_Footer();
 }?>

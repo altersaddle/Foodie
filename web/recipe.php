@@ -41,7 +41,7 @@ if (isset($_POST['action']))
 		{
 			foodie_AddHeader();
 			echo "<p>" . MSG_RECIPE_NO_RETRIEVE ."<br>\n" . $recipe_result->error();
-			foodie_AddFooter();
+			foodie_Footer();
 			exit();
 		}
 		while ($data = $recipe_result->fetch_object()) 
@@ -89,7 +89,7 @@ $stmt->execute();
 if (!$recipe_result = $stmt->get_result()) {
 	echo "<p>" . ERROR_RECIPE_RETRIEVE ."<br>\n";
 	echo $recipe_result->error();
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 $reciperow = $recipe_result->fetch_assoc();
@@ -103,7 +103,7 @@ $stmt->execute();
 if (!$votes_result = $stmt->get_result())
 {
 	echo "<p class=\"error\">" . ERROR_COUNT_VOTES . " {$recipename}<br>" . $votes_result->error();
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 $num_votes = $votes_result->num_rows;
@@ -184,5 +184,5 @@ echo "</select>\n<input type=\"submit\" value=\"" . MSG_EXPORT . "\"></form></td
 //Go back
 echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}\">" . MSG_BACK . "</a>\n";
 //}
-foodie_AddFooter();
+foodie_Footer();
 ?>

@@ -64,5 +64,5 @@ else {
     echo "<input type=\"button\" onClick=\"JavaScript:addDish('".htmlspecialchars($addMarkup)."');\" value=\"". MSG_ADMIN_SERVING_ASKNEW . "\">\n";
     echo "<input type=\"button\" onClick=\"JavaScript:submitDish();\" value=\"" . BTN_SUBMIT_CHANGES . "\">\n</form>\n";
 
-    foodie_AddFooter();
+    foodie_Footer();
 }?>

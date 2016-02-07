@@ -71,6 +71,6 @@ else {
 	        echo "<p class=\"error\">" . ERROR_UNEXPECTED . "\n";
         }
     }
-    foodie_AddFooter();
+    foodie_Footer();
 }
 ?>

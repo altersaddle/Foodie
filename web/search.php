@@ -73,7 +73,7 @@ if (isset($_POST['action']))
 				        if (!$search_result = $stmt->get_result())
 				        {
 					        echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
-					        foodie_AddFooter();
+					        foodie_Footer();
 					        exit();
 				        }
 				        //count results
@@ -108,7 +108,7 @@ if (isset($_POST['action']))
 				        if (!$search_result = $stmt->get_result())
 				        {
 					        echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
-					        foodie_AddFooter();
+					        foodie_Footer();
 					        exit();
 				        }
 				        //count results
@@ -179,5 +179,5 @@ else {
     </form>
 <?php
 }
-foodie_AddFooter();
+foodie_Footer();
 ?>

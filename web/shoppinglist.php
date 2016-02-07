@@ -38,14 +38,14 @@ if (!isset($_POST['action']))
 	if (!$exec_shopping = $dbconnect->query($sql_shopping))
 	{
 		echo "<p class=\"error\">" . ERROR_SHOPPING_RETRIEVE_LIST . "<br>\n" . $exec_shopping->error();
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	$num_recipes = $exec_shopping->num_rows;
 	if ($num_recipes == 0)
 	{
 		echo "<p>" . MSG_SHOPPING_NODATA . ".\n";
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	if ($num_recipes >= 1)
@@ -66,7 +66,7 @@ if (!isset($_POST['action']))
 		<input type=\"submit\" value=\"" . BTN_SHOPPING_PRINT . "\">
 		</form>\n";
 	}
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 //define array for action
@@ -76,7 +76,7 @@ $action_ok = array("sl_add", "sl_delete", "sl_print");
 if (!in_array("{$_POST['action']}", $action_ok))
 {	
         echo "<p class=\"error\">" . ERROR_UNEXPECTED . "!\n";
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 if ($_POST['action'] == "sl_add")
@@ -86,7 +86,7 @@ if ($_POST['action'] == "sl_add")
 	if (!$exec_select_for_shopping = $dbconnect->query($sql_select_for_shopping))
 	{
 		echo "<p class=\"error\">" . ERROR_SHOPPING_RETRIEVE_RECIPE . "<br>\n" . $exec_select_for_shopping->error();
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	while ($recipe_data = $exec_select_for_shopping->fetch_object())
@@ -97,13 +97,13 @@ if ($_POST['action'] == "sl_add")
 		if (!$exec_shopping_add = $dbconnect->query($sql_shopping_add))
 		{
 			echo "<p class=\"error\">" . ERROR_SHOPPING_INSERT . "!<br>\n" . $exec_shopping_add->error();
-			foodie_AddFooter();
+			foodie_Footer();
 			exit();
 		}
 		echo "<p><strong>$recipe_name</strong>";
 		echo "<a href=\"shoppinglist.php\"> " . MSG_SHOPPING_ADDED . "</a>\n";
 	}
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 if ($_POST['action'] == "sl_delete")
@@ -114,18 +114,18 @@ if ($_POST['action'] == "sl_delete")
 		//If id GET variable has been tampered with non numeric
 		//value abort program with error
 		echo "<p class=\"error\">" . ERROR_UNEXPECTED . "\n";
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	$sql_shopping_delete = "DELETE FROM shopping WHERE id = '{$_POST['id']}'";
 	if (!$exec_shopping_delete = $dbconnect->query($sql_shopping_delete))
 	{
 		echo "<p class=\"error\">" . ERROR_SHOPPING_DELETE . "!<br>\n" . $exec_shopping_delete->error();
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	echo "<p><a href=\"shoppinglist.php\">" . MSG_SHOPPING_DELETED . "</a>\n";
-	foodie_AddFooter();
+	foodie_Footer();
 	exit();
 }
 if ($_POST['action'] == "sl_print")
@@ -136,7 +136,7 @@ if ($_POST['action'] == "sl_print")
 	if (!$exec_shopping = $dbconnect->query($sql_shopping))
 	{
 		echo "<p class=\"error\">" . ERROR_SHOPPING_RETRIEVE_LIST . "<br>\n" . $exec_shopping->error();
-		foodie_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	while ($shopping_data = $exec_shopping->fetch_object())

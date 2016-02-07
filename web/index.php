@@ -73,5 +73,5 @@ else {
 		</div>
 		<?php
 }
-foodie_AddFooter();
+foodie_Footer();
 ?>
