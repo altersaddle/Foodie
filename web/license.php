@@ -395,9 +395,6 @@ Or contact malcolm@ipatch.ca
 
 CrisoftRicette originally by Lorenzo Pulici, snowdog@tiscali.it
 
-fpdf.php and all content of font/ subdirectory is copyright of
-Olivier PLATHEY http://www.fpdf.org
-
 Unite Gallery by valiano
 http://unitegallery.net/
 
