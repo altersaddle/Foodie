@@ -39,7 +39,6 @@
     <Compile Include="images\r_gaenggai.jpg" />
     <Compile Include="includes\dbcommands.inc.php" />
     <Compile Include="includes\dbconnect.inc.php" />
-    <Compile Include="includes\header.inc.php" />
     <Compile Include="includes\php.ini" />
     <Compile Include="lang\en.php" />
     <Compile Include="lang\hu.php" />
@@ -161,7 +160,7 @@
     <Compile Include="admin_import.php" />
     <Compile Include="admin_index.php" />
     <Compile Include="admin_insert.php" />
-    <Compile Include="admin_logout.php" />
+    <Compile Include="logout.php" />
     <Compile Include="admin_mmedia.php" />
     <Compile Include="admin_modify.php" />
     <Compile Include="admin_restore.php" />

@@ -34,7 +34,7 @@ if (!isset($_SESSION['admin_user'])) {
 }
 else {
     foodie_Begin();
-foodie_AdminHeader();
+    foodie_AdminHeader();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
 	echo "<h3>" . MSG_ADMIN_MENU_MULTIMEDIA . "</h3>\n";
 
