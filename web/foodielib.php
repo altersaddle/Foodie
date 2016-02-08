@@ -22,38 +22,38 @@
 // Start the HTML document
 function foodie_Begin()
 {
-    echo <<<EOT
+?>
 <html>
   <head>
     <meta http-equiv="Cache-Control" content="private, pre-check=0, post-check=0, max-age=0">
 	<meta http-equiv="Expires" content="Tue, 17 Nov 2002, 00:00:00 GMT">
-	<title>{ MSG_SITE_BROWSER_TITLE }</title>
+	<title><?= MSG_SITE_BROWSER_TITLE ?></title>
     <link href="foodie.css" rel="stylesheet" type="text/css">
-EOT;
+<?php
 }
 
 // Print the page title and common links
 function foodie_Header() 
 {	
-    echo <<<EOT
+?>
   </head>
   <body>
-    <h1><a href="index.php">{ MSG_SITE_TITLE ?></a></h1>
+    <h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>
     <p class="menu">
       <table border="0" width="95%" cellpadding=0 cellspacing=0>
         <tr>
           <td class="menu" align="left">
-            <a href="browse.php">{ MSG_BROWSE }</a> - 
-	        <a href="search.php">{ MSG_SEARCH }</a> - 
-	        <a href="cookbook.php">{ MSG_COOKBOOK }</a> - 
-	        <a href="shoppinglist.php">{ MSG_SHOPPING }</a>
+            <a href="browse.php"><?= MSG_BROWSE ?></a> - 
+	        <a href="search.php"><?= MSG_SEARCH ?></a> - 
+	        <a href="cookbook.php"><?= MSG_COOKBOOK ?></a> - 
+	        <a href="shoppinglist.php"><?= MSG_SHOPPING ?></a>
 	     </td>
          <td align="right" class="menu">
-            <a href="admin_index.php">{ MSG_ADMIN }</a> 
+            <a href="admin_index.php"><?= MSG_ADMIN ?></a> 
          </td>
        </tr>
      </table>	
-EOT;
+<?php
 }
 
 // Print the administrative links 
