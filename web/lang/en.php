@@ -55,6 +55,7 @@ define("MSG_INSERT", "Add");
 define("MSG_COOKBOOK", "Personal cookbook");
 define("MSG_SHOPPING", "Shopping list");
 define("MSG_LOGIN", "Log in");
+define("MSG_LOGOUT", "Log out");
 define("MSG_ADMIN", "Administration");
 define("MSG_CLOSE", "Close application");
 //footer

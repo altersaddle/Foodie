@@ -50,6 +50,7 @@ if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
 		if ($auth_data->user == $_POST['admin_user']) {
 			if ($auth_data->password == $_POST['admin_pass']) {
 				$_SESSION['admin_user'] = $_POST['admin_user'];
+                $_SESSION['foodie_user'] = $_POST['admin_user'];
 				break;
 			} else {
 				$warning = "<p class=centerwarn>" . ERROR_ADMIN_AUTHFAIL . "</p>\n";
@@ -78,7 +79,8 @@ else {
     <tr><td><p class=centermsg>" . MSG_ADMIN_PASS . ": </td><td><input type=password width=20 name=\"admin_pass\"></td></tr>\n
     <tr><td colspan=2 align=center><input type=submit value=\"" . MSG_ADMIN_LOGIN . "\"></form></td></tr></table>\n";
     if (!empty($_GET['redirect'])) {
-        echo "<input type=\"hidden\" width=20 name=\"redirect\" value=\"{$_GET['redirect']}\">";
+        $uri = htmlspecialchars($_GET['redirect']);
+        echo "<input type=\"hidden\" width=20 name=\"redirect\" value=\"{$uri}\">";
     }
     //Query the database for default admin username and password and display an alert if stored ones are as default
     $sql_check_default = "SELECT * FROM admin WHERE user = 'admin' OR password = 'admin'";

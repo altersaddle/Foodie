@@ -22,5 +22,11 @@
 session_name("foodie");
 session_start();
 unset($_SESSION['admin_user']);
-header ("Location: index.php");
+unset($_SESSION['foodie_user']);
+if (!empty($_GET['redirect'])) {
+    header("Location: {$_GET['redirect']}");
+}
+else {
+    header("Location: index.php");
+}
 ?>

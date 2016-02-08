@@ -90,7 +90,7 @@ foodie_AdminHeader();
         <p class="menu_title"><?= MSG_ADMIN_TITLE_LOGOUT ?></p>
       </td>
       <td valign=top>
-        <p><a href="admin_logout.php"><?= MSG_ADMIN_LOGOUT ?></a></p>
+        <p><a href="logout.php"><?= MSG_ADMIN_LOGOUT ?></a></p>
       </td>
     </tr>
   </table>

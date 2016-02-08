@@ -53,8 +53,13 @@ function foodie_Header()
             if (isset($_SESSION['admin_user'])) {
                 echo "<a href=\"admin_index.php\">" .  MSG_ADMIN . "</a> - ";
             }
+            if (isset($_SESSION['foodie_user'])) {
+                echo "<a href=\"logout.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) ."\">". MSG_LOGOUT ."</a> ";
+            }
+            else {
+                echo "<a href=\"login.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) ."\">". MSG_LOGIN ."</a> ";
+            }
             ?>
-            <a href="login.php?redirect=<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>"><?= MSG_LOGIN ?></a> 
          </td>
        </tr>
      </table>	
@@ -73,10 +78,9 @@ function foodie_AdminHeader()
   <script>
   $(function() {
     initializeAdmin();
-
   });
   </script>
-    </head><body><h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>";
+    </head><body><h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>
 	<table width="100%" bgcolor="#dddddd" cellspacing="1" cellpadding="1" border="0">
 	<tr bgcolor="#eeeeee"><td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_RECIPES ?></strong><br>
 	<a href="admin_insert.php"><?= MSG_ADMIN_HEADER_INS ?></a><br>
@@ -96,7 +100,7 @@ function foodie_AdminHeader()
 	<a href="admin_restore.php"><?= MSG_ADMIN_HEADER_RST ?></a></td>
 	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN ?></strong><br>
 	<a href="admin_index.php"><?= MSG_ADMIN_HEADER_INDEX ?></a><br>
-	<a href="admin_logout.php"><?= MSG_ADMIN_HEADER_LOGOUT ?></a></td>
+	<a href="logout.php"><?= MSG_ADMIN_HEADER_LOGOUT ?></a></td>
 	</tr>
 	</table>
     <?php
