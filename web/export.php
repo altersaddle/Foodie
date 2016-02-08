@@ -28,7 +28,8 @@ if (!isset($_SESSION['locale'])) {
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
-foodie_AddHeader();
+foodie_Begin();
+foodie_Header();
 echo "<h3>" . MSG_EXPORT_SINGLE . "</h3>\n";
 if (!isset($_POST['action'])) {
 	echo "<p class=\"error\">" . ERROR_EXPORT_RECIPE_CALL . "\n";

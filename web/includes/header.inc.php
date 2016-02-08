@@ -12,7 +12,6 @@ $filename = $_SERVER['PHP_SELF'];
 if (strstr($_SERVER['SCRIPT_NAME'], "/index.php")) {
 ?>
 <script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>
-<!-- Include Unite Gallery -->
 <script type='text/javascript' src='unitegallery/js/unitegallery.min.js'></script>		
 <link rel='stylesheet' href='unitegallery/css/unite-gallery.css' type='text/css' />	
 <script type='text/javascript' src='unitegallery/themes/tiles/ug-theme-tiles.js'></script>

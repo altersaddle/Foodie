@@ -59,7 +59,42 @@ function foodie_Header()
 // Print the administrative links 
 function foodie_AdminHeader()
 {
+    echo "<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>\n";
+    echo "<script src=\"//code.jquery.com/ui/1.11.4/jquery-ui.js\"></script>\n";
+    echo "<link rel=\"stylesheet\" href=\"//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css\">\n";
+    echo "<script src=\"js/jquery.jeditable.mini.js\"></script>\n";
+    echo "<script src=\"js/foodie_admin.js\"></script>\n";
+?>
+  <script>
+  $(function() {
+    initializeAdmin();
 
+  });
+  </script>
+    </head><body><h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>";
+	<table width="100%" bgcolor="#dddddd" cellspacing="1" cellpadding="1" border="0">
+	<tr bgcolor="#eeeeee"><td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_RECIPES ?></strong><br>
+	<a href="admin_insert.php"><?= MSG_ADMIN_HEADER_INS ?></a><br>
+	<a href="admin_modify.php"><?= MSG_ADMIN_HEADER_MOD ?></a><br>
+	<a href="admin_delete.php"><?= MSG_ADMIN_HEADER_DEL ?></a><br>
+	<a href="admin_mmedia.php"><?= MSG_ADMIN_MENU_MULTIMEDIA ?></a></td>
+	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_LISTS ?></strong><br>
+	<a href="admin_dish.php"><?= MSG_ADMIN_HEADER_MANAGE_SERVINGS ?></a><br>
+	<a href="admin_cook.php"><?= MSG_ADMIN_HEADER_MANAGE_COOKING ?></a></a><br>
+	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_CONFIG ?></strong><br>
+	<a href="admin_userpass.php"><?= MSG_ADMIN_HEADER_USERPASS ?></a></td>
+	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_UTIL ?></strong><br>
+	<a href="admin_export.php"><?= MSG_ADMIN_HEADER_EXPORT ?></a><br>
+	<a href="admin_import.php"><?= MSG_ADMIN_HEADER_IMPORT ?></a></td>
+	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN_HEADER_BACKUP ?></strong><br>
+	<a href="admin_backup.php"><?= MSG_ADMIN_HEADER_BKP ?></a><br>
+	<a href="admin_restore.php"><?= MSG_ADMIN_HEADER_RST ?></a></td>
+	<td valign="top"><p class="menu_admin"><strong><?= MSG_ADMIN ?></strong><br>
+	<a href="admin_index.php"><?= MSG_ADMIN_HEADER_INDEX ?></a><br>
+	<a href="admin_logout.php"><?= MSG_ADMIN_HEADER_LOGOUT ?></a></td>
+	</tr>
+	</table>
+    <?php
 }
 
 // Print the markup that appears at the bottom of the page

@@ -65,7 +65,8 @@ if (isset($_SESSION['admin_user'])) {
     }
 }
 else {
-    foodie_AddHeader();
+    foodie_Begin();
+foodie_Header();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
     echo "<p class=centerwarn>" . MSG_ADMIN_USERPASS_REQUEST . ":\n";
     echo "<form method=\"post\" action=\"#\">\n";

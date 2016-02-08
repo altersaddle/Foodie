@@ -22,7 +22,8 @@ if (!isset($_SESSION['locale'])) {
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 
-foodie_AddHeader();
+foodie_Begin();
+foodie_Header();
 echo "<h2>" . MSG_GPL_LICENSE . "</h2>\n";
 ?>
 <pre>

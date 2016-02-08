@@ -39,7 +39,8 @@ if (isset($_POST['action']))
         $stmt->execute();
 		if (!$recipe_result = $stmt->get_result()) 
 		{
-			foodie_AddHeader();
+			foodie_Begin();
+foodie_Header();
 			echo "<p>" . MSG_RECIPE_NO_RETRIEVE ."<br>\n" . $recipe_result->error();
 			foodie_Footer();
 			exit();
@@ -81,7 +82,8 @@ if (isset($_POST['action']))
 		exit();
 	}
 }
-foodie_AddHeader();
+foodie_Begin();
+foodie_Header();
 $stmt = $dbconnect->prepare("SELECT * FROM main WHERE id = ?");
 $stmt->bind_param('s', $_GET['recipe'] );
 $stmt->execute();

@@ -29,7 +29,8 @@ require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
-foodie_AddHeader();
+foodie_Begin();
+foodie_Header();
 if (isset($_POST['action']) && isset($_POST['recipe_id']))
 {
     $recipe_id = $_POST['recipe_id'];

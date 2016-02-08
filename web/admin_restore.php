@@ -35,7 +35,8 @@ if (!isset($_SESSION['admin_user'])) {
     header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
-    foodie_AddHeader();
+    foodie_Begin();
+foodie_AdminHeader();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
     echo "<h3>" . MSG_ADMIN_MENU_BACKUP_RST. "</h3>\n";
     if (!isset($_POST['restore_action']))

@@ -19,7 +19,9 @@ require(dirname(__FILE__)."/foodielib.php");
 
 if (!array_key_exists("installation", $_POST))
 {
-    foodie_AddHeader();
+    foodie_Begin();
+    echo "</head><body><h1>". MSG_SITE_TITLE . "</h1>";
+	echo "<h2>Installation</h2>";
     //Check locale setting for tampered input
 	$lang_avail_dir = opendir(dirname(__FILE__)."/lang");
 	while (($lang_avail_item = readdir($lang_avail_dir)) !== false) 
@@ -68,7 +70,7 @@ else {
         require(dirname(__FILE__)."/includes/dbcommands.inc.php");
 		if (!$dbconnect) 
 		{
-			foodie_AddHeader();
+			foodie_Begin();
 			echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 			echo "<p class=\"error\">" . ERROR_INSTALL_CONNECTION . "!</strong><br>\n" . $dbconnect->error;
 			echo "<p><a href=\"{$_SERVER['HTTP_REFERER']}\">" . MSG_BACK . "</a>\n";
@@ -79,7 +81,7 @@ else {
 			//Since database was just created we have to select it before starting to create tables
 			if (!$db_control=$dbconnect->select_db($db_name)) 
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<p>" . ERROR_INSTALL_SELECT . "!<br>\n" . $db_control->error();
 				exit();
 			}
@@ -90,7 +92,7 @@ else {
 			//Create table
 			    if (!$exec_table_create = $dbconnect->query($dbcreatecommands[$tablename]))
 			    {
-				    foodie_AddHeader();
+				    foodie_Begin();
 				    echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				    echo "<p class=\"error\">" . ERROR_INSTALL_TABLE . " $tablename<br>\n" . $dbconnect->error;
 				    exit();
@@ -103,7 +105,7 @@ else {
 			$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
 			if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_DATA . " admin<br>\n" . $exec_table_admin_data->error();
 				exit();
@@ -112,7 +114,7 @@ else {
 			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
 			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_DATA . " difficulty <br>\n" . $exec_table_difficulty_data->error();
 				exit();
@@ -122,7 +124,7 @@ else {
 			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
 			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
 				exit();
@@ -132,7 +134,7 @@ else {
 			$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
 			if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
 				exit();
@@ -142,14 +144,14 @@ else {
 			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
 			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
 			{
-				foodie_AddHeader();
+				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
 				exit();
 			}
 		}
         else {
-		    foodie_AddHeader();
+		    foodie_Begin();
 		    require_once(dirname(__FILE__)."/lang/".$setting_locale.".php");
 		    echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>\n
 		    <p>" . ERROR_UNEXPECTED . "\n";

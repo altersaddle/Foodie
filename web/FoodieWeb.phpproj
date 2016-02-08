@@ -39,7 +39,6 @@
     <Compile Include="images\r_gaenggai.jpg" />
     <Compile Include="includes\dbcommands.inc.php" />
     <Compile Include="includes\dbconnect.inc.php" />
-    <Compile Include="includes\footer.inc.php" />
     <Compile Include="includes\header.inc.php" />
     <Compile Include="includes\php.ini" />
     <Compile Include="lang\en.php" />

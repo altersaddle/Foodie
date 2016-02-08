@@ -33,7 +33,8 @@ if (!isset($_SESSION['admin_user'])) {
     header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
-    foodie_AddHeader();
+    foodie_Begin();
+foodie_AdminHeader();
     ?>
     <h2><?= MSG_ADMIN ?></h2>
     <h3><?= MSG_ADMIN_MAIN_MENU ?></h3>

@@ -33,7 +33,8 @@ if (!isset($_SESSION['admin_user'])) {
     header("Location: login.php?redirect=".urlencode($_SERVER["REQUEST_URI"]));
 }
 else {
-    foodie_AddHeader();
+    foodie_Begin();
+foodie_AdminHeader();
     echo "<h2>" . MSG_ADMIN . "</h2>\n";
     echo "<h3>" . MSG_ADMIN_MENU_COOKING_TYPE . "</h3>\n";
     // when this is a postback, insert new data
