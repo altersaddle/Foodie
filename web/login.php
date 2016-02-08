@@ -58,6 +58,22 @@ if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
 		}
 	}
 }
+else {
+    //Query the database for default admin username and password and display an alert if stored ones are as default
+    $sql_check_default = "SELECT * FROM admin WHERE user = 'admin' OR password = 'admin'";
+    if (!$query_admin = $dbconnect->query($sql_check_default))
+    {
+	    $warning = "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "\n";
+    }
+    else {
+        $num_default = $query_admin->num_rows;
+        if ($num_default >= 1)
+        {
+	        $warning = "<p class=\"error\">" . ERROR_ADMIN_CHANGE_DEFAULT . "!\n";
+
+        }
+    }
+}
 
 if (isset($_SESSION['admin_user'])) {
     if (!empty($_POST['redirect'])) {
@@ -70,6 +86,7 @@ if (isset($_SESSION['admin_user'])) {
 else {
     foodie_Begin();
     foodie_Header();
+    // Display the login form
     echo "<h2>" . MSG_LOGIN . "</h2>\n";
     echo $warning;
     echo "<p class=centerwarn>" . MSG_ADMIN_USERPASS_REQUEST . ":\n";
@@ -82,20 +99,7 @@ else {
         $uri = htmlspecialchars($_GET['redirect']);
         echo "<input type=\"hidden\" width=20 name=\"redirect\" value=\"{$uri}\">";
     }
-    //Query the database for default admin username and password and display an alert if stored ones are as default
-    $sql_check_default = "SELECT * FROM admin WHERE user = 'admin' OR password = 'admin'";
-    if (!$query_admin = $dbconnect->query($sql_check_default))
-    {
-	    echo "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "\n";
-    }
-    else {
-        $num_default = $query_admin->num_rows;
-        if ($num_default >= 1)
-        {
-	        echo "<p class=\"error\">" . ERROR_ADMIN_CHANGE_DEFAULT . "!\n";
 
-        }
-    }
     foodie_Footer();
 }
 ?>
