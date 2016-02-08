@@ -45,9 +45,7 @@ foodie_AdminHeader();
             $filename = '';
 		    echo "<h3>{$_REQUEST['name']}</h3>\n";
 
-		    //$sql_insert = "INSERT INTO main (id, name, dish, mainingredient, people, origin, season, kind, time, difficulty, wines, ingredients, description, notes) VALUES ('', '{$_REQUEST['recipe_name']}', '{$_REQUEST['recipe_dish']}', '{$_REQUEST['recipe_mainingredient']}', '{$_REQUEST['recipe_people']}', '{$_REQUEST['recipe_origin']}', '{$_REQUEST['recipe_season']}', '{$_REQUEST['recipe_kind']}', '{$_REQUEST['recipe_time']}', '{$_REQUEST['recipe_difficulty']}', '{$_REQUEST['recipe_wine']}', '{$_REQUEST['recipe_ingredients']}', '{$_REQUEST['recipe_description']}', '{$_REQUEST['recipe_notes']}')";
-		    //Modify recipe statement
-            $stmt = $dbconnect->prepare("insert into main (name, dish, mainingredient, people, origin, season, kind, time, difficulty, wines, ingredients, description, notes, video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		    $stmt = $dbconnect->prepare("insert into main (name, dish, mainingredient, people, origin, season, kind, time, difficulty, wines, ingredients, description, notes, video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssssssssssss", $_POST['name'], $_POST['dish'], $_POST['mainingredient'], $_POST['people'], $_POST['origin'],
                 $_POST['season'], $_POST['kind'], $_POST['time'], $_POST['difficulty'], $_POST['wine'], 
                 $_POST['ingredients'], $_POST['description'], $_POST['notes'], $_POST['video']);
@@ -63,10 +61,24 @@ foodie_AdminHeader();
 
                 if (!empty($_FILES['recipe_image']) && !empty($_FILES['recipe_image']['tmp_name'])) {
                     // save image
-                    $uploadtype = exif_imagetype($_FILES['recipe_image']['tmp_name']);
+                    $imageinfo = getimagesize($_FILES['recipe_image']['tmp_name']);
                     $filename = "image-".$newid.image_type_to_extension($uploadtype);
-                    copy ("{$_FILES['recipe_image']['tmp_name']}", dirname(__FILE__)."/images/$filename");
+                    if ($imageinfo[0] > 700) {
+                        // use Image Magick to resize this image
+                        $image = new \Imagick($_FILES['recipe_image']['tmp_name']);
+                        $scalefactor = 700 / $imageinfo[0];
+                        $height = $imageinfo[1] * $scalefactor;
+                        $image->scaleImage(700, $height, true);
+                        $image_success = $image->writeImage(dirname(__FILE__)."/images/$filename");
+                    }
+                    else {
+                        $image_success = copy ("{$_FILES['recipe_image']['tmp_name']}", dirname(__FILE__)."/images/$filename");
+                    }
+                    if (!$image_success) {
+			            echo "<p class=\"error\">" . ERROR_UNEXPECTED . ": " . ERROR_UPLOAD . "!\n";
+		            }
                 }
+
                 echo "<a href=\"recipe.php?recipe=$newid\">".MSG_ADMIN_MMEDIA_DISPLAY_RECIPE."</a>";
             }
             $stmt->close();
@@ -79,14 +91,14 @@ foodie_AdminHeader();
     else {
         //Display insert form
         echo "<p>" . MSG_INSERT_HERE . "\n";
-        $dish_number = $dbconnect->query("SELECT * FROM dish");
-        $dishnumber = $dish_number->num_rows;
+        $dish_result = $dbconnect->query("SELECT dish FROM dish");
+        $dishnumber = $dish_result->num_rows;
         if ($dishnumber == '0') {
 	        echo "<p>" . MSG_SERVING_TABLE_EMPTY . ".<br>";
 	        echo "<a href=\"admin_dish.php</a>\n";
         }
-        $cooking_number = $dbconnect->query("SELECT * FROM cooking");
-        $cooknumber = $cooking_number->num_rows;
+        $cooking_result = $dbconnect->query("SELECT type FROM cooking");
+        $cooknumber = $cooking_result->num_rows;
         if ($cooknumber == '0') {
 	        echo "<p>" . MSG_COOKING_TABLE_EMPTY . ".<br>";
 	        echo "<a href=\"admin_cook.php\">" . MSG_ADMIN_MENU_COOKING_ADD . "</a>\n";
@@ -99,7 +111,7 @@ foodie_AdminHeader();
         $recipe_season = isset($_REQUEST['season']) ? $_REQUEST['season'] : '';
         $recipe_time = isset($_REQUEST['time']) ? $_REQUEST['time'] : '';
 
-        $difficulty_number = $dbconnect->query("SELECT * FROM difficulty");
+        $difficulty_number = $dbconnect->query("SELECT difficulty, REPEAT('*',difficulty) AS diffstars FROM difficulty");
         $difnumber = $difficulty_number->num_rows;
         echo "<p class=\"mandatory\">" . MSG_ASTERISK . "\n";
         echo "<form method=post action=\"admin_insert.php\">\n";
@@ -107,7 +119,7 @@ foodie_AdminHeader();
         echo MSG_RECIPE_NAME . "&nbsp;*:\n<input type=\"text\" size=\"30\" name=\"name\" value=\"".$recipe_name."\"><p>";
         echo MSG_RECIPE_SERVING . "&nbsp;*:\n";
         echo "<select name=dish><option value=\"\">" . MSG_CHOOSE_SERVING . "</option><option value=\"\">----------------</option>\n";
-        while ($data_dish=$dish_number->fetch_object()) {
+        while ($data_dish=$dish_result->fetch_object()) {
 	        echo "<option value=\"$data_dish->dish\">$data_dish->dish</option>\n";
         }
         echo "</select>\n";
@@ -117,7 +129,7 @@ foodie_AdminHeader();
         echo "<p>" . MSG_RECIPE_SEASON . ":\n<input type=\"text\" size=\"30\" name=\"season\" value=\"".$recipe_season."\">\n";
         echo "<p>" . MSG_RECIPE_COOKING . "&nbsp;*:\n";
         echo "<select name=kind><option value=\"\">" . MSG_CHOOSE_COOKING . "</option><option value=\"\">----------------</option>\n";
-        while ($data_cook=$cooking_number->fetch_object()) {
+        while ($data_cook=$cooking_result->fetch_object()) {
 	        echo "<option value=\"$data_cook->type\">$data_cook->type</option>\n";
         }
         echo "<option value=\"-\">" . MSG_NOT_SPECIFIED . "</option></select>\n";
@@ -125,7 +137,7 @@ foodie_AdminHeader();
         echo "<p>" . MSG_RECIPE_DIFFICULTY . "&nbsp;*:\n ";
         echo "<select name=difficulty><option value=\"\">" . MSG_CHOOSE_DIFFICULTY . "</option><option value=\"\">--------------------</option>\n";
         while ($data_difficulty=$difficulty_number->fetch_object()) {
-	        echo "<option value=\"$data_difficulty->difficulty\">$data_difficulty->difficulty</option>\n";
+	        echo "<option value=\"$data_difficulty->difficulty\">$data_difficulty->diffstars</option>\n";
         }
         echo "<option value=\"-\">" . MSG_NOT_SPECIFIED . "</option></select>\n";
         echo "</select>\n";
