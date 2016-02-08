@@ -18,30 +18,70 @@
 * pointing your web browser at http://www.gnu.org or http:///www.fsf.org
 ****************************************************************************
 */
-//This function includes the HTML header
-function foodie_AddHeader() 
-{	
-	include(dirname(__FILE__)."/includes/header.inc.php");
+
+// Start the HTML document
+function foodie_Begin()
+{
+    echo <<<EOT
+<html>
+  <head>
+    <meta http-equiv="Cache-Control" content="private, pre-check=0, post-check=0, max-age=0">
+	<meta http-equiv="Expires" content="Tue, 17 Nov 2002, 00:00:00 GMT">
+	<title>{ MSG_SITE_BROWSER_TITLE }</title>
+    <link href="foodie.css" rel="stylesheet" type="text/css">
+EOT;
 }
-//This function includes the HTML footer
+
+// Print the page title and common links
+function foodie_Header() 
+{	
+    echo <<<EOT
+  </head>
+  <body>
+    <h1><a href="index.php">{ MSG_SITE_TITLE ?></a></h1>
+    <p class="menu">
+      <table border="0" width="95%" cellpadding=0 cellspacing=0>
+        <tr>
+          <td class="menu" align="left">
+            <a href="browse.php">{ MSG_BROWSE }</a> - 
+	        <a href="search.php">{ MSG_SEARCH }</a> - 
+	        <a href="cookbook.php">{ MSG_COOKBOOK }</a> - 
+	        <a href="shoppinglist.php">{ MSG_SHOPPING }</a>
+	     </td>
+         <td align="right" class="menu">
+            <a href="admin_index.php">{ MSG_ADMIN }</a> 
+         </td>
+       </tr>
+     </table>	
+EOT;
+}
+
+// Print the administrative links 
+function foodie_AdminHeader()
+{
+
+}
+
+// Print the markup that appears at the bottom of the page
 function foodie_Footer()
 {
     echo "<p class=\"small\">Powered by <a href=\"https://github.com/altersaddle/Foodie\"><em>Foodie</em></a>!</p>\n";
     echo "<p class=\"small\"><a href=\"license.php\">" . MSG_GPL_NOTICE . "</p>\n";
 }
 
+// Close the HTML document
 function foodie_End()
 {
     echo "</body></html>";
 }
 
-function foodie_AlphaLinks($prefix)
+function foodie_AlphaLinks($link)
 {
 	$alphabet = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
 	echo "<p>";
 	foreach ($alphabet as $letter)
 	{
-		echo "<a href=\"".$prefix."letter=$letter\">$letter</a> ";
+		echo "<a href=\"".$link."letter=$letter\">$letter</a> ";
 	}
 }
 

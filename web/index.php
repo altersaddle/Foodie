@@ -30,8 +30,23 @@ if (!isset($_SESSION['locale'])) {
 require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 
 require(dirname(__FILE__)."/foodielib.php");
-//header markup
-foodie_AddHeader();
+foodie_Begin();
+?>
+<script type='text/javascript' src='unitegallery/js/jquery-11.0.min.js'></script>
+<script type='text/javascript' src='unitegallery/js/unitegallery.min.js'></script>		
+<link rel='stylesheet' href='unitegallery/css/unite-gallery.css' type='text/css' />	
+<script type='text/javascript' src='unitegallery/themes/tiles/ug-theme-tiles.js'></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery("#foodie-index").unitegallery({
+                  tile_as_link:true,
+				  tile_link_newpage:false,
+				  tile_enable_textpanel:true,
+                });
+			});
+		</script>
+<?php
+foodie_Header();
 //DB server connection test
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 //Database check. If it doesn't exist, invite to create it
