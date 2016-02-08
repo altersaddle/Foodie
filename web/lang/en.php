@@ -48,16 +48,17 @@ define("MSG_ADMIN_MMEDIA_VIDEO_UPDATED", "video link updated for recipe");
 define("MSG_ADMIN_MMEDIA_RECIPE_SELECT", "Select recipe to add image/video");
 define("BTN_ADMIN_MMEDIA_SELECT", "Select this recipe");
 define("MSG_ADMIN_HEADER_INDEX", "Admin home");
-//includes/header.inc.php
+//header links
 define("MSG_BROWSE", "Browse");
 define("MSG_SEARCH", "Search");
 define("MSG_INSERT", "Add");
 define("MSG_COOKBOOK", "Personal cookbook");
 define("MSG_SHOPPING", "Shopping list");
+define("MSG_LOGIN", "Log in");
 define("MSG_ADMIN", "Administration");
 define("MSG_CLOSE", "Close application");
-//includes/footer.inc.php
-define("MSG_WRITTEN", "written by");
+//footer
+define("MSG_POWERED_BY", "Powered by");
 define("MSG_GPL_NOTICE", "Released under GNU GPL");
 //index.php
 define("MSG_UNABLE_DELETE_CONFIG", "Unable to delete configuration file");

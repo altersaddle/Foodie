@@ -29,6 +29,8 @@ require_once(dirname(__FILE__)."/lang/".$_SESSION['locale'].".php");
 require(dirname(__FILE__)."/foodielib.php");
 require(dirname(__FILE__)."/includes/dbconnect.inc.php");
 
+$warning = "";
+
 if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
 	if (empty($_POST['admin_user'])) {
 		echo "<p class=\"error\">" . ERROR_ADMIN_INVALID_USERNAME . "!\n";
@@ -41,7 +43,7 @@ if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
     $sql_stored_user = "SELECT user, password FROM admin";
 	if (!$auth_result = $dbconnect->query($sql_stored_user)) {
 		echo "<p class=\"error\">" . ERROR_ADMIN_CHECK_DB . "!\n";
-		cs_AddFooter();
+		foodie_Footer();
 		exit();
 	}
 	while ($auth_data = $auth_result->fetch_object()) {
@@ -50,7 +52,7 @@ if (isset($_POST['admin_user']) && isset($_POST['admin_pass'])) {
 				$_SESSION['admin_user'] = $_POST['admin_user'];
 				break;
 			} else {
-				echo "<p class=centerwarn>" . ERROR_ADMIN_AUTHFAIL . "\n";
+				$warning = "<p class=centerwarn>" . ERROR_ADMIN_AUTHFAIL . "</p>\n";
 			}
 		}
 	}
@@ -66,8 +68,9 @@ if (isset($_SESSION['admin_user'])) {
 }
 else {
     foodie_Begin();
-foodie_Header();
-    echo "<h2>" . MSG_ADMIN . "</h2>\n";
+    foodie_Header();
+    echo "<h2>" . MSG_LOGIN . "</h2>\n";
+    echo $warning;
     echo "<p class=centerwarn>" . MSG_ADMIN_USERPASS_REQUEST . ":\n";
     echo "<form method=\"post\" action=\"#\">\n";
     echo "<div align=center><table border=0>\n

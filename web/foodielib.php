@@ -49,7 +49,12 @@ function foodie_Header()
 	        <a href="shoppinglist.php"><?= MSG_SHOPPING ?></a>
 	     </td>
          <td align="right" class="menu">
-            <a href="admin_index.php"><?= MSG_ADMIN ?></a> 
+         <?php
+            if (isset($_SESSION['admin_user'])) {
+                echo "<a href=\"admin_index.php\">" .  MSG_ADMIN . "</a> - ";
+            }
+            ?>
+            <a href="login.php?redirect=<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>"><?= MSG_LOGIN ?></a> 
          </td>
        </tr>
      </table>	
@@ -100,7 +105,7 @@ function foodie_AdminHeader()
 // Print the markup that appears at the bottom of the page
 function foodie_Footer()
 {
-    echo "<p class=\"small\">Powered by <a href=\"https://github.com/altersaddle/Foodie\"><em>Foodie</em></a>!</p>\n";
+    echo "<p class=\"small\">". MSG_POWERED_BY ." <a href=\"https://github.com/altersaddle/Foodie\"><em>Foodie</em></a>!</p>\n";
     echo "<p class=\"small\"><a href=\"license.php\">" . MSG_GPL_NOTICE . "</p>\n";
 }
 
