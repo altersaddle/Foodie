@@ -101,7 +101,7 @@ if (isset($_POST['action']))
 			        {
 				        //Search on single fields		
 				        echo "<p>" . MSG_SEARCH_STRING . " <strong>$single_term</strong> " . MSG_SEARCH_FIELD . ":<br>\n";
-				        $sql = "SELECT * FROM main WHERE {$search_field} LIKE ? ORDER BY name DESC";
+				        $sql = "SELECT * FROM main WHERE {$search_field} LIKE ? ORDER BY name ASC";
                         $stmt = $dbconnect->prepare($sql);
                         $single_term_wildcard = "%".$single_term."%";
                         $stmt->bind_param('s', $single_term_wildcard);
