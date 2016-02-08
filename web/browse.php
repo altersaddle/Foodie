@@ -167,6 +167,6 @@ else {
     } // Request was legal
 
 } 
-foodie_AddFooter();
+foodie_Footer();
 ?>
 

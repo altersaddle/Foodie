@@ -399,9 +399,7 @@ Unite Gallery by valiano
 http://unitegallery.net/
 
 </pre>
-
-
 <?php
-foodie_AddFooter();
+foodie_Footer();
 ?>
 
