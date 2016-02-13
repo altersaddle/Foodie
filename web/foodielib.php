@@ -57,10 +57,10 @@ function foodie_Header()
                 echo "<a href=\"admin_index.php\">" .  MSG_ADMIN . "</a> - ";
             }
             if (isset($_SESSION['foodie_user'])) {
-                echo "<a href=\"logout.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) . htmlspecialchars("?" + $_SERVER['QUERY_STRING']) ."\">". MSG_LOGOUT ."</a> ";
+                echo "<a href=\"logout.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) . htmlspecialchars("?" . $_SERVER['QUERY_STRING']) ."\">". MSG_LOGOUT ."</a> ";
             }
             else {
-                echo "<a href=\"login.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) . htmlspecialchars("?" + $_SERVER['QUERY_STRING']) ."\">". MSG_LOGIN ."</a> ";
+                echo "<a href=\"login.php?redirect=". htmlspecialchars($_SERVER['PHP_SELF']) . htmlspecialchars("?" . $_SERVER['QUERY_STRING']) ."\">". MSG_LOGIN ."</a> ";
             }
             ?>
          </td>
