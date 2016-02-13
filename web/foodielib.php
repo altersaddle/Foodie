@@ -44,9 +44,12 @@ function foodie_Header()
         <tr>
           <td class="menu" align="left">
             <a href="browse.php"><?= MSG_BROWSE ?></a> - 
-	        <a href="search.php"><?= MSG_SEARCH ?></a> - 
+	        <a href="search.php"><?= MSG_SEARCH ?></a>
+            <?php
+            if (isset($_SESSION['foodie_user'])) { ?> - 
 	        <a href="cookbook.php"><?= MSG_COOKBOOK ?></a> - 
 	        <a href="shoppinglist.php"><?= MSG_SHOPPING ?></a>
+            <?php } ?>
 	     </td>
          <td align="right" class="menu">
          <?php
