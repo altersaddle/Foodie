@@ -132,37 +132,42 @@ echo "<input type=\"submit\" value=\"" . BTN_RATE_RECIPE ."\"></form></td><tr></
 
 //Buttons below recipe
 echo "<table><tr>";
-//Print link to add selected recipe to personal cookbook only if it does
-//not exist and referer is not cookbook.php
-if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
-{
-    $stmt = $dbconnect->prepare("SELECT id FROM personal_book WHERE id = ?");
-    $stmt->bind_param('s', $_GET['recipe']);
-    $stmt->execute();
-	if (!$cookbook_result = $stmt->get_result())
-	{
-		echo "<td><p class=\"error\">" . ERROR_CHECK_COOKBOOK . "</td></tr></table><br>\n" . $cookbook_result->error();
-		exit();
-	}
-	$num_cookbook = $cookbook_result->num_rows;
-	if (0 == $num_cookbook)
-	{
-		echo "<td><form method=\"post\" action=\"cookbook.php\">\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n";
-        echo "<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n";
-        echo "<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
-	}
-	else
-	{
-		echo "<td><p>" . MSG_ALREADY_COOKBOOK . "</td>\n";
-	}
-    $cookbook_result->close();
-}
 //Button for "Printer friendly" option
 echo "<td><form method=\"post\" action=\"recipe.php\" target=\"_blank\">\n";
 echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\"><input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n<input type=\"submit\" value=\"" . BTN_PRINT . "\"></form></td>\n";
-echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
-echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\"><input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
+
+if (isset($_SESSION['foodie_user'])) {
+    // Button to add to shopping list
+    echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
+    echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\"><input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
+
+    //Print link to add selected recipe to personal cookbook only if it does
+    //not exist and referer is not cookbook.php
+    if (!strstr($_SERVER['HTTP_REFERER'], "cookbook.php"))
+    {
+        $stmt = $dbconnect->prepare("SELECT id FROM personal_book WHERE id = ?");
+        $stmt->bind_param('s', $_GET['recipe']);
+        $stmt->execute();
+	    if (!$cookbook_result = $stmt->get_result())
+	    {
+		    echo "<td><p class=\"error\">" . ERROR_CHECK_COOKBOOK . "</td></tr></table><br>\n" . $cookbook_result->error();
+		    exit();
+	    }
+	    $num_cookbook = $cookbook_result->num_rows;
+	    if (0 == $num_cookbook)
+	    {
+		    echo "<td><form method=\"post\" action=\"cookbook.php\">\n";
+		    echo "<input type=\"hidden\" name=\"action\" value=\"cook_add\">\n";
+            echo "<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\">\n";
+            echo "<input type=\"submit\" value=\"" . BTN_ADD_COOKBOOK . "\"></form></td>\n";
+	    }
+	    else
+	    {
+		    echo "<td><p>" . MSG_ALREADY_COOKBOOK . "</td>\n";
+	    }
+        $cookbook_result->close();
+    }
+}
 //Export single recipe
 echo "<p>" . MSG_EXPORT_ASK .":\n";
 echo "<form method=\"post\" action=\"export.php\">\n";
