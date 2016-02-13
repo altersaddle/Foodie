@@ -139,6 +139,7 @@ define("MSG_EXPORT_ASK", "Export this recipe into file format");
 define("MSG_EXPORT", "Export");
 define("ERROR_UNABLE_INSERT_TABLE", "Unable to add data to table");
 //cookbook.php
+define("MSG_MUST_LOGIN", "to use this feature.");
 define("ERROR_COOKBOOK_DUPLICATE" , "Unable to search for duplicates in personal cookbook");
 define("ERROR_COOKBOOK_INSERT" , "Unable to add recipe to personal cookbook");
 define("ERROR_COOKBOOK_SELECT" , "Unable to retrieve data from personal cookbook");

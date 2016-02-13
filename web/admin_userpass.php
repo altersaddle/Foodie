@@ -40,7 +40,8 @@ else {
     //Update the database
     if (isset($_POST['adm_change'])) {
 
-	    $sql_adm_chg = "UPDATE admin SET (password = ?) WHERE user = ?"; //VALUES ('{$_POST['adminuser']}', '{$_POST['adminpass']}')";
+        // TODO: update db schema.  user and password are reserved words, and passwords should be encrypted
+	    $sql_adm_chg = "UPDATE admin SET (`password` = ?) WHERE `user` = ?"; 
         $stmt = $dbconnect->prepare($sql_adm_chg);
         $stmt->bind_param("ss", $_POST['adminpass'], $_POST['adminuser']);
         $stmt->execute();
@@ -51,8 +52,8 @@ else {
 	    echo "<p>" . MSG_ADMIN_USERPASS_SUCCESS . ".\n";
     }
     else {
-    //Retrieve admin user and pass
-        $sql_admin = "SELECT * FROM admin WHERE user = ?";
+        //Retrieve admin user and pass
+        $sql_admin = "SELECT `user`, `password` FROM admin WHERE `user` = ?";
 		$stmt = $dbconnect->prepare($sql_admin);
         $stmt->bind_param('s', $_SESSION['admin_user'] );
         $stmt->execute();
@@ -62,10 +63,12 @@ else {
 	    }
         //Print the form - should only be one row here !
         else {
-            while ($admindata = $recipe_result->fetch_object())
+            if ($admindata = $recipe_result->fetch_object())
             {
 	            echo "<form method=\"post\" action=\"{$_SERVER['PHP_SELF']}\">\n";
-	            echo "<p>Admin username: <input type=\"text\" size=\"20\" name=\"adminuser\" value=\"$admindata->user\">\n<p>Admin password: <input type=\"text\" size=\"20\" name=\"adminpass\" value=\"$admindata->password\">\n<p><input type=\"submit\" name=\"adm_change\" value=\"" . BTN_ADMIN_USERPASS_CHANGE . "\">\n";
+	            echo "<p>Admin username: <input type=\"text\" size=\"20\" name=\"adminuser\" value=\"$admindata->user\">\n";
+                echo "<p>Admin password: <input type=\"text\" size=\"20\" name=\"adminpass\" value=\"$admindata->password\">\n";
+                echo "<p><input type=\"submit\" name=\"adm_change\" value=\"" . BTN_ADMIN_USERPASS_CHANGE . "\">\n";
 	        }
         }
     }

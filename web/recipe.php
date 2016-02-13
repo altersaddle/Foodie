@@ -40,7 +40,7 @@ if (isset($_POST['action']))
 		if (!$recipe_result = $stmt->get_result()) 
 		{
 			foodie_Begin();
-foodie_Header();
+            foodie_Header();
 			echo "<p>" . MSG_RECIPE_NO_RETRIEVE ."<br>\n" . $recipe_result->error();
 			foodie_Footer();
 			exit();

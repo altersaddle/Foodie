@@ -40,105 +40,113 @@ if (isset($_POST['recipe'])) {
 }
 
 echo "<h2>" . MSG_COOKBOOK . "</h2>\n";
-if (isset($_POST['action'])) {
-    // Get recipe name
-    $stmt = $dbconnect->prepare("SELECT name FROM main WHERE id = ?");
-    $stmt->bind_param('s', $recipe_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_object()) {
-        $recipe_name = $row->name;
-    }
-    $stmt->close();
 
-	if ($_POST['action'] == "cook_add")	{
-		//Insert recipe into cookbook
-		$sql_check_dupes = "SELECT id FROM personal_book WHERE id = '{$recipe_id}'";
-		if ($exec_check_dupes = $dbconnect->query($sql_check_dupes)) {
-		    $dupes_found = $exec_check_dupes->num_rows;
-		    if ($dupes_found < 1) {
-                // not a duplicate, insert
-                $stmt = $dbconnect->prepare("INSERT INTO personal_book (id, recipe_name) VALUES (?, ?)");
-                $stmt->bind_param('ss', $recipe_id, $recipe_name);
+
+if (isset($_SESSION['foodie_user'])) {
+    if (isset($_POST['action'])) {
+        // Get recipe name
+        $stmt = $dbconnect->prepare("SELECT name FROM main WHERE id = ?");
+        $stmt->bind_param('s', $recipe_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_object()) {
+            $recipe_name = $row->name;
+        }
+        $stmt->close();
+
+	    if ($_POST['action'] == "cook_add")	{
+		    //Insert recipe into cookbook
+		    $sql_check_dupes = "SELECT id FROM personal_book WHERE id = '{$recipe_id}'";
+		    if ($exec_check_dupes = $dbconnect->query($sql_check_dupes)) {
+		        $dupes_found = $exec_check_dupes->num_rows;
+		        if ($dupes_found < 1) {
+                    // not a duplicate, insert
+                    $stmt = $dbconnect->prepare("INSERT INTO personal_book (id, recipe_name) VALUES (?, ?)");
+                    $stmt->bind_param('ss', $recipe_id, $recipe_name);
                 
-		        if ($stmt->execute()) {
-		            echo "<p>{$recipe_name} " . MSG_COOKBOOK_INSERT . ".\n";
-		            //Prints out number of recipes into personal cookbook with link to cookbook.php
-		            $sql_cookbook_recipes = "SELECT * FROM personal_book";
-		            if ($exec_cookbook_recipes = $dbconnect->query($sql_cookbook_recipes)) {
-		                $num_cookbook = $exec_cookbook_recipes->num_rows;
-		                if (0 == $num_cookbook)
-		                {
-			                echo "<p class=\"error\">" . MSG_COOKBOOK_NORECIPES . ".\n";
-		                }
-		                if ($num_cookbook >= 1)
-		                {
-			                echo "<p>$num_cookbook " . MSG_COOKBOOK_NUMBER . "\n";
-			                echo "<p><a href=\"cookbook.php\">" . MSG_COOKBOOK_READ . "</a>\n";
+		            if ($stmt->execute()) {
+		                echo "<p>{$recipe_name} " . MSG_COOKBOOK_INSERT . ".\n";
+		                //Prints out number of recipes into personal cookbook with link to cookbook.php
+		                $sql_cookbook_recipes = "SELECT * FROM personal_book";
+		                if ($exec_cookbook_recipes = $dbconnect->query($sql_cookbook_recipes)) {
+		                    $num_cookbook = $exec_cookbook_recipes->num_rows;
+		                    if (0 == $num_cookbook)
+		                    {
+			                    echo "<p class=\"error\">" . MSG_COOKBOOK_NORECIPES . ".\n";
+		                    }
+		                    if ($num_cookbook >= 1)
+		                    {
+			                    echo "<p>$num_cookbook " . MSG_COOKBOOK_NUMBER . "\n";
+			                    echo "<p><a href=\"cookbook.php\">" . MSG_COOKBOOK_READ . "</a>\n";
+		                    }
+                        }
+		                else {
+			                echo "<p class=\"error\">" . ERROR_COOKBOOK_SELECT . "<br>\n" . $exec_cookbook_recipes->error();
 		                }
                     }
 		            else {
-			            echo "<p class=\"error\">" . ERROR_COOKBOOK_SELECT . "<br>\n" . $exec_cookbook_recipes->error();
+			            echo "<p class=\"error\">" . ERROR_COOKBOOK_INSERT . "<br>\n" . $result->error();
 		            }
+                    $stmt->close();
                 }
-		        else {
-			        echo "<p class=\"error\">" . ERROR_COOKBOOK_INSERT . "<br>\n" . $result->error();
-		        }
-                $stmt->close();
-            }
+                else {
+			        echo "<p class=\"error\">" . MSG_RECIPE . " {$recipe_name} " . MSG_COOKBOOK_PRESENT . " {$recipe_id}\n";
+		        }	
+		    } 
             else {
-			    echo "<p class=\"error\">" . MSG_RECIPE . " {$recipe_name} " . MSG_COOKBOOK_PRESENT . " {$recipe_id}\n";
-		    }	
-		} 
-        else {
-            echo "<p class=\"error\">" . ERROR_COOKBOOK_DUPLICATE . "<br>\n" . $exec_check_dupes->error();
+                echo "<p class=\"error\">" . ERROR_COOKBOOK_DUPLICATE . "<br>\n" . $exec_check_dupes->error();
+            }
+	    }
+	    else if ($_POST['action'] == "cook_remove")	{
+		    echo "<h2>" . MSG_COOKBOOK_DELETE . "</h2>\n";
+		    $sql_cookbook_delete = "DELETE FROM personal_book WHERE id = '{$recipe_id}'";
+		    if ($exec_cookbook_delete = $dbconnect->query($sql_cookbook_delete)) {
+		        echo "<p>" . MSG_RECIPE . " <strong>{$recipe_name}</strong>";
+		        echo "<a href=\"cookbook.php\"> " . MSG_COOKBOOK_DELETED . "</a>\n";
+            }
+    	    else {
+			    echo "<p class=\"error\">" . ERROR_COOKBOOK_DELETE . "<br>" . $exec_cookbook_delete->error();
+		    }
+	    }
+	    else {
+		    echo "<p class=\"error\">" . ERROR_UNEXPECTED . ".<br>\n";
+	    }
+    }
+    else {
+
+        echo "<p>" . MSG_COOKBOOK_WELCOME . "!\n";
+        $sql_cookbook_recipes = "SELECT id, recipe_name FROM personal_book";
+        if (!$cookbook_result = $dbconnect->query($sql_cookbook_recipes))
+        {
+	        echo "<p class=\"error\">" . ERROR_COOKBOOK_SELECT . "<br>\n" . $cookbook_result->error();
+	        exit();
         }
-	}
-	else if ($_POST['action'] == "cook_remove")	{
-		echo "<h2>" . MSG_COOKBOOK_DELETE . "</h2>\n";
-		$sql_cookbook_delete = "DELETE FROM personal_book WHERE id = '{$recipe_id}'";
-		if ($exec_cookbook_delete = $dbconnect->query($sql_cookbook_delete)) {
-		    echo "<p>" . MSG_RECIPE . " <strong>{$recipe_name}</strong>";
-		    echo "<a href=\"cookbook.php\"> " . MSG_COOKBOOK_DELETED . "</a>\n";
+        $num_cookbook = $cookbook_result->num_rows;
+        if (0 == $num_cookbook)
+        {
+	        echo "<p class=\"error\">" . MSG_COOKBOOK_NORECIPES . ".\n";
         }
-    	else {
-			echo "<p class=\"error\">" . ERROR_COOKBOOK_DELETE . "<br>" . $exec_cookbook_delete->error();
-		}
-	}
-	else {
-		echo "<p class=\"error\">" . ERROR_UNEXPECTED . ".<br>\n";
-	}
+        if ($num_cookbook >= 1)
+        {
+	        echo "<p>$num_cookbook " . MSG_COOKBOOK_NUMBER . "<br>\n";
+	        echo "<table class=\"browse\">";
+                
+	        while ($cookbook_data = $cookbook_result->fetch_object()) 
+	        {
+		        echo "<tr><td>\n";
+		        echo "<a href=\"recipe.php?recipe=$cookbook_data->id\">$cookbook_data->recipe_name</a>\n";
+		        echo "</td><td valign=\"middle\" align=\"center\">\n";
+		        echo "<form method=\"post\" action=\"cookbook.php\">\n";
+		        echo "<input type=\"hidden\" name=\"action\" value=\"cook_remove\">\n<input type=\"hidden\" name=\"recipe\" value=\"$cookbook_data->id\">\n";
+                echo "<input type=\"hidden\" name=\"recipe_name\" value=\"$cookbook_data->recipe_name\">\n<input type=\"submit\" value=\"" . MSG_COOKBOOK_DELETE . "\"></form></td></tr>\n";
+	        }
+	        echo "</table>\n";
+        }
+    }
 }
 else {
-
-    echo "<p>" . MSG_COOKBOOK_WELCOME . "!\n";
-    $sql_cookbook_recipes = "SELECT id, recipe_name FROM personal_book";
-    if (!$cookbook_result = $dbconnect->query($sql_cookbook_recipes))
-    {
-	    echo "<p class=\"error\">" . ERROR_COOKBOOK_SELECT . "<br>\n" . $cookbook_result->error();
-	    exit();
-    }
-    $num_cookbook = $cookbook_result->num_rows;
-    if (0 == $num_cookbook)
-    {
-	    echo "<p class=\"error\">" . MSG_COOKBOOK_NORECIPES . ".\n";
-    }
-    if ($num_cookbook >= 1)
-    {
-	    echo "<p>$num_cookbook " . MSG_COOKBOOK_NUMBER . "<br>\n";
-	    echo "<table class=\"browse\">";
-                
-	    while ($cookbook_data = $cookbook_result->fetch_object()) 
-	    {
-		    echo "<tr><td>\n";
-		    echo "<a href=\"recipe.php?recipe=$cookbook_data->id\">$cookbook_data->recipe_name</a>\n";
-		    echo "</td><td valign=\"middle\" align=\"center\">\n";
-		    echo "<form method=\"post\" action=\"cookbook.php\">\n";
-		    echo "<input type=\"hidden\" name=\"action\" value=\"cook_remove\">\n<input type=\"hidden\" name=\"recipe\" value=\"$cookbook_data->id\">\n";
-            echo "<input type=\"hidden\" name=\"recipe_name\" value=\"$cookbook_data->recipe_name\">\n<input type=\"submit\" value=\"" . MSG_COOKBOOK_DELETE . "\"></form></td></tr>\n";
-	    }
-	    echo "</table>\n";
-    }
+    // must be signed in!
+    echo "<a href=\"login.php\">" . MSG_LOGIN . "</a> " . MSG_MUST_LOGIN;
 }
 
 foodie_Footer();
