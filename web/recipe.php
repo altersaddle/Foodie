@@ -139,7 +139,7 @@ echo "<input type=\"hidden\" name=\"action\" value=\"rec_print\"><input type=\"h
 if (isset($_SESSION['foodie_user'])) {
     // Button to add to shopping list
     echo "<td><form method=\"post\" action=\"shoppinglist.php\">\n";
-    echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\"><input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n</tr></table>\n";
+    echo "<input type=\"hidden\" name=\"action\" value=\"sl_add\">\n<input type=\"hidden\" name=\"recipe\" value=\"{$_GET['recipe']}\"><input type=\"submit\" value=\"" . BTN_ADD_SHOPPING . "\"></form></td>\n";
 
     //Print link to add selected recipe to personal cookbook only if it does
     //not exist and referer is not cookbook.php
@@ -168,6 +168,7 @@ if (isset($_SESSION['foodie_user'])) {
         $cookbook_result->close();
     }
 }
+echo "</tr></table>\n";
 //Export single recipe
 echo "<p>" . MSG_EXPORT_ASK .":\n";
 echo "<form method=\"post\" action=\"export.php\">\n";
