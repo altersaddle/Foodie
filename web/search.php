@@ -170,13 +170,13 @@ else {
       <input type="text" name="search_text" size="80" value="<?= $search_text ?>">
       <p><?= MSG_SEARCH_INSERT_FIELD ?>:<br>
       <select name="search_field">
-        <?= foodie_OptionText("all", MSG_SEARCH_ALLFIELDS, $selected_value) ?>
-        <?= foodie_OptionText("name", MSG_RECIPE_NAME, $selected_value) ?>
-        <?= foodie_OptionText("mainingredient", MSG_RECIPE_MAIN, $selected_value) ?>
-        <?= foodie_OptionText("ingredients", MSG_RECIPE_INGREDIENTS, $selected_value) ?>
-        <?= foodie_OptionText("description", MSG_RECIPE_DESCRIPTION, $selected_value) ?>
-        <?= foodie_OptionText("notes", MSG_RECIPE_NOTES, $selected_value) ?>
-        <?= foodie_OptionText("wines", MSG_RECIPE_WINES, $selected_value) ?>
+        <?= foodie_OptionText("all", MSG_SEARCH_ALLFIELDS, $search_field) ?>
+        <?= foodie_OptionText("name", MSG_RECIPE_NAME, $search_field) ?>
+        <?= foodie_OptionText("mainingredient", MSG_RECIPE_MAIN, $search_field) ?>
+        <?= foodie_OptionText("ingredients", MSG_RECIPE_INGREDIENTS, $search_field) ?>
+        <?= foodie_OptionText("description", MSG_RECIPE_DESCRIPTION, $search_field) ?>
+        <?= foodie_OptionText("notes", MSG_RECIPE_NOTES, $search_field) ?>
+        <?= foodie_OptionText("wines", MSG_RECIPE_WINES, $search_field) ?>
       </select>
       <p><input type="submit" value="<?= BTN_SEARCH ?>">
     </form>
