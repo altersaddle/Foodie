@@ -34,6 +34,8 @@ foodie_Header();
 echo "<h2>" . MSG_SEARCH_TITLE . "</h2>\n";
 
 $errorstr = "";
+$search_text = "";
+$results = "";
 
 if (isset($_POST['action']))
 {
@@ -41,6 +43,7 @@ if (isset($_POST['action']))
 		$errorstr = "<p class=\"error\">" . ERROR_INPUT_REQUIRED . "!\n";
 	}
 	else {
+        $search_text = htmlspecialchars($_POST['search_text']);
         if ($_POST['action'] == "search")
 	    {
 		    //Split search_text variable entering it into an array
@@ -63,7 +66,7 @@ if (isset($_POST['action']))
             else {
 		        if ($search_field == "all")
 		        {
-			        echo "<p>" . MSG_SEARCH_STRING . " <strong>{$_POST['search_text']}</strong> " . MSG_SEARCH_FOUND . ":<br>\n";
+			        $results .= "<p>" . MSG_SEARCH_STRING . " <strong>{$_POST['search_text']}</strong> " . MSG_SEARCH_FOUND . ":<br>\n";
 			        foreach ($search_terms as $single_term)
 			        {
 				        $stmt = $dbconnect->prepare("SELECT * FROM main WHERE name LIKE ? OR mainingredient LIKE ? OR ingredients LIKE ? OR description LIKE ? OR notes LIKE ? OR wines LIKE ? ORDER BY name DESC");
@@ -73,26 +76,28 @@ if (isset($_POST['action']))
                         $stmt->execute();
 				        if (!$search_result = $stmt->get_result())
 				        {
-					        echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
-					        foodie_Footer();
-					        exit();
+                            $results = "";
+					        $errorstr = "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
+					        break;
 				        }
-				        //count results
-				        $num_hits = $search_result->num_rows;
-				        //if result == 0
-				        if ($num_hits == 0)
-				        {
-					        echo "<p class=\"error\">" . MSG_SEARCH_NORECIPESFOUND . "</p>\n";
-				        }
-				        else
-				        {
-					        echo "<p class=\"error\">" . MSG_SEARCH_RECIPESFOUND . ": $num_hits</p>\n";
-				        }
+				        else {
+                            //count results
+				            $num_hits = $search_result->num_rows;
+				            //if result == 0
+				            if ($num_hits == 0)
+				            {
+					            $results .= "<p class=\"error\">" . MSG_SEARCH_NORECIPESFOUND . "</p>\n";
+				            }
+				            else
+				            {
+					            $results .= "<p class=\"error\">" . MSG_SEARCH_RECIPESFOUND . ": $num_hits</p>\n";
+				            }
 					
-				        while ($search_multi_all_item = $search_result->fetch_object())
-				        {
-					        echo "<p><a href=\"recipe.php?recipe={$search_multi_all_item->id}\">{$search_multi_all_item->name}</a>\n";
-				        }
+				            while ($search_multi_all_item = $search_result->fetch_object())
+				            {
+					            $results .= "<p><a href=\"recipe.php?recipe={$search_multi_all_item->id}\">{$search_multi_all_item->name}</a>\n";
+				            }
+                        }
 			        }
 		        }
 		        else
@@ -100,7 +105,7 @@ if (isset($_POST['action']))
 			        foreach ($search_terms as $single_term)
 			        {
 				        //Search on single fields		
-				        echo "<p>" . MSG_SEARCH_STRING . " <strong>$single_term</strong> " . MSG_SEARCH_FIELD . ":<br>\n";
+				        $results .= "<p>" . MSG_SEARCH_STRING . " <strong>$single_term</strong> " . MSG_SEARCH_FIELD . ":<br>\n";
 				        $sql = "SELECT * FROM main WHERE {$search_field} LIKE ? ORDER BY name ASC";
                         $stmt = $dbconnect->prepare($sql);
                         $single_term_wildcard = "%".$single_term."%";
@@ -108,26 +113,27 @@ if (isset($_POST['action']))
                         $stmt->execute();
 				        if (!$search_result = $stmt->get_result())
 				        {
-					        echo "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
-					        foodie_Footer();
-					        exit();
+					        $errorstr = "<p class=\"error\">" . ERROR_SEARCH_DATABASE . "<br>\n" . $search_result->error();
+					        break;
 				        }
-				        //count results
-				        $num_hits = $search_result->num_rows;
-				        //if result == 0
-				        if ($num_hits == 0)
-				        {
-					        echo "<p class=\"error\">" . MSG_SEARCH_NORECIPESFOUND . "</p>\n";
-				        }
-				        else
-				        {
-					        echo "<p class=\"error\">" . MSG_SEARCH_RECIPESFOUND . ": $num_hits</p>\n";
-				        }
+                        else {
+				            //count results
+				            $num_hits = $search_result->num_rows;
+				            //if result == 0
+				            if ($num_hits == 0)
+				            {
+					            $results .= "<p class=\"error\">" . MSG_SEARCH_NORECIPESFOUND . "</p>\n";
+				            }
+				            else
+				            {
+					            $results .= "<p class=\"error\">" . MSG_SEARCH_RECIPESFOUND . ": $num_hits</p>\n";
+				            }
 
-				        while ($search_multi_item = $search_result->fetch_object())
-				        {
-					        echo "<p><a href=\"recipe.php?recipe=$search_multi_item->id\">$search_multi_item->name</a>\n";
-				        }
+				            while ($search_multi_item = $search_result->fetch_object())
+				            {
+					            $results .= "<p><a href=\"recipe.php?recipe=$search_multi_item->id\">$search_multi_item->name</a>\n";
+				            }
+                        }
 			        }
 		        }
             }
@@ -155,17 +161,12 @@ else {
     $errorstr = "<p class=\"error\">" . ERROR_COUNT_RECIPES . "<br>\n" . $dbquery->error();
 }
 
-if (!empty($errorstr))
-{
-	echo $errorstr;
-}
-else {
 ?>
     <form method="post" action="search.php">
       <input type="hidden" name="action" value="search">
       <p><?= MSG_SEARCH_INSERT_STRING ?>:<br>
       (<?= MSG_SEARCH_INSERT_PARTIAL ?>)<br>
-      <input type="text" name="search_text" size="80">
+      <input type="text" name="search_text" size="80" value="<?= $search_text ?>">
       <p><?= MSG_SEARCH_INSERT_FIELD ?>:<br>
       <select name="search_field">
         <option value="all"><?= MSG_SEARCH_ALLFIELDS ?></option>
@@ -179,6 +180,13 @@ else {
       <p><input type="submit" value="<?= BTN_SEARCH ?>">
     </form>
 <?php
+
+if (!empty($errorstr))
+{
+	echo $errorstr;
 }
+
+echo $results;
+
 foodie_Footer();
 ?>
