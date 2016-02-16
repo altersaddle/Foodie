@@ -35,6 +35,7 @@ echo "<h2>" . MSG_SEARCH_TITLE . "</h2>\n";
 
 $errorstr = "";
 $search_text = "";
+$search_field = "";
 $results = "";
 
 if (isset($_POST['action']))
@@ -69,7 +70,7 @@ if (isset($_POST['action']))
 			        $results .= "<p>" . MSG_SEARCH_STRING . " <strong>{$_POST['search_text']}</strong> " . MSG_SEARCH_FOUND . ":<br>\n";
 			        foreach ($search_terms as $single_term)
 			        {
-				        $stmt = $dbconnect->prepare("SELECT * FROM main WHERE name LIKE ? OR mainingredient LIKE ? OR ingredients LIKE ? OR description LIKE ? OR notes LIKE ? OR wines LIKE ? ORDER BY name DESC");
+				        $stmt = $dbconnect->prepare("SELECT * FROM main WHERE name LIKE ? OR mainingredient LIKE ? OR ingredients LIKE ? OR description LIKE ? OR notes LIKE ? OR wines LIKE ? ORDER BY name ASC");
                         $p = "%".$single_term."%";
                         $stmt->bind_param('ssssss', $p, $p, $p, $p, $p, $p);
                 
@@ -169,13 +170,13 @@ else {
       <input type="text" name="search_text" size="80" value="<?= $search_text ?>">
       <p><?= MSG_SEARCH_INSERT_FIELD ?>:<br>
       <select name="search_field">
-        <option value="all"><?= MSG_SEARCH_ALLFIELDS ?></option>
-        <option value="name"><?= MSG_RECIPE_NAME ?></option>
-        <option value="mainingredient"><?= MSG_RECIPE_MAIN ?></option>
-        <option value="ingredients"><?= MSG_RECIPE_INGREDIENTS ?></option>
-        <option value="description"><?= MSG_RECIPE_DESCRIPTION ?></option>
-        <option value="notes"><?= MSG_RECIPE_NOTES ?></option>
-        <option value="wines"><?= MSG_RECIPE_WINES ?></option>
+        <?= foodie_OptionText("all", MSG_SEARCH_ALLFIELDS, $selected_value) ?>
+        <?= foodie_OptionText("name", MSG_RECIPE_NAME, $selected_value) ?>
+        <?= foodie_OptionText("mainingredient", MSG_RECIPE_MAIN, $selected_value) ?>
+        <?= foodie_OptionText("ingredients", MSG_RECIPE_INGREDIENTS, $selected_value) ?>
+        <?= foodie_OptionText("description", MSG_RECIPE_DESCRIPTION, $selected_value) ?>
+        <?= foodie_OptionText("notes", MSG_RECIPE_NOTES, $selected_value) ?>
+        <?= foodie_OptionText("wines", MSG_RECIPE_WINES, $selected_value) ?>
       </select>
       <p><input type="submit" value="<?= BTN_SEARCH ?>">
     </form>

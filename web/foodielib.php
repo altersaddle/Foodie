@@ -188,4 +188,12 @@ function foodie_PrintRecipeData($recipe_data)
 	echo "</table>\n";
 }
 
+
+function foodie_OptionText($value, $display, $selected_value) {
+    $selected = "";
+    if ($value == $selected_value) {
+        $selected = " selected";
+    }
+    return "<option value=\"$value\"$selected>$display</option>";
+}
 ?>
