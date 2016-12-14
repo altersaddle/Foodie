@@ -43,6 +43,7 @@ function foodie_Header()
         <div class="search">
           <input type="text" name="search_text" class="search-round" />
           <input type="hidden" name="search_field" value="all" />
+          <input type="hidden" name="action" value="search" />
           <input type="submit" class="search-corner" value="" />
         </div>
     </form>  
