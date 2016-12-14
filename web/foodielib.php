@@ -39,6 +39,12 @@ function foodie_Header()
   </head>
   <body>
     <h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>
+     <form id="search-form">
+        <div class="search">
+          <input type="text" name="search" class="search-round" />
+          <input type="submit" class="search-corner" value="" />
+        </div>
+    </form>  
     <p class="menu">
       <table border="0" width="95%" cellpadding=0 cellspacing=0>
         <tr>

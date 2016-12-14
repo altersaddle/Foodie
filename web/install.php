@@ -45,8 +45,7 @@ if (!array_key_exists("installation", $_POST))
 	}
 	require(dirname(__FILE__)."/lang/".$setting_locale.".php");
 
-    // Connect to db, see if we already have one or more admins
-
+    // Display installation form
 	echo "<h2>" . MSG_INSTALL_TITLE . "</h2>\n";
 	$installpath = dirname(__FILE__);
 	echo "<p>" . MSG_INSTALL_FORM . "\n";
@@ -117,36 +116,6 @@ else {
 				foodie_Begin();
 				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
 				echo "<p class=\"error\">" . ERROR_INSTALL_DATA . " difficulty <br>\n" . $exec_table_difficulty_data->error();
-				exit();
-			}
-
-			//For difficulty grade check number of records, if == 0 add defaults.
-			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
-			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
-			{
-				foodie_Begin();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
-				exit();
-			}
-
-			//Add admin username and password
-			$sql_table_admin_data = "INSERT INTO admin (user, password) VALUES ('{$_POST['sw_admin_user']}', '{$_POST['sw_admin_password']}')";
-			if (!$exec_table_admin_data = $dbconnect->query($sql_table_admin_data))
-			{
-				foodie_Begin();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_ADMIN . "<br>\n" . $exec_table_admin_data->error();
-				exit();
-			}
-
-			//Add default difficulty values
-			$sql_table_difficulty_data = "INSERT INTO difficulty (id, difficulty) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)";
-			if (!$exec_table_difficulty_data = $dbconnect->query($sql_table_difficulty_data))
-			{
-				foodie_Begin();
-				echo "<h2>" . ERROR_INSTALL_FAILURE . "</h2>";
-				echo "<p class=\"error\">" . ERROR_INSTALL_DEFAULT . " difficulty<br>\n" . $exec_table_difficulty_data->error();
 				exit();
 			}
 		}
