@@ -39,9 +39,10 @@ function foodie_Header()
   </head>
   <body>
     <h1><a href="index.php"><?= MSG_SITE_TITLE ?></a></h1>
-     <form id="search-form">
+     <form id="search-form" method="post" action="search.php">
         <div class="search">
-          <input type="text" name="search" class="search-round" />
+          <input type="text" name="search_text" class="search-round" />
+          <input type="hidden" name="search_field" value="all" />
           <input type="submit" class="search-corner" value="" />
         </div>
     </form>  

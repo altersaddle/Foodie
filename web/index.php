@@ -56,13 +56,7 @@ if (!($dbconnect->select_db($db_name))) {
 	        echo "<p><a href=\"install.php\">" . MSG_REINSTALL . "</a>\n";
 }
 else {
-		//Display number of recipes into database
-		$dbquery = $dbconnect->query("SELECT COUNT(*) FROM main");
-		$result = $dbquery->fetch_row();
-		$number = $result[0];
-		echo "<p>" . MSG_CONTAINS . " $number " . MSG_RECIPES . "</p>";
-
-		$dbquery->close();
+        // Display thumbnails for all recipes
 		$dbquery = $dbconnect->query("SELECT id, name, image, dish FROM main");
 		?>
        <div id="foodie-index" style="margin:0px auto;display:none;">
@@ -87,6 +81,13 @@ else {
         ?>
 		</div>
 		<?php
+        //Display number of recipes into database
+		$dbquery = $dbconnect->query("SELECT COUNT(*) FROM main");
+		$result = $dbquery->fetch_row();
+		$number = $result[0];
+		echo "<p>" . MSG_CONTAINS . " $number " . MSG_RECIPES . "</p>";
+
+		$dbquery->close();
 }
 foodie_Footer();
 ?>
