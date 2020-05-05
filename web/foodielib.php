@@ -2,7 +2,7 @@
 /*
 ***************************************************************************
 * Foodie is a GPL licensed free software web application written
-* and copyright 2016 by Malcolm Walker, malcolm@ipatch.ca
+* and copyright 2016-2020 by Malcolm Walker, malcolm@ipatch.ca
 * 
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -160,18 +160,19 @@ function foodie_PrintRecipeData($recipe_data)
 {
 	echo "<p>&nbsp;\n<br>\n<table class=\"recipe\" border=\"0\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\">";
 
-	echo "<tr><td class=\"recipe-title\">" . MSG_RECIPE_NAME . "</strong></td><td class=\"recipe-title\"><strong>{$recipe_data['name']}</strong></td></tr>\n";
+	echo "<tr><td class=\"recipe-title\">" . MSG_RECIPE_NAME . "</strong></td><td class=\"recipe-title\"><strong>{$recipe_data['name']}</strong></td>\n";
 	if (!empty($recipe_data["image"]))
 	{
-		echo "<tr><td colspan=2 class=\"recipe-image\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td></tr>\n";
+		echo "<td rowspan=10 class=\"recipe-image\"><img src=\"images/{$recipe_data['image']}\" alt=\"{$recipe_data['image']}\"></td>\n";
 	} else
 	{
-		echo "<tr><td colspan=2 style=\"text-align:left;\" class=\"recipe-image\">" . MSG_RECIPE_IMAGE_UNAVAILABLE ;
+		echo "<td rowspan=10 style=\"text-align:left;\" class=\"recipe-image\">" . MSG_RECIPE_IMAGE_UNAVAILABLE ;
         if (isset($_SESSION['admin_user'])) {
             echo " <a href=\"admin_mmedia.php?recipe_id={$recipe_data['id']}\">". MSG_RECIPE_ADD_NEW ."</a>";
         }
-        echo "</td></tr>\n";
+        echo "</td>\n";
 	}
+	echo "</tr>\n";
 
 	echo "<tr><td>" . MSG_RECIPE_SERVING . "</td><td>{$recipe_data['dish']}</td></tr>\n";
 	echo "<tr><td>" . MSG_RECIPE_MAIN . "</td><td>{$recipe_data['mainingredient']}</td></tr>\n";
@@ -188,11 +189,11 @@ function foodie_PrintRecipeData($recipe_data)
 	echo "</td></tr>\n";
 	echo "<tr><td>" . MSG_RECIPE_WINES . "</td><td>{$recipe_data['wines']}</td></tr>\n";
 	$recipe_ingredients = nl2br($recipe_data['ingredients']);
-	echo "<tr><td>" . MSG_RECIPE_INGREDIENTS . "</td><td>$recipe_ingredients</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_INGREDIENTS . "</td><td colspan=2>$recipe_ingredients</td></tr>\n";
 	$recipe_description = nl2br($recipe_data['description']);
-	echo "<tr><td>" . MSG_RECIPE_DESCRIPTION . "</td><td>$recipe_description</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_DESCRIPTION . "</td><td colspan=2>$recipe_description</td></tr>\n";
 	$recipe_notes = nl2br($recipe_data['notes']);
-	echo "<tr><td>" . MSG_RECIPE_NOTES . "</td><td>$recipe_notes</td></tr>\n";
+	echo "<tr><td>" . MSG_RECIPE_NOTES . "</td><td colspan=2>$recipe_notes</td></tr>\n";
 	echo "</table>\n";
 }
 
